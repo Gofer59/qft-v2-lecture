@@ -612,53 +612,165 @@ function Scene18({ start, end }) {
   );
 }
 
-// Scene 19 — Five Big Ideas
+// Scene 19 — The Five Big Ideas (expanded to 130s / 10 beats)
+// Beat 1  (0–10)    Title + "let's consolidate"
+// Beat 2  (10–32)   Idea 1: Fields are primary
+// Beat 3  (32–52)   Idea 2: Particles = quantized excitations, a/a†, |0⟩
+// Beat 4  (52–72)   Idea 3: Symmetries govern dynamics, Noether
+// Beat 5  (72–92)   Idea 4: Feynman diagrams compute — vertices, propagators, loops
+// Beat 6  (92–110)  Idea 5: Renormalization — couplings run with energy
+// Beat 7  (110–118) All five together — "conceptual core"
+// Beat 8  (118–124) Brief list of what extends this
+// Beat 9  (124–128) Everything on top elaborates this foundation
+// Beat 10 (128–130) Final hold
 function Scene19({ start, end }) {
   return (
     <Scene start={start} end={end} label="19">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 9) / 1.2, 0, 1));
         const ideas = [
-          { s: 1,  n: 1, title: 'Fields are primary',        sub: 'particles are excitations' },
-          { s: 4,  n: 2, title: 'Quantize ⇒ ladder of quanta', sub: <>â<sup style={{fontSize:'0.65em'}}>†</sup>(k), â(k), |0⟩</> },
-          { s: 7,  n: 3, title: 'Symmetries → conservation', sub: 'Noether' },
-          { s: 10, n: 4, title: 'Feynman diagrams compute',  sub: 'vertices, propagators, loops' },
-          { s: 13, n: 5, title: 'Renormalization tames ∞',   sub: 'couplings run with energy' },
+          { start: 10, end: 30, n: 1, title: 'Fields are primary',
+            sub: 'particles are excitations',
+            detail: 'Every species = underlying quantum field.',
+            color: 'var(--accent-blue)' },
+          { start: 32, end: 50, n: 2, title: 'Quantize ⟹ ladder of quanta',
+            sub: <>a<sup style={{ fontSize: '0.65em' }}>†</sup>(k), a(k), |0⟩</>,
+            detail: 'Harmonic oscillator per mode. Creation from vacuum.',
+            color: 'var(--accent-green)' },
+          { start: 52, end: 70, n: 3, title: 'Symmetries → conservation',
+            sub: 'Noether',
+            detail: 'Gauge invariance fixes the interactions.',
+            color: 'var(--accent-yellow)' },
+          { start: 72, end: 90, n: 4, title: 'Feynman diagrams compute',
+            sub: 'vertices, propagators, loops',
+            detail: 'Cartoons = integrals = amplitudes.',
+            color: 'var(--form-inline)' },
+          { start: 92, end: 108, n: 5, title: 'Renormalization tames ∞',
+            sub: 'couplings run with energy',
+            detail: 'Physical parameters are finite after absorption.',
+            color: 'var(--accent-red)' },
         ];
+        const b7A = clamp((t - 110) / 1.5, 0, 1) * (1 - clamp((t - 117) / 1.2, 0, 1));
+        const b8A = clamp((t - 118) / 1.2, 0, 1) * (1 - clamp((t - 123) / 1, 0, 1));
+        const b9A = clamp((t - 124) / 1.2, 0, 1) * (1 - clamp((t - 127.5) / 1, 0, 1));
+        const b10A = clamp((t - 127.5) / 1, 0, 1);
+
+        // Current spotlighted idea
+        const activeIdx = ideas.findIndex(i => t >= i.start && t < i.end);
+        const spotlight = activeIdx >= 0 ? ideas[activeIdx] : null;
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={19} title={'The Five Big Ideas'} />
             <SceneRefs refs={["zee","ps"]} />
-            <div style={{ position: 'absolute', top: 160, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              Consolidating.
-            </div>
-            <div style={{ position: 'absolute', top: 260, left: 200, right: 200 }}>
-              {ideas.map((idea, i) => {
-                const op = t >= idea.s ? Math.min(1, (t - idea.s) / 0.8) : 0;
-                const slide = (1 - op) * 30;
-                return (
+            <FieldBackground accent="#5ba3f5" amplitude={0.16} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 58, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>Five big ideas</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Stepping back.
+                </div>
+              </>
+            )}
+
+            {/* ── BEATS 2-6: Spotlighted ideas ─────── */}
+            {spotlight && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-ui)', fontSize: 28,
+                      color: 'var(--canvas-dim)', letterSpacing: '0.2em' }}>
+                  IDEA {spotlight.n} &nbsp;/&nbsp; 5
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontSize: 160,
+                      color: spotlight.color, opacity: 0.35,
+                      lineHeight: 1 }}>
+                  {spotlight.n}
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 54,
+                      color: 'var(--canvas-text)' }}>
+                  {spotlight.title}
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 32,
+                      color: spotlight.color }}>
+                  {spotlight.sub}
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)',
+                      opacity: clamp((t - spotlight.start - 3) / 1.5, 0, 1) }}>
+                  {spotlight.detail}
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 7: All five together ─────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 200,
+                    textAlign: 'center', opacity: b7A }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', marginBottom: 32 }}>
+                  The conceptual core of QFT.
+                </div>
+                {ideas.map((idea, i) => (
                   <div key={i} style={{
-                    display: 'flex', alignItems: 'baseline', gap: 40, margin: '22px 0',
-                    opacity: op, transform: `translateX(${slide}px)`,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: idea.color, margin: '10px 0',
                   }}>
-                    <div style={{
-                      fontFamily: 'var(--font-math)', fontSize: 80, color: 'var(--accent)',
-                      fontStyle: 'italic', width: 80,
-                    }}>{idea.n}</div>
-                    <div>
-                      <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38, color: 'white' }}>
-                        {idea.title}
-                      </div>
-                      <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 22, color: 'var(--canvas-dim)', marginTop: 4 }}>
-                        {idea.sub}
-                      </div>
-                    </div>
+                    {idea.n}. {idea.title}
                   </div>
-                );
-              })}
-            </div>
+                ))}
+              </div>
+            )}
+
+            {/* ── BEAT 8: Extensions ─────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340,
+                    textAlign: 'center', opacity: b8A }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--canvas-text)', marginBottom: 24 }}>
+                  Everything else is elaboration —
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                      color: 'var(--canvas-dim)', lineHeight: 1.8 }}>
+                  gauge theories · spontaneous symmetry breaking<br/>
+                  path integral · anomalies · asymptotic freedom
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 9: Foundation ─────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-green)', opacity: b9A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.35)' }}>
+                Five ideas — one foundation.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-yellow)', opacity: b10A }}>
+                Fields · Quanta · Symmetry · Diagrams · ∞
+              </div>
+            )}
           </div>
         );
       }}
