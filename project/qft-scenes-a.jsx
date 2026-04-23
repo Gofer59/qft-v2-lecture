@@ -7,7 +7,7 @@ const SCENES = [
   { n: 1,  title: 'The Question That Breaks Single-Particle Mechanics', dur: 142 }, // expanded for full narration 140.7s
   { n: 2,  title: 'What a Field Actually Is',                           dur: 201 }, // expanded for full narration 199.6s
   { n: 3,  title: 'Why Relativistic QM Fails',                          dur: 168 }, // expanded for full narration 166.5s
-  { n: 4,  title: 'Fields Are Primary',                                 dur: 22 }, // unchanged, audio 21.1
+  { n: 4,  title: 'Fields Are Primary',                                 dur: 151 }, // expanded for full narration 149.5s
   { n: 5,  title: 'Fields as Operators',                                dur: 20 }, // unchanged, audio 18.2
   { n: 6,  title: 'Quantizing the Free Scalar Field',                   dur: 29 }, // was 28, audio 28.1
   { n: 7,  title: 'Creation and Annihilation Operators',                dur: 20 }, // unchanged, audio 17.9
@@ -1552,7 +1552,17 @@ function Scene03({ start, end }) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// SCENE 04 — Fields are primary (humor beat)
+// SCENE 04 — Fields are primary (expanded to 151s / 10 beats)
+// Beat 1  (0–12)    Title + "the resolution, stated plainly"
+// Beat 2  (12–30)   Don't start with particles; start with fields
+// Beat 3  (30–48)   Electron field in lowest-energy state — vacuum
+// Beat 4  (48–68)   Disturb the field → electron excitation rises
+// Beat 5  (68–86)   Positron = conjugate excitation of same field
+// Beat 6  (86–106)  Annihilation: field returns to vacuum + photons
+// Beat 7  (106–122) Pair creation from high-energy photon
+// Beat 8  (122–138) Humor beat — "jiggle in a field"
+// Beat 9  (138–148) Every species has its field
+// Beat 10 (148–151) Final hold — "universe is a collection of fields"
 // ════════════════════════════════════════════════════════════════════════
 function Scene04({ start, end }) {
   return (
@@ -1560,82 +1570,365 @@ function Scene04({ start, end }) {
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // 0-4: calm field
-        // 4-9: ripple rises — "electron"
-        // 9-13: second ripple — "positron"
-        // 13-17: collide & annihilate
-        // 17-22: humor beat
-        const epeakT = clamp((t - 3.5) / 1.5, 0, 1);
-        const ppeakT = clamp((t - 8.5) / 1.5, 0, 1);
-        const collideT = t > 13 ? (t - 13) / 2 : 0;
-        const ePos = 700 - collideT * 200;
-        const pPos = 1220 + collideT * 200;
-        const bothGone = t > 15 ? clamp((t - 15) / 1.5, 0, 1) : 0;
+
+        // ── Beat gates ─────────────────────────────────────────
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 28) / 1.5, 0, 1));
+        const b2Line1 = clamp((t - 15) / 1.0, 0, 1);
+        const b2Line2 = clamp((t - 21) / 1.0, 0, 1);
+
+        const b3A = clamp((t - 30) / 1.5, 0, 1) * (1 - clamp((t - 46) / 1.5, 0, 1));
+        const b3Cap = clamp((t - 36) / 1.2, 0, 1);
+
+        const b4A = clamp((t - 48) / 1.5, 0, 1) * (1 - clamp((t - 66) / 1.5, 0, 1));
+        const b4Rise = clamp((t - 52) / 3, 0, 1);
+        const b4Props = clamp((t - 60) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 68) / 1.5, 0, 1) * (1 - clamp((t - 84) / 1.5, 0, 1));
+        const b5Rise = clamp((t - 72) / 3, 0, 1);
+
+        const b6A = clamp((t - 86) / 1.5, 0, 1) * (1 - clamp((t - 104) / 1.5, 0, 1));
+        const b6Converge = clamp((t - 90) / 3, 0, 1);
+        const b6Flash = t > 94 && t < 95.5 ? 1 - (t - 94) / 1.5 : 0;
+        const b6Photons = clamp((t - 95) / 2, 0, 1);
+        const b6Caption = clamp((t - 99) / 1.2, 0, 1);
+
+        const b7A = clamp((t - 106) / 1.5, 0, 1) * (1 - clamp((t - 120) / 1.5, 0, 1));
+        const b7Photon = clamp((t - 108) / 2, 0, 1);
+        const b7Hit = t > 112 && t < 113 ? 1 - (t - 112) : 0;
+        const b7Pair = clamp((t - 112.5) / 2, 0, 1);
+
+        const b8A = clamp((t - 122) / 1.5, 0, 1) * (1 - clamp((t - 137) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 138) / 1.2, 0, 1) * (1 - clamp((t - 147) / 1.2, 0, 1));
+        const b9Fields = [139.2, 140.4, 141.6, 142.8, 144.0, 145.2];
+
+        const b10A = clamp((t - 147) / 1, 0, 1);
+
+        // ── Ripple positions for beats 4-6 ─────────────────────
+        // Beat 4 rise: electron alone at 700
+        // Beat 5 rise: positron joins at 1220
+        // Beat 6 converge: both slide toward center and annihilate
+        const eBaseX = 700, pBaseX = 1220;
+        const eX = eBaseX + (960 - eBaseX) * b6Converge;
+        const pX = pBaseX + (960 - pBaseX) * b6Converge;
 
         const peaks = [];
-        if (t > 2.5 && t < 15.5) peaks.push({ x: ePos, amp: epeakT * (1 - bothGone), sigma: 80, freq: 7 });
-        if (t > 7.5 && t < 15.5) peaks.push({ x: pPos, amp: ppeakT * (1 - bothGone), sigma: 80, freq: 7, phase: Math.PI });
+        if (b4Rise > 0 && b6Flash < 0.3) {
+          const amp = b4A * b4Rise + b5A * b4Rise * 0.7 + b6A * b4Rise * (1 - b6Flash);
+          if (amp > 0) peaks.push({ x: eX, amp, sigma: 80, freq: 7 });
+        }
+        if (b5Rise > 0 && b6Flash < 0.3) {
+          const amp = b5A * b5Rise + b6A * b5Rise * (1 - b6Flash);
+          if (amp > 0) peaks.push({ x: pX, amp, sigma: 80, freq: 7, phase: Math.PI });
+        }
+        // Beat 7: pair creation — both peaks emerge from center
+        if (b7Pair > 0) {
+          const spread = 260 * b7Pair;
+          peaks.push({ x: 960 - spread, amp: b7Pair * b7A, sigma: 70, freq: 7 });
+          peaks.push({ x: 960 + spread, amp: b7Pair * b7A, sigma: 70, freq: 7, phase: Math.PI });
+        }
 
-        const showHumor = t > 17;
+        // Mesh always visible; brighter during excitations, calmer during vacuum
+        const meshOp = 0.35 + 0.55 * (b3A * 0.6 + b4A + b5A + b6A + b7A + b8A * 0.3 + b9A * 0.3 + b10A);
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={4} title={'Fields Are Primary'} />
             <SceneRefs refs={["dirac27","weinberg"]} />
 
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              <FieldMesh3D baseY={640} layers={16} amp={110} color="var(--accent-blue)" peaks={peaks} perspective={0.55} />
-
-              {/* annihilation: brief soft flash, no starburst */}
-              {t > 14.5 && t < 15.3 && (
-                <circle cx="960" cy="640" r={40 + (t - 14.5) * 160}
-                  fill="var(--accent-yellow)"
-                  opacity={Math.max(0, 0.35 - (t - 14.5) * 0.5)} />
-              )}
+            {/* Always-on 3D field mesh (shared motif across beats) */}
+            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0,
+                  opacity: Math.min(1, meshOp) }}>
+              <FieldMesh3D baseY={640} layers={16} amp={110}
+                color="var(--accent-blue)" peaks={peaks} perspective={0.55} />
             </svg>
 
-            {/* labels */}
-            {t > 4 && t < 13 && (
-              <div style={{
-                position: 'absolute', left: ePos - 50, top: 500,
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 24,
-                color: 'var(--accent-blue)', opacity: fadeIO(t - 4, 9, 0.5, 1),
-                textAlign: 'center',
-              }}>
-                <span style={{ color: 'var(--accent-yellow)' }}>e⁻</span>
-                <div style={{ fontSize: 16, color: 'var(--canvas-dim)' }}>a ripple</div>
+            {/* ── BEAT 1: Title ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 68, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  The resolution, stated <span style={{ color: 'var(--accent-green)' }}>plainly</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 490, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--canvas-dim)', opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Fields come first; particles are what fields do.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Don't start with particles ──────────── */}
+            {b2A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--accent-red)', opacity: b2Line1 * b2A,
+                      textDecoration: 'line-through' }}>
+                  Particles → make them relativistic
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 48,
+                      color: 'var(--accent-green)', opacity: b2Line2 * b2A }}>
+                  ✓ Fields → let particles <em>emerge</em>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--note-inline)',
+                      opacity: b2A * clamp((t - 24) / 1.2, 0, 1) }}>
+                  The substrate — not the particle — is fundamental.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 3: Electron field in vacuum ────────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                The <span style={{ color: 'var(--accent-blue)' }}>electron field</span> fills all space.
               </div>
             )}
-            {t > 9 && t < 13 && (
-              <div style={{
-                position: 'absolute', left: pPos - 50, top: 500,
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 24,
-                color: 'var(--accent-red)', opacity: fadeIO(t - 9, 4, 0.5, 1),
-                textAlign: 'center',
-              }}>
-                <span style={{ color: 'var(--accent-red)' }}>e⁺</span>
-                <div style={{ fontSize: 16, color: 'var(--canvas-dim)' }}>conjugate mode</div>
+            {b3Cap > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 240, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--canvas-dim)', opacity: b3Cap * b3A }}>
+                Lowest energy state = <span style={{ color: 'var(--accent-green)' }}>vacuum</span> — no excitations.
+              </div>
+            )}
+            {b3A > 0 && t > 42 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--note-inline)', opacity: clamp((t - 42) / 1.2, 0, 1) * b3A }}>
+                The field is still there — quietly fluctuating.
               </div>
             )}
 
-            {t < 17 && (
-              <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white', opacity: fadeIO(t, 17, 0.6, 0.6) }}>
-                The electron is not a dot. It is an <span style={{ color: 'var(--accent-blue)' }}>excitation of the electron field</span>.
+            {/* ── BEAT 4: Disturb the field → electron ──────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Disturb it. A single excitation appears.
+              </div>
+            )}
+            {b4Rise > 0.3 && b4A > 0 && (
+              <div style={{ position: 'absolute', left: eX - 60, top: 460,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-yellow)', opacity: b4A }}>
+                e⁻
+              </div>
+            )}
+            {b4Props > 0 && b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-ui)', fontSize: 26, color: 'var(--canvas-dim)',
+                    opacity: b4Props * b4A, letterSpacing: '0.12em' }}>
+                mass m<sub>e</sub> &nbsp;·&nbsp; charge −e &nbsp;·&nbsp; spin ½
               </div>
             )}
 
-            {showHumor && (
-              <div style={{
-                position: 'absolute', left: 200, right: 200, top: 300,
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38, color: 'var(--canvas-text)',
-                textAlign: 'center', opacity: fadeIO(t - 17, duration - 17, 0.7, 0.6),
-              }}>
-                <div>"The electron isn't a dot.</div>
-                <div style={{ marginTop: 8 }}>It's a <span style={{ color: 'var(--accent-blue)' }}>jiggle</span> in a field that fills the entire universe."</div>
-                <div style={{ fontSize: 22, color: 'var(--canvas-dim)', marginTop: 30, fontStyle: 'normal' }}>
+            {/* ── BEAT 5: Positron = conjugate excitation ────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                The <span style={{ color: 'var(--accent-red)' }}>positron</span> — a conjugate excitation of the <em>same</em> field.
+              </div>
+            )}
+            {b5Rise > 0.3 && b5A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: eX - 60, top: 460,
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-yellow)', opacity: b5A }}>
+                  e⁻
+                </div>
+                <div style={{ position: 'absolute', left: pX - 60, top: 460,
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-red)', opacity: b5A * b5Rise }}>
+                  e⁺
+                </div>
+              </>
+            )}
+            {b5A > 0 && t > 78 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--note-inline)', opacity: clamp((t - 78) / 1.2, 0, 1) * b5A }}>
+                No infinite sea. No filled vacuum. Just the field.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Annihilation + photons ─────────────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                They meet — the excitations <span style={{ color: 'var(--accent-yellow)' }}>annihilate</span>.
+              </div>
+            )}
+            {b6Flash > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                <circle cx={960} cy={640} r={80 + 240 * (1 - b6Flash)}
+                        fill="var(--accent-yellow)" opacity={0.6 * b6Flash} />
+              </svg>
+            )}
+            {b6Photons > 0 && (() => {
+              const out = b6Photons;
+              // Two γ photons flying apart
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  {[-1, 1].map(s => {
+                    const x = 960 + s * 400 * out;
+                    const y = 640 - 60 * out;
+                    return (
+                      <g key={s} opacity={out * b6A}>
+                        {(() => {
+                          // wavy line representing photon
+                          let d = 'M ' + (960 + s * 40) + ',' + 640;
+                          for (let i = 1; i <= 20; i++) {
+                            const fx = (960 + s * 40) + (x - 960 - s * 40) * (i / 20);
+                            const fy = 640 + Math.sin(i * 0.8) * 10;
+                            d += ` L ${fx.toFixed(1)},${fy.toFixed(1)}`;
+                          }
+                          return <path d={d} stroke="var(--accent-yellow)" strokeWidth="2.5" fill="none" />;
+                        })()}
+                        <text x={x + s * 15} y={y} fill="var(--accent-yellow)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="32">γ</text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              );
+            })()}
+            {b6Caption > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--accent-green)', opacity: b6Caption * b6A }}>
+                Field returns to vacuum. Energy → photons.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Pair creation from photon ──────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                Run it in reverse — <span style={{ color: 'var(--accent-yellow)' }}>pair creation</span>.
+              </div>
+            )}
+            {b7Photon > 0 && b7A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                {(() => {
+                  // incoming photon from left
+                  const progress = clamp((t - 108) / 4, 0, 1);
+                  const x0 = 200, x1 = 960;
+                  const cur = x0 + (x1 - x0) * progress;
+                  let d = `M ${x0},640`;
+                  for (let i = 1; i <= 30; i++) {
+                    const fx = x0 + (cur - x0) * (i / 30);
+                    const fy = 640 + Math.sin(i * 0.6) * 12;
+                    d += ` L ${fx.toFixed(1)},${fy.toFixed(1)}`;
+                  }
+                  return (
+                    <g opacity={b7A}>
+                      <path d={d} stroke="var(--accent-yellow)" strokeWidth="3" fill="none" />
+                      <text x={x0 + 20} y={620} fill="var(--accent-yellow)"
+                            fontFamily="var(--font-math)" fontStyle="italic" fontSize="32">γ</text>
+                    </g>
+                  );
+                })()}
+              </svg>
+            )}
+            {b7Hit > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                <circle cx={960} cy={640} r={100 + 160 * (1 - b7Hit)}
+                        fill="var(--accent-yellow)" opacity={0.55 * b7Hit} />
+              </svg>
+            )}
+            {b7Pair > 0 && b7A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: (960 - 260 * b7Pair) - 55, top: 460,
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-yellow)', opacity: b7A }}>
+                  e⁻
+                </div>
+                <div style={{ position: 'absolute', left: (960 + 260 * b7Pair) - 55, top: 460,
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-red)', opacity: b7A }}>
+                  e⁺
+                </div>
+              </>
+            )}
+            {b7A > 0 && t > 117 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--note-inline)', opacity: clamp((t - 117) / 1.2, 0, 1) * b7A }}>
+                Particle number was never fundamental.
+              </div>
+            )}
+
+            {/* ── BEAT 8: Humor — "jiggle" ──────────────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 200, right: 200, top: 320,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--canvas-text)', textAlign: 'center', opacity: b8A, lineHeight: 1.4 }}>
+                "The electron isn't a dot.
+                <div style={{ marginTop: 14 }}>
+                  It's a <span style={{ color: 'var(--accent-blue)' }}>jiggle</span> in a field that fills the entire universe."
+                </div>
+                <div style={{ fontSize: 24, color: 'var(--canvas-dim)',
+                      marginTop: 40, fontStyle: 'normal' }}>
                   Whether that's comforting probably depends on your caffeine level.
                 </div>
+              </div>
+            )}
+
+            {/* ── BEAT 9: Every species has its field ─────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b9A }}>
+                Every species of particle has its own field.
+              </div>
+            )}
+            {b9A > 0 && (() => {
+              const fields = [
+                { name: 'electron', color: 'var(--accent-blue)' },
+                { name: 'muon',     color: 'var(--accent-yellow)' },
+                { name: 'quark',    color: 'var(--accent-green)' },
+                { name: 'Higgs',    color: 'var(--note-inline)' },
+                { name: 'photon',   color: 'var(--accent-red)' },
+                { name: '…',        color: 'var(--canvas-dim)' },
+              ];
+              return fields.map((f, i) => {
+                const ap = clamp((t - b9Fields[i]) / 0.6, 0, 1) * b9A;
+                const col = i % 3;
+                const row = Math.floor(i / 3);
+                return (
+                  <div key={i} style={{
+                    position: 'absolute',
+                    left: 280 + col * 460, top: 300 + row * 170,
+                    width: 420, padding: '20px 24px',
+                    border: `1px solid ${f.color}`,
+                    borderRadius: 4, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: f.color, opacity: ap, background: 'rgba(13,17,23,0.4)',
+                  }}>
+                    {f.name} field
+                  </div>
+                );
+              });
+            })()}
+
+            {/* ── BEAT 10: Final hold ─────────────────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--canvas-text)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(91,163,245,0.4)' }}>
+                The universe is a <span style={{ color: 'var(--accent-blue)' }}>collection of fields</span>.
               </div>
             )}
           </div>
