@@ -1120,72 +1120,258 @@ function Scene14({ start, end }) {
 }
 
 // Scene 15 — Yukawa
+// Scene 15 — Forces from Field Exchange (expanded to 132s / 10 beats)
+// Beat 1  (0–12)    Title + "forces = particle exchange"
+// Beat 2  (12–30)   Yukawa diagram — two fermions exchange scalar
+// Beat 3  (30–46)   Yukawa potential V = -g²m e^{-mr}/(4πr)
+// Beat 4  (46–64)   Heavy exchange → short range (plot)
+// Beat 5  (64–80)   Light/massless → infinite range
+// Beat 6  (80–95)   1935 Yukawa predicts pion — nuclear force
+// Beat 7  (95–108)  Electromagnetism: massless photon, 1/r
+// Beat 8  (108–122) Gravity: graviton, 1/r — but non-renormalizable
+// Beat 9  (122–130) "All forces are exchange" summary
+// Beat 10 (130–132) Final hold
 function Scene15({ start, end }) {
   return (
     <Scene start={start} end={end} label="15">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // morph mass from heavy → zero
-        const mass = t < 12 ? Math.max(0.5, 2 - (t - 4) * 0.2) : Math.max(0, 0.5 - (t - 12) * 0.08);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 28) / 1.5, 0, 1));
+        const b2Diag = clamp((t - 16) / 3, 0, 1);
+
+        const b3A = clamp((t - 30) / 1.5, 0, 1) * (1 - clamp((t - 44) / 1.5, 0, 1));
+        const b3V = clamp((t - 35) / 1.5, 0, 1);
+
+        const b4A = clamp((t - 46) / 1.5, 0, 1) * (1 - clamp((t - 62) / 1.5, 0, 1));
+        const b5A = clamp((t - 64) / 1.5, 0, 1) * (1 - clamp((t - 78) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 80) / 1.5, 0, 1) * (1 - clamp((t - 93) / 1.5, 0, 1));
+        const b6Pred = clamp((t - 85) / 1.5, 0, 1);
+
+        const b7A = clamp((t - 95) / 1.5, 0, 1) * (1 - clamp((t - 106) / 1.5, 0, 1));
+        const b8A = clamp((t - 108) / 1.5, 0, 1) * (1 - clamp((t - 120) / 1.5, 0, 1));
+        const b9A = clamp((t - 122) / 1.5, 0, 1) * (1 - clamp((t - 129) / 1, 0, 1));
+        const b10A = clamp((t - 129) / 1, 0, 1);
+
+        // mass value controlled by which beat we're in
+        const mass = b4A > 0.3 ? 1.6
+                  : b5A > 0.3 ? 0.0
+                  : b7A > 0.3 ? 0.0
+                  : b8A > 0.3 ? 0.0
+                  : 0.8;
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={15} title={'Force from Exchange'} />
             <SceneRefs refs={["yukawa","zee"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* exchange diagram on left: two horizontal fermions, wavy boson between */}
-              <g transform="translate(560, 560)">
-                {/* top fermion: incoming → vertex → outgoing */}
-                <line x1="-260" y1="-120" x2="260" y2="-120" stroke="var(--accent-blue)" strokeWidth="3" />
-                <circle cx="-240" cy="-120" r="22" fill="var(--accent-blue)" />
-                <circle cx="240" cy="-120" r="22" fill="var(--accent-blue)" />
-                {/* bottom fermion */}
-                <line x1="-260" y1="120" x2="260" y2="120" stroke="var(--accent-blue)" strokeWidth="3" />
-                <circle cx="-240" cy="120" r="22" fill="var(--accent-blue)" />
-                <circle cx="240" cy="120" r="22" fill="var(--accent-blue)" />
-                {/* vertex dots */}
-                <circle cx="0" cy="-120" r="6" fill="var(--accent-yellow)" />
-                <circle cx="0" cy="120" r="6" fill="var(--accent-yellow)" />
-                {/* wavy exchanged boson — VERTICAL between the two vertices */}
-                {(() => {
-                  let d = '';
-                  for (let i = 0; i <= 40; i++) {
-                    const y = -120 + (i / 40) * 240;
-                    const x = Math.sin(i * 0.8 + t * 4) * 14;
-                    d += (i === 0 ? 'M' : 'L') + x + ',' + y + ' ';
-                  }
-                  return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
-                })()}
-                <text x="40" y="6" fill="var(--accent-yellow)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">
-                  mass = {mass.toFixed(2)}
-                </text>
-              </g>
-              {/* potential plot on right */}
-              <g transform="translate(1340, 660)">
-                <line x1="0" y1="0" x2="400" y2="0" stroke="var(--canvas-dim)" strokeWidth="1" />
-                <line x1="0" y1="0" x2="0" y2="-300" stroke="var(--canvas-dim)" strokeWidth="1" />
-                <text x="420" y="8" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">r</text>
-                <text x="-20" y="-310" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">V(r)</text>
-                {(() => {
-                  let d = '';
-                  for (let i = 1; i <= 100; i++) {
-                    const r = (i / 100) * 4;
-                    const V = -Math.exp(-mass * r) / r;
-                    const x = (r / 4) * 400;
-                    const y = Math.max(-280, V * 80);
-                    d += (i === 1 ? 'M' : 'L') + x + ',' + y + ' ';
-                  }
-                  return <path d={d} fill="none" stroke="var(--accent-green)" strokeWidth="3" />;
-                })()}
-                <text x="200" y="-260" textAnchor="middle" fill="white" fontFamily="var(--font-math)" fontStyle="italic" fontSize="24">
-                  V ~ −e<tspan baselineShift="super" fontSize="14">−mr</tspan>/r
-                </text>
-              </g>
-            </svg>
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white' }}>
-              {mass > 0.2 ? 'Heavy exchange → short range (Yukawa).' : 'Massless exchange → 1/r (Coulomb).'}
-            </div>
+            <FieldBackground accent="#5ba3f5" amplitude={0.15} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 60, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  Forces = <span style={{ color: 'var(--accent-yellow)' }}>particle exchange</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Attraction, repulsion, binding — all one mechanism.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Yukawa diagram ─────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Two fermions exchange a scalar — <span style={{ color: 'var(--accent-yellow)' }}>Yukawa coupling</span>.
+              </div>
+            )}
+            {b2Diag > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b2Diag * b2A }}>
+                <g transform="translate(960, 580)">
+                  <line x1="-300" y1="-140" x2="300" y2="-140"
+                        stroke="var(--accent-blue)" strokeWidth="3" />
+                  <circle cx="-280" cy="-140" r="20" fill="var(--accent-blue)" />
+                  <circle cx="280" cy="-140" r="20" fill="var(--accent-blue)" />
+                  <line x1="-300" y1="140" x2="300" y2="140"
+                        stroke="var(--accent-blue)" strokeWidth="3" />
+                  <circle cx="-280" cy="140" r="20" fill="var(--accent-blue)" />
+                  <circle cx="280" cy="140" r="20" fill="var(--accent-blue)" />
+                  <circle cx="0" cy="-140" r="6" fill="var(--accent-yellow)" />
+                  <circle cx="0" cy="140" r="6" fill="var(--accent-yellow)" />
+                  {(() => {
+                    let d = '';
+                    for (let i = 0; i <= 40; i++) {
+                      const y = -140 + (i / 40) * 280;
+                      const x = Math.sin(i * 0.8 + t * 4) * 14;
+                      d += (i === 0 ? 'M' : 'L') + x + ',' + y + ' ';
+                    }
+                    return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
+                  })()}
+                  <text x="40" y="6" fill="var(--accent-yellow)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">scalar, mass m</text>
+                </g>
+              </svg>
+            )}
+
+            {/* ── BEAT 3: Yukawa potential ───────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                Take the non-relativistic limit — the <span style={{ color: 'var(--accent-green)' }}>Yukawa potential</span>.
+              </div>
+            )}
+            {b3V > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                    color: 'var(--form-inline)', opacity: b3V * b3A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                V(r) = − g² m e<sup>−mr</sup> / (4π r)
+              </div>
+            )}
+            {b3V > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b3V * b3A }}>
+                Range = 1 / m — heavier mediator ⟹ shorter range.
+              </div>
+            )}
+
+            {/* ── BEAT 4-5-7-8: Potential plot with varying mass ── */}
+            {(b4A > 0 || b5A > 0 || b7A > 0 || b8A > 0) && (() => {
+              const op = Math.max(b4A, b5A, b7A, b8A);
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: op }}>
+                  <g transform="translate(960, 680)">
+                    <line x1="-400" y1="0" x2="400" y2="0" stroke="var(--canvas-dim)" strokeWidth="1" />
+                    <line x1="-400" y1="0" x2="-400" y2="-300" stroke="var(--canvas-dim)" strokeWidth="1" />
+                    <text x="420" y="8" fill="var(--canvas-dim)"
+                          fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">r</text>
+                    <text x="-420" y="-310" fill="var(--canvas-dim)"
+                          fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">V(r)</text>
+                    {(() => {
+                      let d = '';
+                      for (let i = 1; i <= 100; i++) {
+                        const r = (i / 100) * 4;
+                        const V = -Math.exp(-mass * r) / r;
+                        const x = -400 + (r / 4) * 800;
+                        const y = Math.max(-280, V * 80);
+                        d += (i === 1 ? 'M' : 'L') + x + ',' + y + ' ';
+                      }
+                      return <path d={d} fill="none" stroke="var(--accent-green)" strokeWidth="3" />;
+                    })()}
+                  </g>
+                </svg>
+              );
+            })()}
+
+            {/* ── BEAT 4: Heavy → short range ─────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Heavy exchange → <span style={{ color: 'var(--accent-red)' }}>short range</span>.
+              </div>
+            )}
+            {/* ── BEAT 5: Massless → 1/r ───────────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Massless exchange → <span style={{ color: 'var(--accent-blue)' }}>1/r infinite range</span>.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Yukawa predicts pion (1935) ── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 260, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                <span style={{ color: 'var(--accent-yellow)' }}>1935</span> —
+                Yukawa predicts the <span style={{ color: 'var(--accent-green)' }}>pion</span>.
+              </div>
+            )}
+            {b6Pred > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                    opacity: b6Pred * b6A }}>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)' }}>
+                  range ≈ 1 fm &nbsp;⟹&nbsp; m ≈ 140 MeV
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', marginTop: 24 }}>
+                  Discovered 1947. Confirmed.
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 7: EM / photon ───────────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                Electromagnetism — the mediator is the <span style={{ color: 'var(--accent-yellow)' }}>photon</span>.
+              </div>
+            )}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 240, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--form-inline)', opacity: b7A }}>
+                m<sub>γ</sub> = 0 &nbsp;⟹&nbsp; V ∼ −1/r &nbsp;(Coulomb)
+              </div>
+            )}
+
+            {/* ── BEAT 8: Gravity / graviton ───────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                Gravity — the <span style={{ color: 'var(--note-inline)' }}>graviton</span> (spin 2, massless).
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 240, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--form-inline)', opacity: b8A }}>
+                V ∼ −1/r &nbsp;(Newton)
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 160, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--accent-red)', opacity: b8A }}>
+                — but non-renormalizable: no short-distance quantum theory.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Summary ───────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-green)', opacity: b9A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.35)' }}>
+                Every force = exchange of a quantum.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ──────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--form-inline)', opacity: b10A }}>
+                V(r) = −g²m e<sup>−mr</sup>/(4πr)
+              </div>
+            )}
           </div>
         );
       }}
