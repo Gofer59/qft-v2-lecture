@@ -333,102 +333,413 @@ function Scene05({ start, end }) {
   );
 }
 
-// Scene 06 — Quantizing the scalar field (SIGNATURE)
+// Scene 06 — Quantizing the scalar field (SIGNATURE, expanded to 150s / 10 beats)
+// Beat 1  (0–12)     Title + "simplest QFT: free real scalar"
+// Beat 2  (12–35)    Lagrangian density with kinetic and mass term breakdown
+// Beat 3  (35–55)    Euler-Lagrange → Klein-Gordon equation
+// Beat 4  (55–75)    Fourier decomposition (reuse wave→3 modes morph)
+// Beat 5  (75–92)    Dispersion relation ω² = k² + m²
+// Beat 6  (92–112)   Each mode ≡ harmonic oscillator (reuse parabolas)
+// Beat 7  (112–128)  Quantize: [x̂,p̂]=iℏ → ladder operators a, a†
+// Beat 8  (128–145)  Field Hamiltonian H = ∫ ω_k (a†a + ½)
+// Beat 9  (145–148)  Particles = quanta of k-th oscillator
+// Beat 10 (148–150)  Final hold
 function Scene06({ start, end }) {
   return (
     <Scene start={start} end={end} label="06">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // 0-6: field → Fourier modes
-        // 6-14: each mode → harmonic oscillator
-        // 14-26: array of oscillators with ladder levels
-        const decompose = clamp((t - 1) / 4, 0, 1);
-        const toOsc = clamp((t - 7) / 3, 0, 1);
-        const showRungs = clamp((t - 14) / 2, 0, 1);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 33) / 1.5, 0, 1));
+        const b2L = clamp((t - 17) / 1.5, 0, 1);
+        const b2Kin = clamp((t - 22) / 1.2, 0, 1);
+        const b2Mass = clamp((t - 27) / 1.2, 0, 1);
+
+        const b3A = clamp((t - 35) / 1.5, 0, 1) * (1 - clamp((t - 53) / 1.5, 0, 1));
+        const b3EL = clamp((t - 38) / 1.5, 0, 1);
+        const b3KG = clamp((t - 45) / 1.5, 0, 1);
+
+        const b4A = clamp((t - 55) / 1.5, 0, 1) * (1 - clamp((t - 73) / 1.5, 0, 1));
+        const b4Wave = clamp((t - 58) / 3, 0, 1);
+        const b4Modes = clamp((t - 62) / 3, 0, 1);
+        const b4Eq = clamp((t - 68) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 75) / 1.5, 0, 1) * (1 - clamp((t - 90) / 1.5, 0, 1));
+        const b5Disp = clamp((t - 80) / 1.5, 0, 1);
+
+        const b6A = clamp((t - 92) / 1.5, 0, 1) * (1 - clamp((t - 110) / 1.5, 0, 1));
+        const b6Osc = clamp((t - 95) / 3, 0, 1);
+        const b6Eq = clamp((t - 104) / 1.5, 0, 1);
+
+        const b7A = clamp((t - 112) / 1.5, 0, 1) * (1 - clamp((t - 126) / 1.5, 0, 1));
+        const b7Rungs = clamp((t - 115) / 3, 0, 1);
+        const b7CCR = clamp((t - 118) / 1.5, 0, 1);
+        const b7Ladder = clamp((t - 122) / 1.5, 0, 1);
+
+        const b8A = clamp((t - 128) / 1.5, 0, 1) * (1 - clamp((t - 143) / 1.5, 0, 1));
+        const b8H = clamp((t - 132) / 1.5, 0, 1);
+        const b8ZP = clamp((t - 138) / 1.5, 0, 1);
+
+        const b9A = clamp((t - 145) / 1, 0, 1) * (1 - clamp((t - 148) / 1, 0, 1));
+        const b10A = clamp((t - 148) / 1, 0, 1);
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={6} title={'Quantizing the Scalar Field'} />
             <SceneRefs refs={["ps","srednicki"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Top: original wave being decomposed */}
-              {decompose < 1 && (() => {
-                let d = 'M 200,280 ';
-                for (let i = 0; i <= 200; i++) {
-                  const x = 200 + (i / 200) * 1520;
-                  const y = 280 - (Math.sin(i * 0.08 - t * 2) * 40 + Math.sin(i * 0.22 + t * 3) * 20 + Math.sin(i * 0.4 - t) * 12);
-                  d += 'L ' + x + ',' + y + ' ';
-                }
-                return <path d={d} fill="none" stroke="var(--accent-blue)" strokeWidth="2.5" opacity={1 - decompose * 0.5} />;
-              })()}
+            <FieldBackground accent="#5ba3f5" amplitude={0.2} speed={0.1} />
 
-              {/* Fourier modes laid out */}
-              {decompose > 0.3 && [0.08, 0.22, 0.4].map((freq, mi) => {
-                const y0 = 500 + mi * 160;
-                let d = 'M 200,' + y0 + ' ';
-                for (let i = 0; i <= 160; i++) {
-                  const x = 200 + (i / 160) * (toOsc < 0.9 ? 1520 : 300);
-                  const sign = mi % 2 === 0 ? 1 : -1;
-                  const y = y0 - Math.sin(i * freq - t * (2 + mi)) * 30 * decompose;
-                  d += 'L ' + x + ',' + y + ' ';
-                }
-                return <path key={mi} d={d} fill="none" stroke="var(--accent-blue)" strokeWidth="2"
-                  opacity={decompose * (1 - toOsc * 0.4)} />;
-              })}
+            {/* ── BEAT 1: Title ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 60, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  The simplest quantum field theory —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 430, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--accent-blue)', opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  free, real, scalar
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b1A * clamp((t - 5) / 1.2, 0, 1) }}>
+                  Not real in nature — but the perfect training ground.
+                </div>
+              </>
+            )}
 
-              {/* Oscillators — parabolic potentials with energy levels */}
-              {toOsc > 0 && [0, 1, 2].map((mi) => {
-                const cx = 700 + mi * 300;
-                const cy = 620;
-                let d = '';
-                for (let i = -60; i <= 60; i++) {
-                  const px = cx + i * 2;
-                  const py = cy - 0.035 * i * i;
-                  d += (i === -60 ? 'M ' : 'L ') + px + ',' + py + ' ';
-                }
-                return (
-                  <g key={mi} opacity={toOsc}>
-                    <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2" />
-                    {/* energy levels */}
-                    {showRungs > 0 && [0, 1, 2, 3].map(n => {
-                      const ey = cy - 15 - n * 22;
-                      const halfW = Math.sqrt((cy - ey) / 0.035);
-                      return (
-                        <g key={n} opacity={showRungs}>
-                          <line x1={cx - halfW} y1={ey} x2={cx + halfW} y2={ey}
-                            stroke="var(--accent-green)" strokeWidth="1.5" />
-                          <text x={cx + halfW + 8} y={ey + 4} fill="var(--accent-green)"
-                            fontFamily="var(--font-math)" fontSize="14">{n}</text>
-                        </g>
-                      );
-                    })}
-                    <text x={cx} y={cy + 60} textAnchor="middle" fill="var(--canvas-dim)"
-                      fontFamily="var(--font-math)" fontSize="18" fontStyle="italic">
-                      k{mi === 0 ? '₁' : mi === 1 ? '₂' : '₃'}
-                    </text>
-                  </g>
-                );
-              })}
+            {/* ── BEAT 2: Lagrangian with terms ─────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Start from the <span style={{ color: 'var(--form-inline)' }}>Lagrangian density</span>.
+              </div>
+            )}
+            {b2L > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 64,
+                    color: 'var(--canvas-text)', opacity: b2L * b2A }}>
+                ℒ =
+                <span style={{ color: b2Kin > 0 ? 'var(--accent-blue)' : 'inherit',
+                      borderBottom: b2Kin > 0 ? '3px solid var(--accent-blue)' : 'none',
+                      padding: '0 10px' }}> ½ (∂<sub>μ</sub>φ)² </span>
+                <span>−</span>
+                <span style={{ color: b2Mass > 0 ? 'var(--accent-red)' : 'inherit',
+                      borderBottom: b2Mass > 0 ? '3px solid var(--accent-red)' : 'none',
+                      padding: '0 10px' }}> ½ m²φ² </span>
+              </div>
+            )}
+            {b2Kin > 0 && (
+              <div style={{ position: 'absolute', left: 300, top: 480, width: 480, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--accent-blue)', opacity: b2Kin * b2A }}>
+                Kinetic — how fast φ varies across spacetime
+              </div>
+            )}
+            {b2Mass > 0 && (
+              <div style={{ position: 'absolute', left: 1140, top: 480, width: 480, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--accent-red)', opacity: b2Mass * b2A }}>
+                Mass — harmonic potential on φ at each point
+              </div>
+            )}
 
-              {/* dots for "more modes" */}
-              {toOsc > 0.8 && (
-                <text x="1680" y="630" fill="var(--canvas-dim)" fontSize="36" opacity={toOsc}>⋯</text>
-              )}
-            </svg>
+            {/* ── BEAT 3: Euler-Lagrange → Klein-Gordon ─────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                Apply <span style={{ color: 'var(--accent-yellow)' }}>Euler–Lagrange</span>.
+              </div>
+            )}
+            {b3EL > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 320, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--form-inline)', opacity: b3EL * b3A }}>
+                ∂<sub>μ</sub> (∂ℒ / ∂(∂<sub>μ</sub>φ)) − ∂ℒ/∂φ = 0
+              </div>
+            )}
+            {b3KG > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      opacity: b3KG * b3A }}>
+                  <div style={{ fontSize: 44, color: 'var(--accent-yellow)',
+                        fontFamily: 'var(--font-display)' }}>↓</div>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                      color: 'var(--accent-green)', opacity: b3KG * b3A,
+                      textShadow: '0 0 24px rgba(61,240,192,0.4)' }}>
+                  (□ + m²) φ = 0
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 630, textAlign: 'center',
+                      fontFamily: 'var(--font-ui)', fontSize: 22,
+                      color: 'var(--canvas-dim)', opacity: b3KG * b3A, letterSpacing: '0.2em' }}>
+                  KLEIN–GORDON
+                </div>
+              </>
+            )}
 
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              {t < 5 ? <>The field <span style={{color:'var(--accent-blue)'}}>φ(x)</span> = sum of Fourier modes</> :
-               t < 13 ? 'Each mode is a harmonic oscillator' :
-               <>Its quanta are <span style={{color:'var(--accent-green)'}}>particles</span> of momentum k</>}
-            </div>
+            {/* ── BEAT 4: Fourier decomposition (reused motif) ─ */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Expand the field in <span style={{ color: 'var(--accent-blue)' }}>Fourier modes</span>.
+              </div>
+            )}
+            {b4A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                {/* superposition wave */}
+                {b4Wave < 1 && (() => {
+                  let d = 'M 200,280 ';
+                  for (let i = 0; i <= 200; i++) {
+                    const x = 200 + (i / 200) * 1520;
+                    const y = 280 - (Math.sin(i * 0.08 - t * 2) * 40
+                                    + Math.sin(i * 0.22 + t * 3) * 20
+                                    + Math.sin(i * 0.4 - t) * 12);
+                    d += 'L ' + x + ',' + y + ' ';
+                  }
+                  return <path d={d} fill="none" stroke="var(--accent-blue)"
+                    strokeWidth="2.5" opacity={b4A * (1 - b4Wave * 0.5)} />;
+                })()}
+                {/* 3 modes */}
+                {b4Modes > 0 && [0.08, 0.22, 0.4].map((freq, mi) => {
+                  const y0 = 420 + mi * 110;
+                  let d = 'M 200,' + y0 + ' ';
+                  for (let i = 0; i <= 160; i++) {
+                    const x = 200 + (i / 160) * 1520;
+                    const y = y0 - Math.sin(i * freq - t * (2 + mi)) * 30 * b4Modes;
+                    d += 'L ' + x + ',' + y + ' ';
+                  }
+                  return <path key={mi} d={d} fill="none" stroke="var(--accent-blue)"
+                    strokeWidth="2" opacity={b4A * b4Modes} />;
+                })}
+              </svg>
+            )}
+            {b4Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--form-inline)', opacity: b4Eq * b4A }}>
+                φ(x) = ∫
+                <span style={{ fontSize: 22 }}> d³k/(2π)³ </span>
+                [ a<sub>k</sub> e<sup>−ikx</sup> + a<sub>k</sub><sup>*</sup> e<sup>+ikx</sup> ]
+              </div>
+            )}
 
-            {/* Lagrangian at bottom */}
-            {t > 4 && (
-              <div style={{ position: 'absolute', bottom: 90, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 32, color: 'var(--form-inline)',
-                opacity: fadeIO(t - 4, duration - 4, 0.5, 0.6) }}>
+            {/* ── BEAT 5: Dispersion relation ─────────────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Each mode oscillates at its own frequency.
+              </div>
+            )}
+            {b5Disp > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 66,
+                      color: 'var(--accent-yellow)', opacity: b5Disp * b5A,
+                      textShadow: '0 0 24px rgba(255,209,102,0.35)' }}>
+                  ω<sub>k</sub>² = k² + m²
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                      color: 'var(--canvas-dim)', opacity: b5Disp * b5A }}>
+                  — the relativistic dispersion relation.
+                </div>
+              </>
+            )}
+            {b5A > 0 && (() => {
+              // Three oscillating modes at different frequencies, right side
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  {[0.5, 1.0, 1.8].map((om, mi) => {
+                    const y = 700 + mi * 80;
+                    let d = 'M 200,' + y;
+                    for (let i = 1; i <= 100; i++) {
+                      const x = 200 + (i / 100) * 1520;
+                      const py = y - Math.sin((x - 200) * 0.02 + om * t * 2) * 22;
+                      d += ` L ${x.toFixed(1)},${py.toFixed(1)}`;
+                    }
+                    return (
+                      <g key={mi} opacity={b5A * 0.7}>
+                        <path d={d} fill="none"
+                              stroke={['var(--accent-blue)','var(--accent-green)','var(--accent-red)'][mi]}
+                              strokeWidth="1.5" />
+                        <text x="130" y={y + 6} fill="var(--canvas-dim)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="18">
+                          ω<tspan dy="4" fontSize="14">{mi + 1}</tspan>
+                        </text>
+                      </g>
+                    );
+                  })}
+                </svg>
+              );
+            })()}
+
+            {/* ── BEAT 6: Each mode = harmonic oscillator ─── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                Each Fourier mode is a
+                <span style={{ color: 'var(--accent-yellow)' }}> harmonic oscillator</span>.
+              </div>
+            )}
+            {b6Osc > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                {[0, 1, 2, 3].map((mi) => {
+                  const cxP = 460 + mi * 340;
+                  const cyP = 600;
+                  let d = '';
+                  for (let i = -60; i <= 60; i++) {
+                    const px = cxP + i * 2;
+                    const py = cyP - 0.035 * i * i;
+                    d += (i === -60 ? 'M ' : 'L ') + px + ',' + py + ' ';
+                  }
+                  const ap = clamp(b6Osc * 5 - mi * 0.6, 0, 1) * b6A;
+                  return (
+                    <g key={mi} opacity={ap}>
+                      <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2" />
+                      {/* oscillating ball in well */}
+                      <circle cx={cxP + Math.sin(t * (2 + mi * 0.4)) * 50}
+                              cy={cyP - 0.035 * Math.pow(Math.sin(t * (2 + mi * 0.4)) * 50, 2)}
+                              r="5" fill="var(--accent-blue)" />
+                      <text x={cxP} y={cyP + 80} textAnchor="middle"
+                            fill="var(--canvas-dim)" fontFamily="var(--font-math)"
+                            fontStyle="italic" fontSize="22">
+                        k{['₁','₂','₃','₄'][mi]}
+                      </text>
+                    </g>
+                  );
+                })}
+                <text x="1780" y="610" fill="var(--canvas-dim)" fontSize="36"
+                      opacity={b6Osc * b6A}>⋯</text>
+              </svg>
+            )}
+            {b6Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--note-inline)', opacity: b6Eq * b6A }}>
+                Quantize the field ≡ quantize every oscillator.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Quantize — ladder operators ───────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                Canonical commutation + ladder operators.
+              </div>
+            )}
+            {b7CCR > 0 && (
+              <div style={{ position: 'absolute', left: 160, top: 300, width: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--form-inline)', opacity: b7CCR * b7A }}>
+                [ x̂, p̂ ] = iℏ
+                <div style={{ fontSize: 24, color: 'var(--canvas-dim)',
+                      marginTop: 16, fontStyle: 'normal' }}>
+                  canonical commutation
+                </div>
+              </div>
+            )}
+            {b7Ladder > 0 && (
+              <div style={{ position: 'absolute', left: 1180, top: 300, width: 540, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-green)', opacity: b7Ladder * b7A }}>
+                a = (x̂ + ip̂) / √(2ℏω)
+                <div style={{ marginTop: 10 }}>a<sup>†</sup> = (x̂ − ip̂) / √(2ℏω)</div>
+                <div style={{ fontSize: 24, color: 'var(--canvas-dim)',
+                      marginTop: 16, fontStyle: 'normal' }}>
+                  ladder operators
+                </div>
+              </div>
+            )}
+            {b7Rungs > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                <g transform="translate(960, 900)">
+                  {[0, 1, 2, 3, 4].map(n => {
+                    const ap = clamp(b7Rungs * 5 - n * 0.7, 0, 1) * b7A;
+                    return (
+                      <g key={n} opacity={ap}>
+                        <line x1="-160" y1={-n * 40} x2="160" y2={-n * 40}
+                              stroke="var(--accent-green)" strokeWidth="2" />
+                        <text x="200" y={-n * 40 + 6} fill="var(--accent-green)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">
+                          E<sub>{n}</sub> = (n + ½) ℏω
+                        </text>
+                        {n < 4 && (
+                          <text x="-200" y={-n * 40 - 12} fill="var(--canvas-dim)"
+                                fontFamily="var(--font-math)" fontSize="16" textAnchor="end">
+                            a<sup>†</sup> ↑
+                          </text>
+                        )}
+                      </g>
+                    );
+                  })}
+                </g>
+              </svg>
+            )}
+
+            {/* ── BEAT 8: Field Hamiltonian ─────────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                Sum over all momenta — the <span style={{ color: 'var(--accent-yellow)' }}>field Hamiltonian</span>.
+              </div>
+            )}
+            {b8H > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    opacity: b8H * b8A }}>
+                <div style={{ background: '#825000', display: 'inline-block', color: 'white',
+                      padding: '10px 32px', fontSize: 22, fontFamily: 'var(--font-display)',
+                      fontWeight: 700 }}>
+                  Hamiltonian
+                </div>
+                <div style={{ background: '#2d1a00', display: 'inline-block', padding: '28px 44px',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 42,
+                      color: 'var(--canvas-text)', marginLeft: -4 }}>
+                  H = ∫
+                  <span style={{ fontSize: 26 }}> d³k/(2π)³ </span>
+                  ω<sub>k</sub> &nbsp;(
+                  <span style={{ color: 'var(--accent-green)' }}>a<sup>†</sup><sub>k</sub>a<sub>k</sub></span>
+                  + ½ )
+                </div>
+              </div>
+            )}
+            {b8ZP > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--note-inline)', opacity: b8ZP * b8A }}>
+                The ½ is the zero-point energy — the vacuum still hums.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Particles = quanta ─────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-green)', opacity: b9A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.4)' }}>
+                Particles of momentum k = quanta of the k-th oscillator.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold — Lagrangian permanent ── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', bottom: 120, left: 0, right: 0, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--form-inline)', opacity: b10A,
+                    textShadow: '0 0 20px rgba(255,209,102,0.35)' }}>
                 ℒ = ½ (∂<sub>μ</sub>φ)² − ½ m²φ²
               </div>
             )}
