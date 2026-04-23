@@ -14,7 +14,7 @@
     "08": {"title": "The Vacuum Is Not Nothing", "dur_target": 144, "status": "done"},
     "09": {"title": "The Lagrangian Density and the Action", "dur_target": 208, "status": "done"},
     "10": {"title": "Symmetries and Conservation Laws", "dur_target": 131, "status": "done"},
-    "11": {"title": "Interactions: The Field Is Not Free", "dur_target": 125, "status": "pending"},
+    "11": {"title": "Interactions: The Field Is Not Free", "dur_target": 125, "status": "done"},
     "12": {"title": "Feynman Diagrams: Cartoons That Compute", "dur_target": 146, "status": "pending"},
     "13": {"title": "Vertices and Propagators in Detail", "dur_target": 135, "status": "pending"},
     "14": {"title": "Loops and the Need for Renormalization", "dur_target": 137, "status": "pending"},

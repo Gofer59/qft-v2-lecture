@@ -1,60 +1,262 @@
 // qft-scenes-c.jsx — Scenes 11-16
 
-// Scene 11 — Interactions
+// Scene 11 — Interactions (expanded to 125s / 10 beats)
+// Beat 1  (0–12)    Title + free theory solvable, nothing happens
+// Beat 2  (12–28)   Free field: particles pass through (animation)
+// Beat 3  (28–46)   Real physics needs interactions
+// Beat 4  (46–62)   φ⁴ interaction: −(λ/4!)φ⁴
+// Beat 5  (62–76)   Particles scatter — animation
+// Beat 6  (76–90)   QED interaction: g ψ̄ γ^μ ψ A_μ
+// Beat 7  (90–104)  Electron-photon vertex
+// Beat 8  (104–115) One term generates all of electromagnetism
+// Beat 9  (115–122) Locality: everything at one point
+// Beat 10 (122–125) Final hold
 function Scene11({ start, end }) {
   return (
     <Scene start={start} end={end} label="11">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // wave packets cross: first no interaction, then scatter
-        const phase = t < 9 ? 'free' : 'interact';
-        const progress = phase === 'free' ? (t % 8) / 8 : ((t - 9) % 8) / 8;
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 26) / 1.5, 0, 1));
+        const b3A = clamp((t - 28) / 1.5, 0, 1) * (1 - clamp((t - 44) / 1.5, 0, 1));
+        const b4A = clamp((t - 46) / 1.5, 0, 1) * (1 - clamp((t - 60) / 1.5, 0, 1));
+        const b4Eq = clamp((t - 50) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 62) / 1.5, 0, 1) * (1 - clamp((t - 74) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 76) / 1.5, 0, 1) * (1 - clamp((t - 88) / 1.5, 0, 1));
+        const b6Eq = clamp((t - 80) / 1.5, 0, 1);
+
+        const b7A = clamp((t - 90) / 1.5, 0, 1) * (1 - clamp((t - 102) / 1.5, 0, 1));
+
+        const b8A = clamp((t - 104) / 1.5, 0, 1) * (1 - clamp((t - 113) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 115) / 1.5, 0, 1) * (1 - clamp((t - 121) / 1.2, 0, 1));
+
+        const b10A = clamp((t - 122) / 1, 0, 1);
+
+        // Free-pass animation (beat 2) — progress 0..1
+        const freeProg = clamp((t - 14) / 12, 0, 1);
+        // Scatter animation (beat 5)
+        const scatProg = clamp((t - 63) / 10, 0, 1);
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={11} title={'Interactions'} />
             <SceneRefs refs={["ps","schwartz"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              <line x1="100" y1="540" x2="1820" y2="540" stroke="var(--canvas-dim)" strokeWidth="0.8" strokeDasharray="3 6" />
-              {(() => {
-                const x1 = 200 + progress * 1520;
-                const x2 = 1720 - progress * 1520;
-                if (phase === 'free') {
-                  return (
-                    <>
-                      <circle cx={x1} cy="540" r="22" fill="var(--accent-blue)" opacity="0.8" />
-                      <circle cx={x2} cy="540" r="22" fill="var(--accent-green)" opacity="0.8" />
-                    </>
-                  );
-                } else {
-                  // scatter at center
-                  const scatter = progress < 0.5 ? 0 : (progress - 0.5) * 2;
-                  const ang = 0.6 * scatter;
-                  const mx = 200 + progress * 1520;
-                  const my = 540 - Math.sin(ang) * 280 * scatter;
-                  const nx = 1720 - progress * 1520;
-                  const ny = 540 + Math.sin(ang) * 280 * scatter;
-                  return (
-                    <>
-                      <circle cx={mx} cy={my} r="22" fill="var(--accent-blue)" opacity="0.9" />
-                      <circle cx={nx} cy={ny} r="22" fill="var(--accent-green)" opacity="0.9" />
-                      {progress > 0.45 && progress < 0.55 && (
-                        <circle cx="960" cy="540" r={60 * (1 - Math.abs(progress - 0.5) * 20)} fill="var(--accent-yellow)" opacity="0.4" />
-                      )}
-                    </>
-                  );
-                }
-              })()}
-            </svg>
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              {phase === 'free' ? 'Free field: particles pass through.' : 'Add λ φ⁴ — they scatter.'}
-            </div>
-            {t > 14 && (
-              <div style={{ position: 'absolute', bottom: 120, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 34, color: 'var(--form-inline)',
-                opacity: fadeIO(t - 14, duration - 14, 0.5, 0.5) }}>
-                ℒ<sub>int</sub> = −(λ/4!) φ⁴
+            <FieldBackground accent="#5ba3f5" amplitude={0.18} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 60, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  The field is <span style={{ color: 'var(--accent-red)' }}>not free</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  A free theory is solvable — and boring.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Free — particles pass through ── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                <span style={{ color: 'var(--accent-blue)' }}>Free field</span> — particles pass through.
+              </div>
+            )}
+            {b2A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b2A }}>
+                <line x1="100" y1="540" x2="1820" y2="540"
+                      stroke="var(--canvas-dim)" strokeWidth="0.8" strokeDasharray="3 6" />
+                <circle cx={200 + freeProg * 1520} cy="540" r="22" fill="var(--accent-blue)" opacity="0.85" />
+                <circle cx={1720 - freeProg * 1520} cy="540" r="22" fill="var(--accent-green)" opacity="0.85" />
+              </svg>
+            )}
+
+            {/* ── BEAT 3: Real physics requires interaction ── */}
+            {b3A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', opacity: b3A }}>
+                  Real physics requires <span style={{ color: 'var(--accent-yellow)' }}>interactions</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)',
+                      opacity: b3A * clamp((t - 32) / 1.5, 0, 1) }}>
+                  Additional Lagrangian terms coupling field modes — or different fields.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 4: φ⁴ interaction ─────────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Simplest — the <span style={{ color: 'var(--accent-red)' }}>φ⁴</span> term.
+              </div>
+            )}
+            {b4Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                    color: 'var(--form-inline)', opacity: b4Eq * b4A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                ℒ<sub>int</sub> = − (λ / 4!) φ⁴
+              </div>
+            )}
+            {b4Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--canvas-dim)', opacity: b4Eq * b4A }}>
+                Four field values at the same spacetime point → modes couple.
+              </div>
+            )}
+
+            {/* ── BEAT 5: Particles scatter ────────────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Now they <span style={{ color: 'var(--accent-yellow)' }}>scatter</span>.
+              </div>
+            )}
+            {b5A > 0 && (() => {
+              const scatter = scatProg < 0.5 ? 0 : (scatProg - 0.5) * 2;
+              const ang = 0.6 * scatter;
+              const mx = 200 + scatProg * 1520;
+              const my = 540 - Math.sin(ang) * 280 * scatter;
+              const nx = 1720 - scatProg * 1520;
+              const ny = 540 + Math.sin(ang) * 280 * scatter;
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b5A }}>
+                  <line x1="100" y1="540" x2="1820" y2="540"
+                        stroke="var(--canvas-dim)" strokeWidth="0.8" strokeDasharray="3 6" />
+                  <circle cx={mx} cy={my} r="22" fill="var(--accent-blue)" opacity="0.9" />
+                  <circle cx={nx} cy={ny} r="22" fill="var(--accent-green)" opacity="0.9" />
+                  {scatProg > 0.45 && scatProg < 0.55 && (
+                    <circle cx="960" cy="540"
+                            r={60 * (1 - Math.abs(scatProg - 0.5) * 20)}
+                            fill="var(--accent-yellow)" opacity="0.45" />
+                  )}
+                </svg>
+              );
+            })()}
+
+            {/* ── BEAT 6: QED interaction term ───────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                For <span style={{ color: 'var(--accent-blue)' }}>electromagnetism</span> — couple electron and photon fields.
+              </div>
+            )}
+            {b6Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                    color: 'var(--form-inline)', opacity: b6Eq * b6A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                ℒ<sub>QED,int</sub> = e &nbsp; ψ̄ &nbsp; γ<sup>μ</sup> &nbsp; ψ &nbsp; A<sub>μ</sub>
+              </div>
+            )}
+            {b6Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 24,
+                    color: 'var(--canvas-dim)', opacity: b6Eq * b6A }}>
+                electron (ψ), positron (ψ̄), photon (A<sub>μ</sub>) meeting at one point.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Electron-photon vertex diagram ── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                The QED vertex — the whole of electromagnetism in one picture.
+              </div>
+            )}
+            {b7A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b7A }}>
+                <g transform="translate(960, 580)">
+                  {/* incoming electron */}
+                  <line x1="-220" y1="-150" x2="0" y2="0" stroke="var(--accent-blue)" strokeWidth="3"
+                        markerEnd="url(#arr-11-B)" />
+                  <text x="-240" y="-160" fill="var(--accent-blue)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">e⁻</text>
+                  {/* outgoing electron */}
+                  <line x1="0" y1="0" x2="220" y2="-150" stroke="var(--accent-blue)" strokeWidth="3"
+                        markerEnd="url(#arr-11-B)" />
+                  <text x="230" y="-160" fill="var(--accent-blue)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">e⁻</text>
+                  {/* photon (wavy) */}
+                  {(() => {
+                    let d = 'M 0,0';
+                    for (let i = 1; i <= 22; i++) {
+                      const x = i * 10;
+                      const y = 6 * i + Math.sin(i * 0.9) * 12;
+                      d += ` L ${x},${y}`;
+                    }
+                    return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
+                  })()}
+                  <text x="240" y="180" fill="var(--accent-yellow)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">γ</text>
+                  {/* vertex */}
+                  <circle cx="0" cy="0" r="10" fill="var(--accent-yellow)" />
+                </g>
+                <defs>
+                  <marker id="arr-11-B" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-blue)" />
+                  </marker>
+                </defs>
+              </svg>
+            )}
+
+            {/* ── BEAT 8: One term generates everything ── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                One term. Every electromagnetic phenomenon.
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440,
+                    fontFamily: 'var(--font-ui)', fontSize: 24, color: 'var(--canvas-dim)',
+                    textAlign: 'center', lineHeight: 1.8, opacity: b8A,
+                    letterSpacing: '0.12em' }}>
+                <div>ATOMIC STRUCTURE &nbsp;·&nbsp; PHOTON ABSORPTION</div>
+                <div>COMPTON SCATTERING &nbsp;·&nbsp; ELECTRON REPULSION</div>
+                <div>PHOTOELECTRIC EFFECT &nbsp;·&nbsp; ANTENNAS &nbsp;·&nbsp; CHEMISTRY</div>
+              </div>
+            )}
+
+            {/* ── BEAT 9: Locality ───────────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--accent-green)', opacity: b9A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.3)' }}>
+                Everything happens at <span style={{ color: 'var(--accent-yellow)' }}>a single point</span>.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ───────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--form-inline)', opacity: b10A }}>
+                ℒ<sub>int</sub> = e &nbsp; ψ̄ γ<sup>μ</sup> ψ &nbsp; A<sub>μ</sub>
               </div>
             )}
           </div>
