@@ -5,7 +5,7 @@
   "phase": "expand_scenes",
   "scenes": {
     "01": {"title": "The Question That Breaks Single-Particle Mechanics", "dur_target": 142, "status": "done"},
-    "02": {"title": "What a Field Actually Is", "dur_target": 201, "status": "pending"},
+    "02": {"title": "What a Field Actually Is", "dur_target": 201, "status": "done"},
     "03": {"title": "Why Relativistic QM Fails", "dur_target": 168, "status": "pending"},
     "04": {"title": "Fields Are Primary", "dur_target": 151, "status": "pending"},
     "05": {"title": "Fields as Operators", "dur_target": 146, "status": "pending"},

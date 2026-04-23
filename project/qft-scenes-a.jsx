@@ -5,7 +5,7 @@
 // Total duration ~7 min. Signature scenes (02, 06, 12, 14, 17) get extra time.
 const SCENES = [
   { n: 1,  title: 'The Question That Breaks Single-Particle Mechanics', dur: 142 }, // expanded for full narration 140.7s
-  { n: 2,  title: 'What a Field Actually Is',                           dur: 28 }, // unchanged, audio 22.7
+  { n: 2,  title: 'What a Field Actually Is',                           dur: 201 }, // expanded for full narration 199.6s
   { n: 3,  title: 'Why Relativistic QM Fails',                          dur: 25 }, // was 22, audio 24.3
   { n: 4,  title: 'Fields Are Primary',                                 dur: 22 }, // unchanged, audio 21.1
   { n: 5,  title: 'Fields as Operators',                                dur: 20 }, // unchanged, audio 18.2
@@ -640,7 +640,17 @@ function Scene01({ start, end }) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// SCENE 02 — What a field is (SIGNATURE)
+// SCENE 02 — What a field is (SIGNATURE, expanded to 201s / 10 beats)
+// Beat 1  (0–14)     Title + "field appears in many contexts"
+// Beat 2  (14–38)    Definition: value at every point (grid of dots + numbers)
+// Beat 3  (38–66)    Temperature field (scalar) — heatmap room
+// Beat 4  (66–92)    Wind velocity (vector field) — arrows at every point
+// Beat 5  (92–118)   Dynamics: diffusion, Navier-Stokes, equations of motion
+// Beat 6  (118–140)  Classical EM — tensor field, 6 components, Maxwell
+// Beat 7  (140–160)  Field exists independently of matter (ambient)
+// Beat 8  (160–180)  The quantum leap — classical = number, quantum = operator
+// Beat 9  (180–195)  Field types → spin: scalar/vector/tensor/spinor → 0/1/2/½
+// Beat 10 (195–201)  Final hold — 3D mesh settles, "next: why single-particle fails"
 // ════════════════════════════════════════════════════════════════════════
 function Scene02({ start, end }) {
   return (
@@ -648,90 +658,461 @@ function Scene02({ start, end }) {
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // Phase 1 (0-8): grid of numbers appears
-        // Phase 2 (8-16): grid becomes surface
-        // Phase 3 (16-26): 3D undulating surface
 
-        const gridPhase = clamp((t - 0.5) / 3, 0, 1);
-        const rippleOn = clamp((t - 4) / 2, 0, 1);
-        const toSurface = clamp((t - 9) / 3, 0, 1);
-        const to3D = clamp((t - 15) / 3, 0, 1);
+        // ── Beat gates ─────────────────────────────────────────────
+        const b1In       = clamp((t - 1) / 1.5, 0, 1);
+        const b1Out      = clamp((t - 12.5) / 1.5, 0, 1);
+        const b1Alpha    = b1In * (1 - b1Out);
 
-        const cols = 12, rows = 7;
-        const cellW = 90, cellH = 90;
-        const gridW = cols * cellW, gridH = rows * cellH;
-        const ox = (1920 - gridW) / 2, oy = 240;
+        const b2In       = clamp((t - 14) / 1.5, 0, 1);
+        const b2Grid     = clamp((t - 15) / 4, 0, 1);
+        const b2Numbers  = clamp((t - 18) / 2, 0, 1) * clamp((36 - t) / 1.5, 0, 1);
+        const b2Out      = clamp((t - 36) / 1.5, 0, 1);
+        const b2Alpha    = b2In * (1 - b2Out);
+
+        const b3In       = clamp((t - 38) / 1.5, 0, 1);
+        const b3Out      = clamp((t - 64) / 1.5, 0, 1);
+        const b3Alpha    = b3In * (1 - b3Out);
+        const b3Scalar   = clamp((t - 52) / 1.5, 0, 1) * (1 - b3Out);
+
+        const b4In       = clamp((t - 66) / 1.5, 0, 1);
+        const b4Out      = clamp((t - 90) / 1.5, 0, 1);
+        const b4Alpha    = b4In * (1 - b4Out);
+        const b4Vector   = clamp((t - 80) / 1.5, 0, 1) * (1 - b4Out);
+
+        const b5In       = clamp((t - 92) / 1.5, 0, 1);
+        const b5Out      = clamp((t - 116) / 1.5, 0, 1);
+        const b5Alpha    = b5In * (1 - b5Out);
+        const b5Eq1      = clamp((t - 96) / 1.2, 0, 1) * (1 - b5Out);
+        const b5Eq2      = clamp((t - 103) / 1.2, 0, 1) * (1 - b5Out);
+        const b5Eq3      = clamp((t - 110) / 1.2, 0, 1) * (1 - b5Out);
+
+        const b6In       = clamp((t - 118) / 1.5, 0, 1);
+        const b6Out      = clamp((t - 138) / 1.5, 0, 1);
+        const b6Alpha    = b6In * (1 - b6Out);
+        const b6Tensor   = clamp((t - 124) / 2, 0, 1) * (1 - b6Out);
+        const b6Maxwell  = clamp((t - 132) / 1.5, 0, 1) * (1 - b6Out);
+
+        const b7In       = clamp((t - 140) / 1.5, 0, 1);
+        const b7Out      = clamp((t - 158) / 1.5, 0, 1);
+        const b7Alpha    = b7In * (1 - b7Out);
+
+        const b8In       = clamp((t - 160) / 1.5, 0, 1);
+        const b8Out      = clamp((t - 178) / 1.5, 0, 1);
+        const b8Alpha    = b8In * (1 - b8Out);
+        const b8LHS      = clamp((t - 164) / 1.5, 0, 1) * (1 - b8Out);
+        const b8RHS      = clamp((t - 170) / 1.5, 0, 1) * (1 - b8Out);
+
+        const b9In       = clamp((t - 180) / 1.5, 0, 1);
+        const b9Out      = clamp((t - 194) / 1.2, 0, 1);
+        const b9Alpha    = b9In * (1 - b9Out);
+        const b9Rows     = [181.5, 183.5, 185.5, 187.5];
+
+        const b10In      = clamp((t - 195) / 1.2, 0, 1);
+        const finalHold  = t >= 196;
+
+        // Master 3D mesh visibility — shown as a "settled" reference in b7+ and final
+        const meshOp = b7Alpha * 0.35 + b8Alpha * 0.25 + b9Alpha * 0.2 + b10In * 0.55;
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={2} title={'A Field'} />
             <SceneRefs refs={["ps","zee"]} />
 
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Grid of dots with numbers */}
-              {to3D < 1 && Array.from({ length: rows }, (_, j) => Array.from({ length: cols }, (_, i) => {
-                const x = ox + i * cellW + cellW / 2;
-                const y = oy + j * cellH + cellH / 2;
-                const phi = Math.sin((i * 0.6 + j * 0.4) - t * 1.5) * rippleOn;
-                const val = (phi * 0.5 + 0.5);
-                const showNum = gridPhase > (i + j) / (cols + rows) && toSurface < 0.4;
-                const r = 3 + val * 6;
-                const dotOp = Math.min(1, gridPhase * 3 - (i + j) / (cols + rows) * 2) * (1 - toSurface * 0.4);
-                return (
-                  <g key={`${i}-${j}`} opacity={Math.max(0, dotOp)}>
-                    <circle cx={x} cy={y} r={r}
-                      fill="var(--accent-blue)" opacity={0.3 + 0.6 * val} />
-                    {showNum && (
-                      <text x={x} y={y - 14} textAnchor="middle" fontSize="12" fill="var(--canvas-dim)"
-                        fontFamily="var(--font-math)" opacity="0.7">
-                        {phi.toFixed(2)}
-                      </text>
-                    )}
-                  </g>
-                );
-              }))}
+            {/* Persistent ambient field (very subtle) */}
+            <FieldBackground accent="#5ba3f5" amplitude={0.22} speed={0.10} />
 
-              {/* Continuous surface (Phase 2) — one ribbon per row */}
-              {toSurface > 0 && to3D < 1 && Array.from({ length: rows }, (_, j) => {
-                const y = oy + j * cellH + cellH / 2;
-                let d = '';
-                for (let i = 0; i <= 60; i++) {
-                  const px = ox + (i / 60) * gridW;
-                  const phi = Math.sin((i * 0.15 + j * 0.4) - t * 1.5);
-                  d += (i === 0 ? 'M' : 'L') + px + ',' + (y - phi * 14 * toSurface) + ' ';
+            {/* ── BEAT 1: Title ─────────────────────────────────── */}
+            {b1Alpha > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 84, color: 'var(--canvas-text)',
+                      opacity: b1Alpha, letterSpacing: '0.01em' }}>
+                  What a Field <span style={{ color: 'var(--accent-blue)' }}>Actually</span> Is
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-dim)', opacity: b1Alpha * clamp((t - 3) / 1, 0, 1) }}>
+                  A word used loosely — let's be precise.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Grid of dots with numbers ─────────────── */}
+            {b2Alpha > 0 && (() => {
+              const cols = 12, rows = 7;
+              const cellW = 90, cellH = 90;
+              const gridW = cols * cellW;
+              const ox = (1920 - gridW) / 2, oy = 260;
+              const cells = [];
+              for (let j = 0; j < rows; j++) {
+                for (let i = 0; i < cols; i++) {
+                  const x = ox + i * cellW + cellW / 2;
+                  const y = oy + j * cellH + cellH / 2;
+                  const phi = Math.sin((i * 0.6 + j * 0.4) - t * 1.0);
+                  const val = phi * 0.5 + 0.5;
+                  const dotOp = clamp(b2Grid * 3 - (i + j) / (cols + rows) * 2, 0, 1);
+                  const r = 3 + val * 6;
+                  cells.push(
+                    <g key={`${i}-${j}`} opacity={dotOp * b2Alpha}>
+                      <circle cx={x} cy={y} r={r} fill="var(--accent-blue)" opacity={0.3 + 0.6 * val} />
+                      {b2Numbers > 0 && (
+                        <text x={x} y={y - 14} textAnchor="middle" fontSize="12"
+                              fill="var(--canvas-dim)" fontFamily="var(--font-math)"
+                              opacity={b2Numbers * 0.7}>{phi.toFixed(2)}</text>
+                      )}
+                    </g>
+                  );
                 }
-                return <path key={'r'+j} d={d} fill="none" stroke="var(--accent-blue)"
-                  strokeWidth="1.5" opacity={toSurface * 0.5 * (1 - to3D * 0.4)} />;
-              })}
-            </svg>
+              }
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  {cells}
+                </svg>
+              );
+            })()}
+            {b2Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b2Alpha }}>
+                A <span style={{ color: 'var(--accent-blue)' }}>value</span> at every point in space.
+              </div>
+            )}
+            {b2Alpha > 0 && t > 28 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--note-inline)', opacity: b2Alpha * clamp((t - 28) / 1.5, 0, 1) }}>
+                That is all.
+              </div>
+            )}
 
-            {/* 3D mesh view */}
-            {to3D > 0 && (
-              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: to3D }}>
+            {/* ── BEAT 3: Temperature (scalar) field — heatmap room ── */}
+            {b3Alpha > 0 && (() => {
+              const cols = 16, rows = 10;
+              const cellW = 70, cellH = 60;
+              const gridW = cols * cellW, gridH = rows * cellH;
+              const ox = (1920 - gridW) / 2, oy = 280;
+              const rects = [];
+              for (let j = 0; j < rows; j++) {
+                for (let i = 0; i < cols; i++) {
+                  // hot zone near (0.3, 0.6), cold near (0.75, 0.3)
+                  const fx = i / (cols - 1), fy = j / (rows - 1);
+                  const hot = Math.exp(-((fx - 0.3) ** 2 + (fy - 0.6) ** 2) / 0.12);
+                  const cold = Math.exp(-((fx - 0.75) ** 2 + (fy - 0.3) ** 2) / 0.1);
+                  const T = 20 + 15 * hot - 8 * cold + Math.sin(t * 0.4 + i * 0.3 + j * 0.2) * 1.5;
+                  const norm = clamp((T - 10) / 30, 0, 1);
+                  // red-to-blue gradient
+                  const r = Math.round(60 + 195 * norm);
+                  const bC = Math.round(200 * (1 - norm) + 50);
+                  const color = `rgb(${r}, ${60 + 80 * (1 - Math.abs(norm - 0.5) * 2)}, ${bC})`;
+                  rects.push(
+                    <rect key={`${i}-${j}`} x={ox + i * cellW} y={oy + j * cellH}
+                          width={cellW - 2} height={cellH - 2}
+                          fill={color} opacity={0.55 * b3Alpha} />
+                  );
+                }
+              }
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  <rect x={ox - 10} y={oy - 10} width={gridW + 20} height={gridH + 20}
+                        fill="none" stroke="var(--canvas-dim)" strokeWidth="1" opacity={b3Alpha * 0.4} />
+                  {rects}
+                </svg>
+              );
+            })()}
+            {b3Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b3Alpha }}>
+                <span style={{ color: 'var(--accent-red)' }}>Temperature</span> field —
+                one number per point.
+              </div>
+            )}
+            {b3Scalar > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--form-inline)', opacity: b3Scalar }}>
+                T(x, y, z) — scalar field
+              </div>
+            )}
+
+            {/* ── BEAT 4: Wind velocity (vector field) ─────────── */}
+            {b4Alpha > 0 && (() => {
+              const cols = 12, rows = 8;
+              const cellW = 120, cellH = 90;
+              const gridW = cols * cellW, gridH = rows * cellH;
+              const ox = (1920 - gridW) / 2, oy = 280;
+              const arrows = [];
+              for (let j = 0; j < rows; j++) {
+                for (let i = 0; i < cols; i++) {
+                  const x = ox + i * cellW + cellW / 2;
+                  const y = oy + j * cellH + cellH / 2;
+                  // swirling vector field
+                  const fx = (i - cols/2) / cols, fy = (j - rows/2) / rows;
+                  const ang = Math.atan2(fy, fx + 0.01) + Math.PI/2 + t * 0.25 + Math.sin(fx * 3) * 0.3;
+                  const mag = 20 + 12 * Math.sin(t * 0.5 + i * 0.4 + j * 0.3);
+                  const ex = x + Math.cos(ang) * mag;
+                  const ey = y + Math.sin(ang) * mag;
+                  arrows.push(
+                    <g key={`${i}-${j}`} opacity={b4Alpha * 0.7}>
+                      <line x1={x} y1={y} x2={ex} y2={ey}
+                            stroke="var(--accent-green)" strokeWidth="2" />
+                      <circle cx={x} cy={y} r="2" fill="var(--accent-green)" />
+                    </g>
+                  );
+                }
+              }
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  {arrows}
+                </svg>
+              );
+            })()}
+            {b4Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b4Alpha }}>
+                <span style={{ color: 'var(--accent-green)' }}>Wind velocity</span> —
+                a vector at every point.
+              </div>
+            )}
+            {b4Vector > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--form-inline)', opacity: b4Vector }}>
+                v(x, t) = (v<sub>x</sub>, v<sub>y</sub>, v<sub>z</sub>) — vector field
+              </div>
+            )}
+
+            {/* ── BEAT 5: Dynamics — three equations of motion ─── */}
+            {b5Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b5Alpha }}>
+                Classical fields have <span style={{ color: 'var(--accent-yellow)' }}>dynamics</span>.
+              </div>
+            )}
+            {b5Eq1 > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--accent-red)', opacity: b5Eq1 }}>
+                ∂T/∂t = α ∇²T
+                <div style={{ fontSize: 22, color: 'var(--canvas-dim)', marginTop: 8, fontStyle: 'normal' }}>
+                  diffusion (temperature)
+                </div>
+              </div>
+            )}
+            {b5Eq2 > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-green)', opacity: b5Eq2 }}>
+                ρ (∂v/∂t + v·∇v) = −∇p + μ∇²v
+                <div style={{ fontSize: 22, color: 'var(--canvas-dim)', marginTop: 8, fontStyle: 'normal' }}>
+                  Navier–Stokes (velocity)
+                </div>
+              </div>
+            )}
+            {b5Eq3 > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 700, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-blue)', opacity: b5Eq3 }}>
+                ∂<sub>μ</sub>F<sup>μν</sup> = J<sup>ν</sup>
+                <div style={{ fontSize: 22, color: 'var(--canvas-dim)', marginTop: 8, fontStyle: 'normal' }}>
+                  Maxwell (electromagnetism)
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 6: EM tensor field + Maxwell's equations ── */}
+            {b6Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b6Alpha }}>
+                <span style={{ color: 'var(--accent-blue)' }}>Electromagnetism</span> —
+                a <span style={{ color: 'var(--form-inline)' }}>tensor</span> at every point.
+              </div>
+            )}
+            {b6Tensor > 0 && (() => {
+              // 4x4 matrix representing F^{μν}
+              const entries = [
+                [' 0 ', '−Eₓ', '−Eᵧ', '−E_z'],
+                [' Eₓ', ' 0 ', '−B_z', ' Bᵧ'],
+                [' Eᵧ', ' B_z', ' 0 ', '−Bₓ'],
+                [' E_z', '−Bᵧ', ' Bₓ', ' 0 '],
+              ];
+              return (
+                <div style={{ position: 'absolute', left: 560, top: 300, opacity: b6Tensor,
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                      fontSize: 30, color: 'var(--canvas-text)' }}>
+                  <span style={{ fontSize: 36, color: 'var(--form-inline)' }}>F<sup>μν</sup> = </span>
+                  <span style={{ display: 'inline-block', verticalAlign: 'middle',
+                        borderLeft: '2px solid var(--canvas-text)',
+                        borderRight: '2px solid var(--canvas-text)',
+                        padding: '12px 18px', marginLeft: 18 }}>
+                    <table style={{ borderCollapse: 'collapse' }}>
+                      <tbody>
+                        {entries.map((row, i) => (
+                          <tr key={i}>
+                            {row.map((e, j) => (
+                              <td key={j} style={{ padding: '4px 18px', textAlign: 'center' }}>{e}</td>
+                            ))}
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </span>
+                  <div style={{ fontSize: 22, color: 'var(--canvas-dim)', fontStyle: 'normal',
+                        marginTop: 18, textAlign: 'center' }}>
+                    6 independent components at every spacetime point
+                  </div>
+                </div>
+              );
+            })()}
+            {b6Maxwell > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--form-inline)', opacity: b6Maxwell }}>
+                ∇·E = ρ/ε₀  ·  ∇·B = 0  ·  ∇×E = −∂B/∂t  ·  ∇×B = μ₀J + μ₀ε₀ ∂E/∂t
+              </div>
+            )}
+
+            {/* ── BEAT 7: Independence from matter ─────────────── */}
+            {meshOp > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: meshOp }}>
                 <FieldMesh3D baseY={620} layers={22} amp={120} color="var(--accent-blue)" perspective={0.6} peaks={[]} />
               </svg>
             )}
+            {b7Alpha > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 200, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 48,
+                      color: 'var(--canvas-text)', opacity: b7Alpha }}>
+                  The field <span style={{ color: 'var(--accent-blue)' }}>exists at every point</span>,
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 290, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 48,
+                      color: 'var(--canvas-text)',
+                      opacity: b7Alpha * clamp((t - 146) / 1.5, 0, 1) }}>
+                  whether or not matter is there.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--note-inline)',
+                      opacity: b7Alpha * clamp((t - 152) / 1.5, 0, 1) }}>
+                  The field is the fundamental thing.
+                </div>
+              </>
+            )}
 
-            {/* Labels */}
-            {t > 2 && t < 10 && (
-              <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44, color: 'white',
-                opacity: fadeIO(t - 2, 8, 0.6, 0.6) }}>
-                A <span style={{ color: 'var(--accent-blue)' }}>field</span> — a value at every point in space.
+            {/* ── BEAT 8: Quantum leap — classical vs quantum ──── */}
+            {b8Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 160, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--canvas-text)', opacity: b8Alpha }}>
+                The <span style={{ color: 'var(--accent-green)' }}>conceptual leap</span> —
               </div>
             )}
-            {t > 10 && t < 15.5 && (
-              <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44, color: 'white',
-                opacity: fadeIO(t - 10, 5.5, 0.6, 0.6) }}>
-                The values form a continuous surface.
+            {b8LHS > 0 && (
+              <div style={{ position: 'absolute', left: 260, top: 400, width: 580, textAlign: 'center',
+                    opacity: b8LHS }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 22, color: 'var(--canvas-dim)',
+                      letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
+                  Classical field
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 68,
+                      color: 'var(--accent-blue)' }}>
+                  φ(x) ∈ ℝ
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-text)', marginTop: 20 }}>
+                  a number at each point
+                </div>
               </div>
             )}
-            {t > 16.5 && (
-              <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44, color: 'white',
-                opacity: fadeIO(t - 16.5, duration - 16.5, 0.6, 0.6) }}>
+            {b8RHS > 0 && (
+              <div style={{ position: 'absolute', left: 1080, top: 400, width: 580, textAlign: 'center',
+                    opacity: b8RHS }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 22, color: 'var(--canvas-dim)',
+                      letterSpacing: '0.2em', textTransform: 'uppercase', marginBottom: 14 }}>
+                  Quantum field
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 68,
+                      color: 'var(--accent-green)' }}>
+                  φ̂(x) — operator
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-text)', marginTop: 20 }}>
+                  an operator at each point
+                </div>
+              </div>
+            )}
+            {b8LHS > 0 && b8RHS > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 530, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontSize: 72, color: 'var(--accent-yellow)',
+                    opacity: Math.min(b8LHS, b8RHS) }}>
+                ⟶
+              </div>
+            )}
+            {b8RHS > 0.6 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--note-inline)',
+                    opacity: clamp((t - 174) / 1.5, 0, 1) * (1 - b8Out) }}>
+                Operators fluctuate — even at lowest energy.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Field types → particle spins ──────── */}
+            {b9Alpha > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 120, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b9Alpha }}>
+                Field type determines <span style={{ color: 'var(--accent-yellow)' }}>particle spin</span>.
+              </div>
+            )}
+            {b9Alpha > 0 && (() => {
+              const rows = [
+                { k: 0, label: 'Scalar',  eq: 'φ(x)',        spin: 'spin 0',   color: 'var(--accent-blue)' },
+                { k: 1, label: 'Vector',  eq: 'Aᵘ(x)',       spin: 'spin 1',   color: 'var(--accent-yellow)' },
+                { k: 2, label: 'Tensor',  eq: 'gᵘᵛ(x)',      spin: 'spin 2',   color: 'var(--accent-green)' },
+                { k: 3, label: 'Spinor',  eq: 'ψₐ(x)',       spin: 'spin ½',   color: 'var(--accent-red)' },
+              ];
+              return rows.map((r) => {
+                const ap = clamp((t - b9Rows[r.k]) / 0.8, 0, 1) * (1 - b9Out);
+                return (
+                  <div key={r.k} style={{
+                    position: 'absolute', left: 240, right: 240, top: 240 + r.k * 130,
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    opacity: ap, fontFamily: 'var(--font-display)', fontSize: 34,
+                    padding: '18px 32px',
+                    borderBottom: '1px solid rgba(130,150,180,0.2)',
+                  }}>
+                    <span style={{ color: r.color, flex: '0 0 220px' }}>{r.label}</span>
+                    <span style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                          color: 'var(--form-inline)', flex: '0 0 200px', textAlign: 'center' }}>
+                      {r.eq}
+                    </span>
+                    <span style={{ color: 'var(--canvas-dim)', flex: '0 0 40px', textAlign: 'center' }}>→</span>
+                    <span style={{ color: r.color, flex: '0 0 200px', textAlign: 'right',
+                          fontStyle: 'italic' }}>{r.spin}</span>
+                  </div>
+                );
+              });
+            })()}
+
+            {/* ── BEAT 10: Final hold ─────────────────────────── */}
+            {b10In > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--canvas-text)', opacity: b10In }}>
                 <span style={{ color: 'var(--form-inline)' }}>φ(x, t)</span> — a rule at every point in spacetime.
+              </div>
+            )}
+            {finalHold && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 120, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: clamp((t - 196) / 1, 0, 1) }}>
+                Next — why the single-particle picture fails.
               </div>
             )}
           </div>
