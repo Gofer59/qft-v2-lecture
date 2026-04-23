@@ -1,62 +1,331 @@
 // qft-scenes-b.jsx — Scenes 5-10
 // Loaded after animations.jsx, qft-primitives.jsx, qft-scenes-a.jsx
 
-// Scene 05 — Fields as Operators
+// Scene 05 — Fields as Operators (expanded to 146s / 10 beats)
+// Beat 1  (0–12)    Title + "let's be precise"
+// Beat 2  (12–30)   Classical mechanics: x, p as variables in phase space
+// Beat 3  (30–50)   Quantum mechanics: x̂, p̂ as operators on Hilbert space
+// Beat 4  (50–68)   Field promotion: φ(x) number → φ̂(x) operator
+// Beat 5  (68–82)   Operator-valued distribution (smeared) caveat
+// Beat 6  (82–102)  Fock space — |0⟩, |1⟩, |2⟩, … ladder
+// Beat 7  (102–120) Field operator connects sectors (creation/annihilation)
+// Beat 8  (120–138) Full decomposition φ̂(x) = ∫ dk [a e^{-ikx} + a† e^{ikx}]
+// Beat 9  (138–144) Everything is encoded in operator structure
+// Beat 10 (144–146) Final hold
 function Scene05({ start, end }) {
   return (
     <Scene start={start} end={end} label="05">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const morphT = clamp((t - 2) / 4, 0, 1);
-        const fockT = clamp((t - 10) / 3, 0, 1);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 28) / 1.5, 0, 1));
+        const b2Phase = clamp((t - 16) / 2, 0, 1);
+        const b2Trajectory = clamp((t - 22) / 2, 0, 1);
+
+        const b3A = clamp((t - 30) / 1.5, 0, 1) * (1 - clamp((t - 48) / 1.5, 0, 1));
+        const b3Quant = clamp((t - 34) / 1.5, 0, 1);
+        const b3Hilbert = clamp((t - 40) / 1.5, 0, 1);
+
+        const b4A = clamp((t - 50) / 1.5, 0, 1) * (1 - clamp((t - 66) / 1.5, 0, 1));
+        const b4Line = clamp((t - 52) / 1.5, 0, 1);
+        const b4Morph = clamp((t - 58) / 3, 0, 1);
+
+        const b5A = clamp((t - 68) / 1.5, 0, 1) * (1 - clamp((t - 80) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 82) / 1.5, 0, 1) * (1 - clamp((t - 100) / 1.5, 0, 1));
+        const b6Rungs = [85, 88, 91, 94];
+
+        const b7A = clamp((t - 102) / 1.5, 0, 1) * (1 - clamp((t - 118) / 1.5, 0, 1));
+        const b7Create = clamp((t - 107) / 1.5, 0, 1);
+        const b7Annih = clamp((t - 113) / 1.5, 0, 1);
+
+        const b8A = clamp((t - 120) / 1.5, 0, 1) * (1 - clamp((t - 136) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 138) / 1.2, 0, 1) * (1 - clamp((t - 143.5) / 1, 0, 1));
+        const b10A = clamp((t - 143) / 1, 0, 1);
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={5} title={'Fields as Operators'} />
             <SceneRefs refs={["ps","weinberg"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* line of points */}
-              {Array.from({length: 9}).map((_, i) => {
-                const x = 260 + i * 140;
-                const y = 420;
-                return (
-                  <g key={i}>
-                    <circle cx={x} cy={y} r="6" fill="var(--accent-blue)" opacity="0.8" />
-                    {/* classical number morphing into operator symbol */}
-                    <text x={x} y={y - 30} textAnchor="middle" fill="white"
-                      fontFamily="var(--font-math)" fontSize="26" fontStyle="italic"
-                      opacity={1 - morphT}>
-                      {(Math.sin(i * 0.8 + t) * 0.8).toFixed(2)}
-                    </text>
-                    <text x={x} y={y - 30} textAnchor="middle" fill="var(--form-inline)"
-                      fontFamily="var(--font-math)" fontSize="32" fontStyle="italic"
-                      opacity={morphT}>
-                      φ̂
-                    </text>
-                  </g>
-                );
-              })}
-              <line x1="240" y1="420" x2="1480" y2="420" stroke="var(--canvas-dim)" strokeWidth="0.8" strokeDasharray="3 4" />
-              <text x="1500" y="426" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">x</text>
-            </svg>
-            {/* Fock space ladder */}
-            {fockT > 0 && (
-              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: fockT }}>
-                <g transform="translate(1280, 540)">
-                  {['|3⟩','|2⟩','|1⟩','|0⟩'].map((label, i) => (
-                    <g key={i}>
-                      <line x1="-80" y1={i * 70} x2="80" y2={i * 70} stroke="var(--accent-green)" strokeWidth="2" />
-                      <text x="110" y={i * 70 + 8} fill="var(--accent-green)" fontFamily="var(--font-math)" fontSize="24" fontStyle="italic">{label}</text>
-                    </g>
-                  ))}
-                  <text x="-50" y="-50" fill="var(--canvas-dim)" fontFamily="var(--font-ui)" fontSize="18">Fock space</text>
+            <FieldBackground accent="#5ba3f5" amplitude={0.18} speed={0.09} />
+
+            {/* ── BEAT 1: Title ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 68, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  Fields as <span style={{ color: 'var(--accent-green)' }}>Operators</span>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 490, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--canvas-dim)', opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  What the promotion actually means.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Classical phase space ─────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Classical mechanics — <span style={{ color: 'var(--accent-blue)' }}>phase space</span>.
+              </div>
+            )}
+            {b2Phase > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b2Phase * b2A }}>
+                <g transform="translate(760, 540)">
+                  {/* axes */}
+                  <line x1="0" y1="-180" x2="0" y2="180" stroke="var(--canvas-dim)" strokeWidth="1" />
+                  <line x1="-240" y1="0" x2="240" y2="0" stroke="var(--canvas-dim)" strokeWidth="1" />
+                  <text x="250" y="6" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="24">x</text>
+                  <text x="-22" y="-190" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="24">p</text>
+                  {/* elliptical trajectory */}
+                  {b2Trajectory > 0 && (() => {
+                    const pts = [];
+                    const nStep = 80;
+                    const stop = Math.floor(nStep * b2Trajectory);
+                    for (let i = 0; i <= stop; i++) {
+                      const a = (i / nStep) * 2 * Math.PI;
+                      pts.push(`${180 * Math.cos(a)},${110 * Math.sin(a)}`);
+                    }
+                    return <polyline points={pts.join(' ')} fill="none"
+                      stroke="var(--accent-blue)" strokeWidth="2" />;
+                  })()}
+                  {/* current point */}
+                  {b2Trajectory > 0.1 && (() => {
+                    const a = t * 0.8;
+                    return <circle cx={180 * Math.cos(a)} cy={110 * Math.sin(a)} r="6" fill="var(--accent-yellow)" />;
+                  })()}
                 </g>
               </svg>
             )}
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              {t < 8 ? 'A classical number at each point…' : 'becomes an operator at each point.'}
-            </div>
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 1150, top: 500, width: 560,
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-blue)', opacity: b2A }}>
+                x(t), p(t) — numbers
+                <div style={{ fontSize: 20, color: 'var(--canvas-dim)', fontStyle: 'normal', marginTop: 12 }}>
+                  position and momentum of a particle
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 3: Quantum operators on Hilbert space ─── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                Quantize — <span style={{ color: 'var(--accent-green)' }}>operators</span> on a Hilbert space.
+              </div>
+            )}
+            {b3Quant > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 48,
+                    color: 'var(--form-inline)', opacity: b3Quant * b3A }}>
+                x ⟶ x̂ &nbsp;·&nbsp; p ⟶ p̂
+              </div>
+            )}
+            {b3Hilbert > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-green)', opacity: b3Hilbert * b3A }}>
+                [x̂, p̂] = iℏ
+              </div>
+            )}
+            {b3Hilbert > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 600, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--canvas-dim)', opacity: b3Hilbert * b3A }}>
+                states |ψ⟩ ∈ ℋ — observables = expectation values
+              </div>
+            )}
+
+            {/* ── BEAT 4: Field promotion line diagram ──────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Now do the same for the field.
+              </div>
+            )}
+            {b4Line > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b4Line * b4A }}>
+                <line x1="240" y1="450" x2="1680" y2="450"
+                      stroke="var(--canvas-dim)" strokeWidth="0.8" strokeDasharray="3 4" />
+                <text x="1700" y="456" fill="var(--canvas-dim)" fontFamily="var(--font-math)"
+                      fontStyle="italic" fontSize="22">x</text>
+                {Array.from({ length: 10 }).map((_, i) => {
+                  const x = 260 + i * 160;
+                  const y = 450;
+                  return (
+                    <g key={i}>
+                      <circle cx={x} cy={y} r="6" fill="var(--accent-blue)" opacity="0.8" />
+                      <text x={x} y={y - 30} textAnchor="middle" fill="white"
+                            fontFamily="var(--font-math)" fontSize="26" fontStyle="italic"
+                            opacity={Math.max(0, 1 - b4Morph)}>
+                        {(Math.sin(i * 0.8 + t) * 0.8).toFixed(2)}
+                      </text>
+                      <text x={x} y={y - 30} textAnchor="middle" fill="var(--form-inline)"
+                            fontFamily="var(--font-math)" fontSize="32" fontStyle="italic"
+                            opacity={b4Morph}>
+                        φ̂
+                      </text>
+                    </g>
+                  );
+                })}
+              </svg>
+            )}
+            {b4Morph > 0.3 && b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--canvas-text)', opacity: b4Morph * b4A }}>
+                φ(x): <span style={{ color: 'var(--accent-blue)' }}>number</span>
+                &nbsp;⟶&nbsp;
+                φ̂(x): <span style={{ color: 'var(--accent-green)' }}>operator</span>
+              </div>
+            )}
+
+            {/* ── BEAT 5: Smeared operator-valued distribution ── */}
+            {b5A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--canvas-text)', opacity: b5A }}>
+                  Strictly: an <span style={{ color: 'var(--accent-yellow)' }}>operator-valued distribution</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--form-inline)', opacity: b5A * clamp((t - 72) / 1.5, 0, 1) }}>
+                  φ̂(f) = ∫ d⁴x &nbsp; f(x) &nbsp; φ̂(x)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b5A * clamp((t - 76) / 1.5, 0, 1) }}>
+                  Smeared over a region — but think point-wise for intuition.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 6: Fock space ladder ─────────────────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                States live in <span style={{ color: 'var(--accent-green)' }}>Fock space</span>.
+              </div>
+            )}
+            {b6A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b6A }}>
+                <g transform="translate(960, 720)">
+                  {['|0⟩','|1⟩','|2⟩','|3⟩'].map((label, i) => {
+                    const ap = clamp((t - b6Rungs[i]) / 1.2, 0, 1);
+                    return (
+                      <g key={i} opacity={ap}>
+                        <line x1="-160" y1={-i * 80} x2="160" y2={-i * 80}
+                              stroke="var(--accent-green)" strokeWidth="2.5" />
+                        <text x="200" y={-i * 80 + 8} fill="var(--accent-green)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="34">{label}</text>
+                        <text x="-220" y={-i * 80 + 6} fill="var(--canvas-dim)"
+                              fontFamily="var(--font-ui)" fontSize="16" textAnchor="end">
+                          {i === 0 ? 'vacuum' : i === 1 ? '1 particle' : `${i} particles`}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </g>
+              </svg>
+            )}
+
+            {/* ── BEAT 7: Field connects sectors ─────────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                φ̂(x) connects sectors — changes particle number by ±1.
+              </div>
+            )}
+            {b7Create > 0 && (
+              <div style={{ position: 'absolute', left: 360, top: 440, width: 480,
+                    textAlign: 'center', opacity: b7Create * b7A }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 20,
+                      letterSpacing: '0.2em', color: 'var(--canvas-dim)' }}>CREATION</div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                      color: 'var(--accent-green)', marginTop: 18 }}>
+                  a<sup>†</sup><sub>k</sub> | n ⟩ = | n+1 ⟩
+                </div>
+              </div>
+            )}
+            {b7Annih > 0 && (
+              <div style={{ position: 'absolute', left: 1080, top: 440, width: 480,
+                    textAlign: 'center', opacity: b7Annih * b7A }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 20,
+                      letterSpacing: '0.2em', color: 'var(--canvas-dim)' }}>ANNIHILATION</div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                      color: 'var(--accent-red)', marginTop: 18 }}>
+                  a<sub>k</sub> | n ⟩ = | n−1 ⟩
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 8: Full decomposition ─────────────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                The full field — a sum over all modes.
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    opacity: b8A }}>
+                <div style={{ background: '#825000', display: 'inline-block', color: 'white',
+                      padding: '10px 32px', fontSize: 22, fontFamily: 'var(--font-display)',
+                      fontWeight: 700 }}>
+                  Mode expansion
+                </div>
+                <div style={{ background: '#2d1a00', display: 'inline-block', padding: '28px 44px',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', marginLeft: -4 }}>
+                  φ̂(x) = ∫
+                  <span style={{ fontSize: 22 }}> d³k/(2π)³ </span>
+                  [ <span style={{ color: 'var(--accent-red)' }}>a<sub>k</sub></span> e<sup>−ik·x</sup>
+                  + <span style={{ color: 'var(--accent-green)' }}>a<sup>†</sup><sub>k</sub></span> e<sup>+ik·x</sup> ]
+                </div>
+              </div>
+            )}
+            {b8A > 0 && t > 128 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--note-inline)', opacity: clamp((t - 128) / 1.5, 0, 1) * b8A }}>
+                Creation &amp; annihilation at every momentum — at every point.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Everything is encoded ────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b9A }}>
+                Dynamics · content · interactions · statistics —
+                <div style={{ color: 'var(--accent-green)', marginTop: 16 }}>
+                  all encoded in the operator structure.
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ────────────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--form-inline)', opacity: b10A }}>
+                φ̂(x)
+              </div>
+            )}
           </div>
         );
       }}

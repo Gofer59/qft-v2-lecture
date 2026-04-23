@@ -8,7 +8,7 @@
     "02": {"title": "What a Field Actually Is", "dur_target": 201, "status": "done"},
     "03": {"title": "Why Relativistic QM Fails", "dur_target": 168, "status": "done"},
     "04": {"title": "Fields Are Primary", "dur_target": 151, "status": "done"},
-    "05": {"title": "Fields as Operators", "dur_target": 146, "status": "pending"},
+    "05": {"title": "Fields as Operators", "dur_target": 146, "status": "done"},
     "06": {"title": "Quantizing the Free Scalar Field", "dur_target": 150, "status": "pending"},
     "07": {"title": "Creation and Annihilation Operators", "dur_target": 145, "status": "pending"},
     "08": {"title": "The Vacuum Is Not Nothing", "dur_target": 144, "status": "pending"},
