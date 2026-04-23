@@ -17,7 +17,7 @@
     "11": {"title": "Interactions: The Field Is Not Free", "dur_target": 125, "status": "done"},
     "12": {"title": "Feynman Diagrams: Cartoons That Compute", "dur_target": 146, "status": "done"},
     "13": {"title": "Vertices and Propagators in Detail", "dur_target": 135, "status": "done"},
-    "14": {"title": "Loops and the Need for Renormalization", "dur_target": 137, "status": "pending"},
+    "14": {"title": "Loops and the Need for Renormalization", "dur_target": 137, "status": "done"},
     "15": {"title": "Forces from Field Exchange", "dur_target": 132, "status": "pending"},
     "16": {"title": "Spin, Statistics, and Fermion Fields", "dur_target": 133, "status": "pending"},
     "17": {"title": "The Standard Model in One Breath", "dur_target": 134, "status": "pending"},

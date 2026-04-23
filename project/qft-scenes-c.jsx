@@ -840,90 +840,278 @@ function Scene13({ start, end }) {
 }
 
 // Scene 14 — Loops & renormalization (SIGNATURE)
+// Scene 14 — Loops and Renormalization (SIGNATURE, expanded to 137s / 10 beats)
+// Beat 1  (0–12)    Title + higher orders needed for precision
+// Beat 2  (12–32)   Loop diagram — closed path on internal lines
+// Beat 3  (32–50)   Free loop momentum k — integrate 0→∞
+// Beat 4  (50–68)   UV divergence ∫d⁴k → ∞
+// Beat 5  (68–82)   Not a sign theory is wrong — bare ≠ physical
+// Beat 6  (82–100)  Introduce UV cutoff Λ, compute, identify divergences
+// Beat 7  (100–118) Renormalize: redefine m, e, φ absorbing ∞
+// Beat 8  (118–128) Physical quantities finite and unambiguous
+// Beat 9  (128–134) SM is renormalizable; gravity is not (hard problem)
+// Beat 10 (134–137) Final hold
 function Scene14({ start, end }) {
   return (
     <Scene start={start} end={end} label="14">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // 0-6: build one-loop diagram
-        // 6-14: k flowing around loop, integral diverges
-        // 14-22: counterterm cancels, finite result
-        const buildT = clamp((t - 1) / 4, 0, 1);
-        const divergeT = clamp((t - 8) / 4, 0, 1);
-        const renormT = clamp((t - 16) / 4, 0, 1);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 30) / 1.5, 0, 1));
+        const b2Build = clamp((t - 16) / 4, 0, 1);
+
+        const b3A = clamp((t - 32) / 1.5, 0, 1) * (1 - clamp((t - 48) / 1.5, 0, 1));
+        const b3Int = clamp((t - 38) / 1.5, 0, 1);
+
+        const b4A = clamp((t - 50) / 1.5, 0, 1) * (1 - clamp((t - 66) / 1.5, 0, 1));
+        const b4Diverge = clamp((t - 56) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 68) / 1.5, 0, 1) * (1 - clamp((t - 80) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 82) / 1.5, 0, 1) * (1 - clamp((t - 98) / 1.5, 0, 1));
+        const b6Cutoff = clamp((t - 88) / 1.5, 0, 1);
+
+        const b7A = clamp((t - 100) / 1.5, 0, 1) * (1 - clamp((t - 116) / 1.5, 0, 1));
+        const b7Redef = clamp((t - 106) / 2, 0, 1);
+
+        const b8A = clamp((t - 118) / 1.5, 0, 1) * (1 - clamp((t - 126) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 128) / 1.5, 0, 1) * (1 - clamp((t - 133) / 1.2, 0, 1));
+
+        const b10A = clamp((t - 134) / 1, 0, 1);
+
         const cx = 720, cy = 560;
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={14} title={'Loops & Renormalization'} />
             <SceneRefs refs={["ps","schwartz"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Diagram */}
-              <g>
-                <line x1={cx - 300} y1={cy} x2={cx - 100} y2={cy} stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" opacity={buildT} />
-                <line x1={cx + 100} y1={cy} x2={cx + 300} y2={cy} stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" opacity={buildT} />
-                {/* loop circle */}
-                <circle cx={cx} cy={cy} r={100} fill="none" stroke="var(--accent-blue)" strokeWidth="3"
-                  strokeDasharray={`${buildT * 628} 628`} transform={`rotate(-90 ${cx} ${cy})`} />
-                <circle cx={cx - 100} cy={cy} r="7" fill="var(--accent-yellow)" opacity={buildT} />
-                <circle cx={cx + 100} cy={cy} r="7" fill="var(--accent-yellow)" opacity={buildT} />
+            <FieldBackground accent="#5ba3f5" amplitude={0.15} speed={0.08} />
 
-                {/* circulating momentum k */}
-                {t > 6 && (() => {
-                  const a = -Math.PI / 2 + (t - 6) * 2;
-                  const x = cx + Math.cos(a) * 100;
-                  const y = cy + Math.sin(a) * 100;
-                  return <circle cx={x} cy={y} r="8" fill="var(--accent-red)" />;
-                })()}
-                {t > 7 && (
-                  <text x={cx} y={cy - 120} textAnchor="middle" fill="var(--accent-red)"
-                    fontFamily="var(--font-math)" fontStyle="italic" fontSize="24">k (any value)</text>
-                )}
-              </g>
+            {/* ── BEAT 1: Title ───────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 58, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-red)' }}>Loops</span>
+                  &nbsp;and&nbsp;
+                  <span style={{ color: 'var(--accent-green)' }}>renormalization</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Higher-order diagrams — higher precision — new problems.
+                </div>
+              </>
+            )}
 
-              {/* integral expression on right */}
-              {t > 9 && (() => {
-                const op = clamp((t - 9) / 1, 0, 1);
-                const divergingOp = divergeT;
-                return (
-                  <g transform="translate(1260, 500)" opacity={op}>
-                    <text x="0" y="0" fill="white" fontFamily="var(--font-math)" fontStyle="italic" fontSize="36">
-                      ∫ d⁴k / (k² − m²)²
-                    </text>
-                    {divergingOp > 0.3 && (
-                      <>
-                        <text x="0" y="60" fill="var(--accent-red)" fontFamily="var(--font-math)" fontSize="36" opacity={divergingOp}>
-                          → <tspan fontStyle="italic">∞</tspan>
-                        </text>
-                        <text x="0" y="110" fill="var(--accent-red)" fontFamily="var(--font-ui)" fontSize="18" opacity={divergingOp}>
-                          ultraviolet divergence
-                        </text>
-                      </>
-                    )}
-                  </g>
-                );
-              })()}
-
-              {/* Renormalization: counterterm */}
-              {t > 15 && (
-                <g transform="translate(1260, 700)" opacity={renormT}>
-                  <text x="0" y="0" fill="var(--accent-green)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="32">
-                    + δm² counterterm
-                  </text>
-                  <text x="0" y="60" fill="var(--accent-green)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="32">
-                    ⟹ finite
-                  </text>
+            {/* ── BEAT 2: Loop diagram build ──────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                A <span style={{ color: 'var(--accent-blue)' }}>loop</span> — a closed path on internal lines.
+              </div>
+            )}
+            {b2Build > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b2Build * b2A }}>
+                <g>
+                  <line x1={cx - 300} y1={cy} x2={cx - 100} y2={cy}
+                        stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" />
+                  <line x1={cx + 100} y1={cy} x2={cx + 300} y2={cy}
+                        stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" />
+                  <circle cx={cx} cy={cy} r={100} fill="none"
+                          stroke="var(--accent-blue)" strokeWidth="3"
+                          strokeDasharray={`${b2Build * 628} 628`}
+                          transform={`rotate(-90 ${cx} ${cy})`} />
+                  <circle cx={cx - 100} cy={cy} r="7" fill="var(--accent-yellow)" />
+                  <circle cx={cx + 100} cy={cy} r="7" fill="var(--accent-yellow)" />
                 </g>
-              )}
-            </svg>
+              </svg>
+            )}
 
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              {t < 8 ? 'A loop introduces a free momentum to integrate over.' :
-               t < 15 ? 'The integral diverges at high k.' :
-               'Absorb the infinity into a redefined parameter.'}
-            </div>
+            {/* ── BEAT 3: Loop momentum k, integrate ──── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                The loop carries <span style={{ color: 'var(--accent-red)' }}>any momentum k</span> — integrate.
+              </div>
+            )}
+            {b3A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b3A }}>
+                <g>
+                  <line x1={cx - 300} y1={cy} x2={cx - 100} y2={cy}
+                        stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" />
+                  <line x1={cx + 100} y1={cy} x2={cx + 300} y2={cy}
+                        stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" />
+                  <circle cx={cx} cy={cy} r={100} fill="none" stroke="var(--accent-blue)" strokeWidth="3" />
+                  <circle cx={cx - 100} cy={cy} r="7" fill="var(--accent-yellow)" />
+                  <circle cx={cx + 100} cy={cy} r="7" fill="var(--accent-yellow)" />
+                  {/* Circulating red dot */}
+                  {(() => {
+                    const a = -Math.PI / 2 + (t - 32) * 2;
+                    return <circle cx={cx + Math.cos(a) * 100} cy={cy + Math.sin(a) * 100}
+                      r="8" fill="var(--accent-red)" />;
+                  })()}
+                  <text x={cx} y={cy - 120} textAnchor="middle" fill="var(--accent-red)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">k</text>
+                </g>
+              </svg>
+            )}
+            {b3Int > 0 && (
+              <div style={{ position: 'absolute', left: 1260, top: 420,
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--canvas-text)', opacity: b3Int * b3A }}>
+                ∫ d⁴k / (k² − m²)²
+              </div>
+            )}
+
+            {/* ── BEAT 4: UV divergence ─────────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                As k → ∞, the integrand doesn't fall fast enough.
+              </div>
+            )}
+            {b4Diverge > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--canvas-text)', opacity: b4Diverge * b4A }}>
+                  ∫<sup>∞</sup> d⁴k / (k² − m²)²
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 490, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontSize: 80,
+                      color: 'var(--accent-red)', opacity: b4Diverge * b4A,
+                      textShadow: '0 0 24px rgba(255,107,107,0.5)' }}>
+                  → ∞
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--accent-red)', opacity: b4Diverge * b4A }}>
+                  Ultraviolet divergence — short-distance infinity.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 5: Not a sign theory is wrong ──── */}
+            {b5A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', opacity: b5A }}>
+                  The theory is not wrong —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 450, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--accent-yellow)', opacity: b5A }}>
+                  the Lagrangian parameters (<span style={{ fontFamily: 'var(--font-math)' }}>m, e</span>)
+                  are <em>bare</em>, not physical.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b5A }}>
+                  They're formal starting labels — what you measure is different.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 6: Introduce UV cutoff Λ ─────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                Introduce a UV cutoff <span style={{ color: 'var(--accent-yellow)' }}>Λ</span>.
+              </div>
+            )}
+            {b6Cutoff > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--form-inline)', opacity: b6Cutoff * b6A }}>
+                ∫<sub>|k| &lt; Λ</sub> d⁴k / (k² − m²)² &nbsp;~ log Λ
+              </div>
+            )}
+            {b6Cutoff > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b6Cutoff * b6A }}>
+                Finite for each Λ — but divergent as Λ → ∞.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Renormalize ───────────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                <span style={{ color: 'var(--accent-green)' }}>Absorb</span> the divergence into a redefinition.
+              </div>
+            )}
+            {b7Redef > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    opacity: b7Redef * b7A }}>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--accent-yellow)' }}>
+                  m<sub>bare</sub> = m<sub>phys</sub> + δm(Λ)
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--accent-yellow)', marginTop: 22 }}>
+                  e<sub>bare</sub> = e<sub>phys</sub> + δe(Λ)
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--accent-yellow)', marginTop: 22 }}>
+                  φ = Z<sub>φ</sub><sup>½</sup> φ<sub>ren</sub>
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 8: Physical finite ──────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--accent-green)', opacity: b8A,
+                    textShadow: '0 0 24px rgba(61,240,192,0.4)' }}>
+                Physical values are finite, unambiguous, measured.
+              </div>
+            )}
+
+            {/* ── BEAT 9: SM renorm, gravity not ────── */}
+            {b9A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 160, top: 420, width: 640, textAlign: 'center',
+                      padding: '26px 32px', border: '2px solid var(--accent-green)', borderRadius: 4,
+                      opacity: b9A, background: 'rgba(13,17,23,0.4)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                        fontSize: 34, color: 'var(--accent-green)' }}>Standard Model</div>
+                  <div style={{ fontSize: 26, color: 'var(--canvas-dim)', marginTop: 14,
+                        fontFamily: 'var(--font-display)' }}>renormalizable ✓</div>
+                </div>
+                <div style={{ position: 'absolute', left: 1120, top: 420, width: 640, textAlign: 'center',
+                      padding: '26px 32px', border: '2px solid var(--accent-red)', borderRadius: 4,
+                      opacity: b9A, background: 'rgba(13,17,23,0.4)' }}>
+                  <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                        fontSize: 34, color: 'var(--accent-red)' }}>Quantum Gravity</div>
+                  <div style={{ fontSize: 26, color: 'var(--canvas-dim)', marginTop: 14,
+                        fontFamily: 'var(--font-display)' }}>non-renormalizable ✕</div>
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 10: Final hold ─────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-green)', opacity: b10A }}>
+                Infinities absorbed &nbsp;⟹&nbsp; <span style={{ color: 'var(--accent-yellow)' }}>finite predictions</span>.
+              </div>
+            )}
           </div>
         );
       }}

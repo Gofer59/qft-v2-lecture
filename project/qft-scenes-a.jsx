@@ -17,7 +17,7 @@ const SCENES = [
   { n: 11, title: 'Interactions: The Field Is Not Free',                dur: 125 }, // expanded for full narration 123.7s
   { n: 12, title: 'Feynman Diagrams: Cartoons That Compute',            dur: 146 }, // expanded for full narration 144.3s
   { n: 13, title: 'Vertices and Propagators in Detail',                 dur: 135 }, // expanded for full narration 134.0s
-  { n: 14, title: 'Loops and the Need for Renormalization',             dur: 35 }, // was 28, audio 34.5
+  { n: 14, title: 'Loops and the Need for Renormalization',             dur: 137 }, // expanded for full narration 135.4s
   { n: 15, title: 'Forces from Field Exchange',                         dur: 24 }, // was 22, audio 23.4
   { n: 16, title: 'Spin, Statistics, and Fermion Fields',               dur: 25 }, // was 20, audio 23.7
   { n: 17, title: 'The Standard Model in One Breath',                   dur: 33 }, // was 28, audio 31.6
