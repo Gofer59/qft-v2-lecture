@@ -1130,94 +1130,345 @@ function Scene07({ start, end }) {
 }
 
 // Scene 08 — Vacuum (humor beat + Casimir)
+// Scene 08 — The Vacuum Is Not Nothing (expanded to 144s / 10 beats)
+// Beat 1  (0–12)    Title + "most surprising object"
+// Beat 2  (12–26)   Naive expectation: empty. Actual: none of those things.
+// Beat 3  (26–40)   Humor: "vacuum works harder than a grad student"
+// Beat 4  (40–58)   Field is operator → ⟨0|φ̂|0⟩ = 0 but ⟨0|φ̂²|0⟩ ≠ 0
+// Beat 5  (58–78)   Zero-point energy per mode: ½ℏω, sums to infinity
+// Beat 6  (78–95)   Convention: subtract constant, but fluctuations remain
+// Beat 7  (95–115)  Casimir effect — two plates, fewer modes inside
+// Beat 8  (115–128) Force measured, matches QFT
+// Beat 9  (128–140) Virtual particles as intuition for fluctuations
+// Beat 10 (140–144) Final hold — "dynamic, structured, not emptiness"
 function Scene08({ start, end }) {
   return (
     <Scene start={start} end={end} label="08">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const showHumor = t < 5;
-        const showCasimir = t > 11;
-        const plateT = clamp((t - 12) / 5, 0, 1);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 24) / 1.5, 0, 1));
+        const b2Naive = clamp((t - 16) / 1.2, 0, 1);
+        const b2None = clamp((t - 20) / 1.2, 0, 1);
+
+        const b3A = clamp((t - 26) / 1.5, 0, 1) * (1 - clamp((t - 38) / 1.5, 0, 1));
+
+        const b4A = clamp((t - 40) / 1.5, 0, 1) * (1 - clamp((t - 56) / 1.5, 0, 1));
+        const b4L = clamp((t - 44) / 1.5, 0, 1);
+        const b4R = clamp((t - 50) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 58) / 1.5, 0, 1) * (1 - clamp((t - 76) / 1.5, 0, 1));
+        const b5Sum = clamp((t - 62) / 1.5, 0, 1);
+        const b5Inf = clamp((t - 68) / 1.5, 0, 1);
+
+        const b6A = clamp((t - 78) / 1.5, 0, 1) * (1 - clamp((t - 93) / 1.5, 0, 1));
+
+        const b7A = clamp((t - 95) / 1.5, 0, 1) * (1 - clamp((t - 113) / 1.5, 0, 1));
+        const b7Plates = clamp((t - 98) / 3, 0, 1);
+        const b7Modes = clamp((t - 104) / 2, 0, 1);
+
+        const b8A = clamp((t - 115) / 1.5, 0, 1) * (1 - clamp((t - 126) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 128) / 1.5, 0, 1) * (1 - clamp((t - 139) / 1, 0, 1));
+        const b9Pair = clamp((t - 132) / 2, 0, 1);
+
+        const b10A = clamp((t - 139) / 1, 0, 1);
+
+        // Persistent fluctuation background (active most of the scene)
+        const flucA = 0.3 + 0.7 * (b4A * 0.8 + b5A + b6A + b7A * 0.4 + b9A + b10A);
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={8} title={'The Vacuum'} />
             <SceneRefs refs={["casimir","zee"]} />
 
-            {/* background fluctuations */}
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {Array.from({length: 60}).map((_, i) => {
+            {/* ── Persistent fluctuation backdrop ────────── */}
+            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0,
+                  opacity: Math.min(1, flucA) }}>
+              {Array.from({ length: 60 }).map((_, i) => {
                 const x = (i * 71) % 1920;
                 const y = 260 + ((i * 131) % 600);
                 const r = 3 + Math.abs(Math.sin(t * 2 + i)) * 6;
-                const op = 0.15 + 0.4 * Math.abs(Math.sin(t * 1.3 + i * 0.7));
+                const op = 0.12 + 0.32 * Math.abs(Math.sin(t * 1.3 + i * 0.7));
                 return <circle key={i} cx={x} cy={y} r={r} fill="var(--accent-blue)" opacity={op} />;
               })}
-              <FieldSurface y={500} amp={24} color="var(--accent-blue)" stroke={1.2} />
-              <FieldSurface y={580} amp={18} color="var(--accent-blue)" stroke={1.2} phase={1.3} />
+              <FieldSurface y={500} amp={22} color="var(--accent-blue)" stroke={1.2} />
+              <FieldSurface y={580} amp={16} color="var(--accent-blue)" stroke={1.2} phase={1.3} />
             </svg>
 
-            {showHumor && (
-              <div style={{ position: 'absolute', top: 220, left: 160, right: 160,
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white',
-                textAlign: 'center', opacity: fadeIO(t, 5, 0.5, 0.6) }}>
+            {/* ── BEAT 1: Title ─────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  The <span style={{ color: 'var(--accent-green)' }}>vacuum</span>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--canvas-dim)', opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  — the most surprising object in QFT.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Naive expectation ────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Naively — no fields, no particles, no energy. Nothing.
+              </div>
+            )}
+            {b2Naive > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontSize: 48,
+                    color: 'var(--canvas-dim)', opacity: b2Naive * b2A,
+                    textDecoration: 'line-through' }}>
+                empty · featureless · still
+              </div>
+            )}
+            {b2None > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--accent-red)', opacity: b2None * b2A,
+                    textShadow: '0 0 20px rgba(255,107,107,0.3)' }}>
+                It is none of those things.
+              </div>
+            )}
+
+            {/* ── BEAT 3: Humor ─────────────────────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', top: 340, left: 160, right: 160,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', textAlign: 'center', opacity: b3A, lineHeight: 1.4 }}>
                 "The vacuum is doing more work than your average grad student.
-                <div style={{ color: 'var(--canvas-dim)', fontSize: 26, marginTop: 18, fontStyle: 'normal' }}>
+                <div style={{ color: 'var(--canvas-dim)', fontSize: 24, marginTop: 26,
+                      fontStyle: 'normal' }}>
                   It fluctuates, exerts forces, contributes infinite energy — and doesn't even get co-authorship."
                 </div>
               </div>
             )}
 
-            {t > 5 && t < 11 && (
-              <div style={{ position: 'absolute', top: 160, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white',
-                opacity: fadeIO(t - 5, 6, 0.5, 0.5) }}>
-                ⟨0|φ̂|0⟩ = 0, but <span style={{ color: 'var(--form-inline)' }}>⟨0|φ̂²|0⟩ ≠ 0</span>.
+            {/* ── BEAT 4: Operator nature ⟨φ̂⟩=0 vs ⟨φ̂²⟩≠0 ── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                The field is an operator — the vacuum still fluctuates.
+              </div>
+            )}
+            {b4L > 0 && (
+              <div style={{ position: 'absolute', left: 160, top: 420, width: 720, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--canvas-text)', opacity: b4L * b4A }}>
+                ⟨0| φ̂ |0⟩ = 0
+                <div style={{ fontSize: 24, color: 'var(--canvas-dim)', marginTop: 14, fontStyle: 'normal' }}>
+                  mean value is zero
+                </div>
+              </div>
+            )}
+            {b4R > 0 && (
+              <div style={{ position: 'absolute', left: 1040, top: 420, width: 720, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--form-inline)', opacity: b4R * b4A,
+                    textShadow: '0 0 16px rgba(255,209,102,0.3)' }}>
+                ⟨0| φ̂² |0⟩ ≠ 0
+                <div style={{ fontSize: 24, color: 'var(--canvas-dim)', marginTop: 14, fontStyle: 'normal' }}>
+                  variance is non-zero
+                </div>
               </div>
             )}
 
-            {/* Casimir plates */}
-            {showCasimir && (
-              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: plateT }}>
-                <g transform="translate(960, 540)">
-                  {/* plates */}
-                  <rect x={-250 + plateT * 60} y="-180" width="12" height="360" fill="var(--canvas-text)" />
-                  <rect x={250 - plateT * 60 - 12} y="-180" width="12" height="360" fill="var(--canvas-text)" />
-                  {/* fewer waves between */}
-                  {Array.from({length: 3}).map((_, i) => {
+            {/* ── BEAT 5: Zero-point sum → infinity ────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Every mode contributes <span style={{ color: 'var(--accent-yellow)' }}>½ ℏω</span>.
+              </div>
+            )}
+            {b5Sum > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 50,
+                    color: 'var(--accent-yellow)', opacity: b5Sum * b5A }}>
+                E<sub>vac</sub> = ∫
+                <span style={{ fontSize: 28 }}> d³k/(2π)³ </span>
+                ½ ℏ ω<sub>k</sub>
+              </div>
+            )}
+            {b5Inf > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontSize: 100,
+                    color: 'var(--accent-red)', opacity: b5Inf * b5A,
+                    textShadow: '0 0 30px rgba(255,107,107,0.5)' }}>
+                = ∞
+              </div>
+            )}
+            {b5Inf > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--note-inline)', opacity: b5Inf * b5A }}>
+                QFT's first genuine infinity — and not removable by sleight of hand.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Convention subtracts, fluctuations remain ── */}
+            {b6A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', opacity: b6A }}>
+                  Redefine <span style={{ color: 'var(--form-inline)' }}>E<sub>vac</sub> = 0</span> by convention.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--accent-red)',
+                      opacity: b6A * clamp((t - 82) / 1.5, 0, 1) }}>
+                  But the fluctuations <em>remain</em>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)',
+                      opacity: b6A * clamp((t - 86) / 1.5, 0, 1) }}>
+                  They are physically real. And measurable.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 7: Casimir plates ───────────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                <span style={{ color: 'var(--accent-yellow)' }}>Casimir effect</span> —
+                two conducting plates in vacuum.
+              </div>
+            )}
+            {b7Plates > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b7Plates * b7A }}>
+                <g transform="translate(960, 580)">
+                  <rect x={-250 + b7Plates * 60} y="-180" width="12" height="360" fill="var(--canvas-text)" />
+                  <rect x={250 - b7Plates * 60 - 12} y="-180" width="12" height="360" fill="var(--canvas-text)" />
+                  {b7Modes > 0 && Array.from({ length: 3 }).map((_, i) => {
                     let d = '';
                     for (let k = 0; k <= 60; k++) {
-                      const x = -180 + plateT * 60 + (k / 60) * (360 - plateT * 120);
+                      const x = -180 + b7Plates * 60 + (k / 60) * (360 - b7Plates * 120);
                       const y = -100 + i * 80 + Math.sin(k * 0.5 - t * 3) * 10;
                       d += (k === 0 ? 'M' : 'L') + x + ',' + y + ' ';
                     }
-                    return <path key={i} d={d} fill="none" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.8" />;
+                    return <path key={i} d={d} fill="none" stroke="var(--accent-blue)"
+                      strokeWidth="1.5" opacity={0.75 * b7Modes} />;
                   })}
-                  {/* outside waves — more dense */}
-                  {Array.from({length: 8}).map((_, i) => {
+                  {b7Modes > 0 && Array.from({ length: 8 }).map((_, i) => {
                     const side = i % 2 === 0 ? -1 : 1;
                     let d = '';
-                    const x0 = side * (280 - plateT * 60);
+                    const x0 = side * (280 - b7Plates * 60);
                     for (let k = 0; k <= 40; k++) {
                       const x = x0 + side * k * 10;
-                      const y = -160 + (Math.floor(i/2)) * 80 + Math.sin(k * 0.8 - t * 4 + i) * 8;
+                      const y = -160 + Math.floor(i / 2) * 80 + Math.sin(k * 0.8 - t * 4 + i) * 8;
                       d += (k === 0 ? 'M' : 'L') + x + ',' + y + ' ';
                     }
-                    return <path key={i} d={d} fill="none" stroke="var(--accent-blue)" strokeWidth="1" opacity="0.5" />;
+                    return <path key={'o'+i} d={d} fill="none" stroke="var(--accent-blue)"
+                      strokeWidth="1" opacity={0.45 * b7Modes} />;
                   })}
-                  {/* pressure arrows */}
-                  <line x1="-200" y1="200" x2="-160" y2="200" stroke="var(--accent-yellow)" strokeWidth="3" markerEnd="url(#arrR)" />
-                  <line x1="200" y1="200" x2="160" y2="200" stroke="var(--accent-yellow)" strokeWidth="3" markerEnd="url(#arrL)" />
-                  <text x="0" y="220" textAnchor="middle" fill="var(--accent-yellow)" fontFamily="var(--font-ui)" fontSize="20">Casimir force</text>
+                  <line x1="-200" y1="210" x2="-140" y2="210"
+                        stroke="var(--accent-yellow)" strokeWidth="3" markerEnd="url(#arr08R)" />
+                  <line x1="200" y1="210" x2="140" y2="210"
+                        stroke="var(--accent-yellow)" strokeWidth="3" markerEnd="url(#arr08L)" />
+                  <text x="0" y="230" textAnchor="middle" fill="var(--accent-yellow)"
+                        fontFamily="var(--font-ui)" fontSize="20">attractive force</text>
                 </g>
                 <defs>
-                  <marker id="arrR" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-yellow)" /></marker>
-                  <marker id="arrL" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-yellow)" /></marker>
+                  <marker id="arr08R" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-yellow)" />
+                  </marker>
+                  <marker id="arr08L" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-yellow)" />
+                  </marker>
                 </defs>
               </svg>
+            )}
+            {b7A > 0 && t > 107 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--canvas-dim)', opacity: clamp((t - 107) / 1.5, 0, 1) * b7A }}>
+                Fewer modes between → mismatch in vacuum energy → net attraction.
+              </div>
+            )}
+
+            {/* ── BEAT 8: Force measured, matches QFT ──── */}
+            {b8A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                      color: 'var(--accent-green)', opacity: b8A,
+                      textShadow: '0 0 24px rgba(61,240,192,0.4)' }}>
+                  Measured. ✓
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', opacity: b8A }}>
+                  F/A = −ℏcπ² / 240 d⁴
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                      color: 'var(--canvas-dim)', opacity: b8A }}>
+                  QFT prediction matches experiment to &lt; 1 %.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 9: Virtual particles ─────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b9A }}>
+                Intuition: <span style={{ color: 'var(--note-inline)' }}>virtual particles</span> —
+                pairs appearing and vanishing.
+              </div>
+            )}
+            {b9Pair > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b9Pair * b9A }}>
+                {Array.from({ length: 6 }).map((_, i) => {
+                  const phase = (t * 0.8 + i * 1.3) % 2;
+                  const alive = phase < 1;
+                  if (!alive) return null;
+                  const x = 260 + (i * 257) % 1400;
+                  const y = 420 + (i * 173) % 240;
+                  const op = Math.sin(phase * Math.PI) * 0.8;
+                  return (
+                    <g key={i} opacity={op}>
+                      <circle cx={x - 12} cy={y} r="5" fill="var(--accent-blue)" />
+                      <circle cx={x + 12} cy={y} r="5" fill="var(--accent-red)" />
+                      <line x1={x - 12} y1={y} x2={x + 12} y2={y}
+                            stroke="var(--canvas-dim)" strokeWidth="1" strokeDasharray="2 2" />
+                    </g>
+                  );
+                })}
+              </svg>
+            )}
+            {b9Pair > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--canvas-dim)', opacity: b9Pair * b9A }}>
+                Strictly: operator fluctuations of the field — but the picture is right.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ──────────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-blue)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(91,163,245,0.4)' }}>
+                A dynamic, structured object — not featureless emptiness.
+              </div>
             )}
           </div>
         );
