@@ -1,144 +1,329 @@
 // qft-scenes-d.jsx — Scenes 17-20
 
-// Scene 17 — Standard Model (SIGNATURE, humor beat)
+// Scene 17 — Standard Model (SIGNATURE, expanded to 134s / 10 beats)
+// Beat 1  (0–12)    Title + "everything built comes together"
+// Beat 2  (12–28)   Gauge group SU(3) × SU(2) × U(1)
+// Beat 3  (28–48)   SM Lagrangian terms build up
+// Beat 4  (48–66)   SU(3) color — QCD, gluons self-interact → confinement
+// Beat 5  (66–84)   SU(2)×U(1) electroweak unification
+// Beat 6  (84–98)   Higgs mechanism — VEV breaks electroweak symmetry
+// Beat 7  (98–112)  17 particles grid
+// Beat 8  (112–120) Humor — "no gravity, nobody said the universe…"
+// Beat 9  (120–128) Precision: electron g-2 to 11 digits
+// Beat 10 (128–134) Final hold
 function Scene17({ start, end }) {
   return (
     <Scene start={start} end={end} label="17">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // 0-12: build Lagrangian term by term; each term has a full-formatted renderer and a short gloss
-        const Sub = ({children}) => <sub style={{fontSize: '0.55em', fontStyle: 'italic'}}>{children}</sub>;
-        const Sup = ({children}) => <sup style={{fontSize: '0.55em', fontStyle: 'italic'}}>{children}</sup>;
-        const terms = [
-          { s: 2,  color: 'var(--accent-yellow)', label: 'gauge field kinetic',
-            render: <>−¼ F<Sub>μν</Sub>F<Sup>μν</Sup></>,
-            gloss: 'field strength of gauge bosons (γ, g, W, Z)' },
-          { s: 5,  color: 'var(--accent-blue)',  label: 'fermion kinetic',
-            render: <>+ iψ̄ γ<Sup>μ</Sup>D<Sub>μ</Sub>ψ</>,
-            gloss: 'quark & lepton motion; D is the covariant derivative' },
-          { s: 8,  color: 'var(--form-inline)',  label: 'Higgs',
-            render: <>+ |D<Sub>μ</Sub>H|² − V(H)</>,
-            gloss: 'Higgs kinetic + potential; breaks electroweak symmetry' },
-          { s: 11, color: 'var(--accent-green)', label: 'Yukawa',
-            render: <>+ y ψ̄ H ψ</>,
-            gloss: 'Higgs → fermion masses; y is the Yukawa coupling' },
-        ];
-        const showTable = t > 13;
-        const tableT = clamp((t - 13) / 2, 0, 1);
-        const showHumor = t > 22;
 
-        // 17 particles: 6 quarks, 6 leptons, 4 gauge bosons, 1 Higgs (gluon counted as 1 species)
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 26) / 1.5, 0, 1));
+
+        const b3A = clamp((t - 28) / 1.5, 0, 1) * (1 - clamp((t - 46) / 1.5, 0, 1));
+        const termStarts = [30, 34, 38, 42];
+
+        const b4A = clamp((t - 48) / 1.5, 0, 1) * (1 - clamp((t - 64) / 1.5, 0, 1));
+        const b5A = clamp((t - 66) / 1.5, 0, 1) * (1 - clamp((t - 82) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 84) / 1.5, 0, 1) * (1 - clamp((t - 96) / 1.5, 0, 1));
+
+        const b7A = clamp((t - 98) / 1.5, 0, 1) * (1 - clamp((t - 110) / 1.5, 0, 1));
+
+        const b8A = clamp((t - 112) / 1.5, 0, 1) * (1 - clamp((t - 119) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 120) / 1.5, 0, 1) * (1 - clamp((t - 127) / 1, 0, 1));
+
+        const b10A = clamp((t - 127) / 1, 0, 1);
+
+        const Sub = ({ children }) => <sub style={{ fontSize: '0.55em', fontStyle: 'italic' }}>{children}</sub>;
+        const Sup = ({ children }) => <sup style={{ fontSize: '0.55em', fontStyle: 'italic' }}>{children}</sup>;
+
+        const terms = [
+          { s: 0, color: 'var(--accent-yellow)', label: 'gauge field kinetic',
+            render: <>−¼ F<Sub>μν</Sub>F<Sup>μν</Sup></> },
+          { s: 1, color: 'var(--accent-blue)',   label: 'fermion kinetic',
+            render: <>+ iψ̄ γ<Sup>μ</Sup>D<Sub>μ</Sub>ψ</> },
+          { s: 2, color: 'var(--form-inline)',   label: 'Higgs',
+            render: <>+ |D<Sub>μ</Sub>H|² − V(H)</> },
+          { s: 3, color: 'var(--accent-green)',  label: 'Yukawa',
+            render: <>+ y ψ̄ H ψ</> },
+        ];
         const particles = [
-          // quarks (blue)
           {n:'u', t:'q'}, {n:'c', t:'q'}, {n:'t', t:'q'},
           {n:'d', t:'q'}, {n:'s', t:'q'}, {n:'b', t:'q'},
-          // leptons (red)
           {n:'e', t:'l'}, {n:'μ', t:'l'}, {n:'τ', t:'l'},
           {n:'νₑ', t:'l'}, {n:'ν_μ', t:'l'}, {n:'ν_τ', t:'l'},
-          // gauge bosons (yellow)
           {n:'γ', t:'g'}, {n:'g', t:'g'}, {n:'W', t:'g'}, {n:'Z', t:'g'},
-          // higgs (green)
           {n:'H', t:'h'},
         ];
-        const colorFor = (tt) => tt === 'q' ? 'var(--accent-blue)' : tt === 'l' ? 'var(--accent-red)' : tt === 'g' ? 'var(--accent-yellow)' : 'var(--form-inline)';
+        const colorFor = (tt) => tt === 'q' ? 'var(--accent-blue)'
+                                : tt === 'l' ? 'var(--accent-red)'
+                                : tt === 'g' ? 'var(--accent-yellow)'
+                                : 'var(--form-inline)';
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={17} title={'The Standard Model'} />
             <SceneRefs refs={["schwartz","pdg","higgs64"]} />
-            {/* Lagrangian row */}
-            {!showHumor && (
-              <div style={{
-                position: 'absolute', top: 260, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56, color: 'white',
-                opacity: showTable ? 1 - tableT * 0.6 : 1,
-                transform: showTable ? `scale(${1 - tableT * 0.25}) translateY(${-tableT * 120}px)` : '',
-                transformOrigin: 'center',
-              }}>
-                <span style={{ color: 'var(--canvas-dim)' }}>ℒ<sub style={{fontSize:'0.55em'}}>SM</sub> = </span>
+            <FieldBackground accent="#5ba3f5" amplitude={0.15} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 58, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>Standard Model</span>
+                  — in one breath.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Everything we built — in one Lagrangian.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Gauge group ──────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                The gauge symmetry —
+              </div>
+            )}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 72,
+                    color: 'var(--accent-yellow)', opacity: b2A,
+                    textShadow: '0 0 30px rgba(255,209,102,0.4)' }}>
+                SU(3)<sub>c</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub>
+              </div>
+            )}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-ui)', fontSize: 22,
+                    color: 'var(--canvas-dim)', opacity: b2A, letterSpacing: '0.18em' }}>
+                STRONG &nbsp;·&nbsp; WEAK &nbsp;·&nbsp; HYPERCHARGE
+              </div>
+            )}
+
+            {/* ── BEAT 3: SM Lagrangian building up ── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                One Lagrangian, term by term —
+              </div>
+            )}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                <span style={{ color: 'var(--canvas-dim)' }}>ℒ<sub style={{ fontSize: '0.55em' }}>SM</sub> = </span>
                 {terms.map((term, i) => {
-                  const op = t >= term.s ? Math.min(1, (t - term.s) / 0.8) : 0;
+                  const ap = clamp((t - termStarts[i]) / 1.2, 0, 1);
                   return (
-                    <span key={i} style={{ color: term.color, opacity: op, marginLeft: 16 }}>
+                    <span key={i} style={{ color: term.color, opacity: ap, marginLeft: 18 }}>
                       {term.render}
                     </span>
                   );
                 })}
               </div>
             )}
-
-            {/* Gloss under the Lagrangian — explains the most recent term */}
-            {!showHumor && !showTable && (() => {
-              const active = terms.filter(tm => t >= tm.s).slice(-1)[0];
+            {b3A > 0 && (() => {
+              const active = terms.filter((_, i) => t >= termStarts[i]).slice(-1)[0];
+              const idx = terms.findIndex(tr => tr === active);
               if (!active) return null;
-              const glossOp = Math.min(1, (t - active.s - 0.8) / 0.6);
               return (
-                <div style={{
-                  position: 'absolute', top: 370, left: 0, right: 0, textAlign: 'center',
-                  opacity: Math.max(0, glossOp),
-                }}>
-                  <div style={{
-                    display: 'inline-block',
-                    fontFamily: 'var(--font-ui)', fontSize: 22, color: active.color,
-                    letterSpacing: '0.1em', textTransform: 'uppercase',
-                  }}>{active.label}</div>
-                  <div style={{
-                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
-                    color: 'var(--canvas-dim)', marginTop: 8,
-                  }}>{active.gloss}</div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                      opacity: b3A }}>
+                  <div style={{ fontFamily: 'var(--font-ui)', fontSize: 22,
+                        letterSpacing: '0.15em', color: active.color, textTransform: 'uppercase' }}>
+                    {active.label}
+                  </div>
                 </div>
               );
             })()}
 
-            {/* Particle grid */}
-            {showTable && !showHumor && (
-              <div style={{
-                position: 'absolute', top: 420, left: 0, right: 0,
-                textAlign: 'center', opacity: tableT,
-                fontFamily: 'var(--font-math)', fontStyle: 'italic',
-              }}>
-                <div style={{ display: 'inline-grid', gridTemplateColumns: 'repeat(6, 92px)', gap: '14px 16px', padding: '20px' }}>
-                  {particles.map((p, i) => {
-                    // render _x as subscript
-                    const parts = p.n.split('_');
-                    const rendered = parts.length === 2
-                      ? <>{parts[0]}<sub style={{fontSize: '0.55em', fontStyle: 'italic'}}>{parts[1]}</sub></>
-                      : p.n;
-                    return (
-                      <div key={i} style={{
-                        width: 92, height: 92, border: '2px solid ' + colorFor(p.t),
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        fontSize: 40, color: colorFor(p.t),
-                        background: 'rgba(13,17,23,0.6)', borderRadius: 3,
-                        opacity: Math.min(1, (t - 13 - i * 0.15) / 0.5),
-                      }}>{rendered}</div>
-                    );
-                  })}
+            {/* ── BEAT 4: SU(3) / QCD / gluons ──────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                <span style={{ color: 'var(--accent-red)' }}>SU(3)</span> — quantum chromodynamics.
+              </div>
+            )}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340,
+                    textAlign: 'center', opacity: b4A }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                      fontSize: 32, color: 'var(--canvas-text)' }}>
+                  quarks carry <span style={{ color: 'var(--accent-red)' }}>color</span> — 3 varieties
                 </div>
-                <div style={{ fontFamily: 'var(--font-ui)', fontStyle: 'normal', fontSize: 22, color: 'var(--canvas-dim)',
-                  marginTop: 30, letterSpacing: '0.2em' }}>
-                  17 FUNDAMENTAL PARTICLES
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                      fontSize: 32, color: 'var(--canvas-text)', marginTop: 20 }}>
+                  8 <span style={{ color: 'var(--accent-yellow)' }}>gluons</span> — massless, self-interacting
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                      fontSize: 32, color: 'var(--accent-red)', marginTop: 20,
+                      textShadow: '0 0 16px rgba(255,107,107,0.3)' }}>
+                  ⟹ <em>confinement</em>: no free quarks
                 </div>
               </div>
             )}
 
-            {showHumor && (
-              <div style={{
-                position: 'absolute', top: 260, left: 160, right: 160, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white',
-                opacity: fadeIO(t - 22, duration - 22, 0.6, 0.6), lineHeight: 1.4,
-              }}>
+            {/* ── BEAT 5: Electroweak ─────────────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                <span style={{ color: 'var(--accent-blue)' }}>SU(2) × U(1)</span> — electroweak unification.
+              </div>
+            )}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340,
+                    textAlign: 'center', opacity: b5A }}>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                      fontSize: 32, color: 'var(--canvas-text)' }}>
+                  Below 100 GeV: two forces
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                      fontSize: 36, color: 'var(--accent-yellow)', marginTop: 20 }}>
+                  γ &nbsp;(EM)  &nbsp;·&nbsp;  W, Z &nbsp;(weak)
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                      fontSize: 32, color: 'var(--canvas-text)', marginTop: 20 }}>
+                  Above 100 GeV: one unified interaction.
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 6: Higgs mechanism ─────────── */}
+            {b6A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b6A }}>
+                  The <span style={{ color: 'var(--form-inline)' }}>Higgs mechanism</span> —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--form-inline)', opacity: b6A,
+                      textShadow: '0 0 20px rgba(255,209,102,0.3)' }}>
+                  ⟨0|H|0⟩ = v ≠ 0
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                      color: 'var(--canvas-dim)', opacity: b6A }}>
+                  Spontaneously breaks electroweak symmetry.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 580, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b6A }}>
+                  W and Z acquire mass — weak force becomes short-range.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 7: 17 particles grid ───────── */}
+            {b7A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b7A }}>
+                  The entire particle content.
+                </div>
+                <div style={{ position: 'absolute', top: 280, left: 0, right: 0,
+                      textAlign: 'center', opacity: b7A,
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic' }}>
+                  <div style={{ display: 'inline-grid',
+                        gridTemplateColumns: 'repeat(6, 92px)',
+                        gap: '14px 16px', padding: '20px' }}>
+                    {particles.map((p, i) => {
+                      const parts = p.n.split('_');
+                      const rendered = parts.length === 2
+                        ? <>{parts[0]}<sub style={{ fontSize: '0.55em', fontStyle: 'italic' }}>{parts[1]}</sub></>
+                        : p.n;
+                      const ap = clamp((t - 100 - i * 0.15) / 0.4, 0, 1) * b7A;
+                      return (
+                        <div key={i} style={{
+                          width: 92, height: 92, border: '2px solid ' + colorFor(p.t),
+                          display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          fontSize: 38, color: colorFor(p.t),
+                          background: 'rgba(13,17,23,0.6)', borderRadius: 3,
+                          opacity: ap,
+                        }}>{rendered}</div>
+                      );
+                    })}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-ui)', fontStyle: 'normal', fontSize: 22,
+                        color: 'var(--canvas-dim)', marginTop: 30, letterSpacing: '0.2em' }}>
+                    17 FUNDAMENTAL PARTICLES
+                  </div>
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 8: Humor — no gravity ───────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', top: 320, left: 160, right: 160, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b8A, lineHeight: 1.45 }}>
                 "Seventeen fundamental particles. One equation on one line.
-                <div style={{ marginTop: 24, color: 'var(--canvas-dim)', fontSize: 30 }}>
-                  And yet it <span style={{color:'var(--accent-red)'}}>somehow does not include gravity</span> —
+                <div style={{ marginTop: 22, color: 'var(--canvas-dim)', fontSize: 30 }}>
+                  And yet it <span style={{ color: 'var(--accent-red)' }}>doesn't include gravity</span> —
                 </div>
-                <div style={{ marginTop: 10, color: 'var(--canvas-dim)', fontSize: 26, fontStyle: 'normal' }}>
-                  the most obvious force you interact with every day.
+                <div style={{ marginTop: 10, color: 'var(--canvas-dim)', fontSize: 24,
+                      fontStyle: 'normal' }}>
+                  the most obvious force you experience every day.
                 </div>
-                <div style={{ marginTop: 24, fontSize: 24, color: 'var(--canvas-dim)', fontStyle: 'normal' }}>
+                <div style={{ marginTop: 22, fontSize: 24, color: 'var(--canvas-dim)',
+                      fontStyle: 'normal' }}>
                   Nobody said the universe had to be convenient."
                 </div>
+              </div>
+            )}
+
+            {/* ── BEAT 9: Precision ─────────────── */}
+            {b9A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 200, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b9A }}>
+                  Precision beyond any other theory —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 350, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--accent-green)', opacity: b9A,
+                      textShadow: '0 0 20px rgba(61,240,192,0.3)' }}>
+                  g<sub>e</sub> / 2 calculated to 11 digits.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--accent-green)', opacity: b9A }}>
+                  g<sub>e</sub> / 2 measured to 11 digits.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 550, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--accent-yellow)', opacity: b9A,
+                      textShadow: '0 0 16px rgba(255,209,102,0.3)' }}>
+                  Every digit agrees.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 10: Final hold ─────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 48,
+                    color: 'var(--accent-yellow)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.35)' }}>
+                SU(3) × SU(2) × U(1) + Higgs
               </div>
             )}
           </div>
