@@ -1,0 +1,7 @@
+node_modules/
+frames/
+*.mp4
+*.wav
+*.jpg
+video_silent.mp4
+audio_full.wav

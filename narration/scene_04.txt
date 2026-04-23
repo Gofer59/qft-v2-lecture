@@ -1,0 +1,19 @@
+## Scene 04 — The Conceptual Leap: Fields Are Primary
+
+Here is the resolution, stated plainly.
+
+Do not start with particles and try to make them relativistic. Start with fields, and let particles emerge from them.
+
+There exists an electron field. It is defined at every point in spacetime. It is not the electron — it is the substrate from which electrons, and positrons, arise. The electron field permeates all of space. It is always there. You cannot remove it.
+
+When the electron field is in its lowest-energy state — the quantum vacuum — there are no particles. The field is still there, oscillating at the quantum level, but no excitations of it are present that we would call particles.
+
+Now disturb the field. Inject one quantum of energy and momentum in the right way. The field mode at that frequency gets excited. That excitation — that ripple — is what we call an electron. It has the right mass. It has the right charge. It has spin one-half. All of these properties come from the structure of the electron field, not from the electron being a tiny rigid ball.
+
+Now you can understand the positron cleanly. In the quantum field picture, the positron is a different kind of excitation of the same field — an excitation in the conjugate mode. When an electron and positron come together, the two excitations annihilate. The field returns to a lower-energy state, and the energy comes out as photons. No infinite sea required. No invisible filled vacuum states. Just a field, and its excitations.
+
+This picture also handles pair creation naturally. The energy from a high-energy photon can be deposited into the electron field, exciting both an electron mode and a positron mode simultaneously. Two particles appear where there were none. This is not a paradox — particle number was never fundamental. It is just the excitation level of the field.
+
+The electron is not a dot. It is a jiggle in a field that fills the entire universe. Whether you find that comforting or deeply unsettling probably depends on how much coffee you have had today.
+
+The same story holds for every species of particle we know. There is a muon field. There is a quark field — several of them. There is a Higgs field. There is a photon field. Every particle in the universe is an excitation of some underlying field. The universe is not a collection of particles bouncing around in empty space. It is a collection of fields, and particles are what those fields do when they are disturbed.

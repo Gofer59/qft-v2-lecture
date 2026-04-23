@@ -1,0 +1,15 @@
+## Scene 14 — Loops and the Need for Renormalization
+
+The simplest Feynman diagrams — the ones with the fewest vertices — give the leading contribution in perturbation theory. But for precision, you need higher-order diagrams. And at higher orders, something new appears: loops.
+
+A loop is a Feynman diagram where you can trace a closed path along internal lines, returning to where you started. In a loop, the momenta of the internal particles are not fixed by the external momenta — there is a free momentum flowing around the loop that can take any value. Computing the contribution of the diagram requires integrating over this free momentum, from zero up to infinity.
+
+Here is the problem. Many of these loop integrals diverge. As the loop momentum grows large, the integrand does not fall off fast enough, and the integral diverges in what physicists call the ultraviolet — meaning at high momenta, or equivalently short distances. The contribution from the loop appears to be infinite.
+
+This is not a sign that quantum field theory is wrong. It is a sign that the theory's parameters — the mass and coupling constants in the Lagrangian density — are not quite the physical, observable quantities. They are bare parameters, defined at some formal level before interactions are accounted for.
+
+Renormalization is the procedure that makes this precise. First, introduce a cutoff momentum — the ultraviolet cutoff — to make all integrals finite. Compute the physical quantities of interest as functions of the bare parameters and the cutoff. Now observe that the divergences appear in specific combinations. By redefining the bare parameters — absorbing the divergences into new definitions of the mass, coupling constant, and field normalization — you can ensure that the physically measured values of these quantities are finite.
+
+The result is that the bare parameters in the Lagrangian density become formal, cutoff-dependent numbers. What you measure in experiments are the renormalized parameters: the pole mass, the measured coupling constant. These are finite and unambiguous.
+
+Theories where this procedure works for a finite number of redefinitions are called renormalizable. The Standard Model is renormalizable. Quantum gravity — the attempt to quantize the gravitational field — is not, at least not in the usual perturbative sense. That is one reason quantum gravity is hard.

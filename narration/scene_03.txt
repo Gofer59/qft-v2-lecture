@@ -1,0 +1,17 @@
+## Scene 03 — Why Relativistic Quantum Mechanics Fails
+
+The most natural attempt to make quantum mechanics relativistic is straightforward. In non-relativistic quantum mechanics, you start from the energy relation: energy equals p-squared over two m, where p is the momentum and m is the mass. You promote energy and momentum to operators — energy becomes i times h-bar times the time derivative, momentum becomes minus i times h-bar times the gradient. The result is the Schrödinger equation.
+
+In special relativity, the energy relation is different. The full relativistic dispersion relation says that energy squared equals p-squared times c-squared plus m-squared times c to the fourth. In natural units, where h-bar equals c equals one, this is just E-squared equals p-squared plus m-squared. Apply the same promotion to operators, and you get the Klein-Gordon equation: the second time derivative of phi equals the Laplacian of phi minus m-squared phi.
+
+This equation is perfectly Lorentz-invariant — time and space enter symmetrically. But it has a critical problem. Because the time derivative appears twice, the energy eigenvalues come in pairs, plus and minus. For every positive-energy solution, there is a negative-energy solution with the same magnitude.
+
+Negative energies in quantum mechanics are catastrophic. If negative-energy states exist, then a particle can release energy without limit, cascading down through more and more negative levels and radiating energy forever. Nothing would be stable. The hydrogen atom would not exist.
+
+Dirac tried to avoid this with a brilliant trick. He looked for an equation linear in both time and space derivatives — the analog of the Schrödinger equation but Lorentz-invariant. He found it: the Dirac equation. It is first-order in time, fully relativistic, and correctly predicts the electron's spin and magnetic moment. For a while, it looked like the solution.
+
+But the Dirac equation still has negative-energy solutions. Dirac's response was audacious. He proposed that all the negative-energy states are already filled — there is an infinite sea of electrons occupying every available negative-energy slot. The Pauli exclusion principle prevents any real electron from falling into these occupied states. A hole in this sea behaves like a particle with positive energy and opposite charge: the positron.
+
+Dirac's solution was to declare that the entire infinite negative-energy vacuum is just fine, actually. Every physicist since has been mildly annoyed by this.
+
+The Dirac sea works as a picture, but it requires an infinite number of hidden particles as part of the ground state of the theory, and it only makes sense for fermions. For bosons, there is no exclusion principle, so you cannot fill the sea. The single-particle approach has run out of road.

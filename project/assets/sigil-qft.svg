@@ -1,0 +1,11 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="QFT series sigil — Feynman vertex">
+  
+  <line x1="40" y1="90" x2="200" y2="210" stroke="#5e6c8c" stroke-width="10" stroke-linecap="round"></line>
+  <line x1="40" y1="310" x2="200" y2="210" stroke="#5e6c8c" stroke-width="10" stroke-linecap="round"></line>
+  
+  <line x1="200" y1="210" x2="370" y2="180" stroke="#ffd166" stroke-width="12" stroke-linecap="round"></line>
+  
+  <circle cx="200" cy="210" r="38" fill="none" stroke="#5ba3f5" stroke-width="2" opacity="0.55"></circle>
+  <circle cx="200" cy="210" r="26" fill="#5ba3f5"></circle>
+</svg>

@@ -1,0 +1,21 @@
+## Scene 01 — The Question That Breaks Single-Particle Mechanics
+
+By 1925, physicists had two extraordinary theories, and they were deeply incompatible.
+
+Quantum mechanics described the microscopic world with astonishing precision. It explained atomic spectra, the photoelectric effect, the stability of atoms — things that classical physics simply could not touch. And special relativity described how space and time transform at high velocities, unifying electricity and magnetism and establishing that the speed of light is absolute.
+
+Both theories were tested repeatedly. Both survived every test. The problem was that the universe does not stop moving fast just because you zoom in to atomic scales. An electron inside a heavy atom moves at an appreciable fraction of the speed of light. It has to obey quantum mechanics — it is, after all, an electron. And it has to obey special relativity — because special relativity applies to everything.
+
+So you write down the equations. You take the Schrödinger equation and you try to make it relativistic. And immediately, you run into something that does not work.
+
+The Schrödinger equation has one time derivative and two spatial derivatives. That asymmetry between time and space is fundamentally incompatible with special relativity, which treats time and space on equal footing. Trying to patch it leads to equations with solutions that have negative probabilities, or negative energies, or both. These are not small mathematical glitches. They signal something structurally wrong with the attempt to describe a single relativistic quantum particle.
+
+Physicists in the 1920s and 1930s — Dirac, Klein, Gordon, Pauli, Heisenberg, Jordan — recognized that the single-particle framework had to be abandoned. The fix was radical.
+
+The resolution is not a better single-particle equation. The resolution is to give up on single particles entirely and replace them with something more fundamental.
+
+That something is a quantum field. And to understand why, we first need to understand what a field is — in the simplest, most concrete terms possible — before any quantization happens at all.
+
+This lecture is the story of what that means, why it works, and what it gives you. By the end, you will understand why the electron is not a dot, why the vacuum is not empty, and why a force between two charged particles is best understood as an exchange of something in between them. The conceptual shift is large, but each step follows from the last.
+
+Let us begin.

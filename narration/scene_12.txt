@@ -1,0 +1,19 @@
+## Scene 12 — Feynman Diagrams: Cartoons That Compute
+
+Computing anything in an interacting quantum field theory is hard. The Hamiltonian of an interacting theory cannot be solved exactly — the modes are no longer independent, and the eigenvalue problem for the full interacting Hamiltonian is generically intractable.
+
+The saving grace is perturbation theory. When the coupling constant is small — when the interaction is weak — you can organize your calculation as a power series in the coupling. The zeroth-order term is the free theory, which you can solve exactly. The first-order correction involves one factor of the interaction term. The second-order correction involves two factors. And so on.
+
+Each term in this perturbative expansion corresponds to a Feynman diagram.
+
+A Feynman diagram is not merely a picture — it is a compressed notation for a specific integral. Each element of the diagram translates into a mathematical factor, and multiplying those factors together and integrating over internal momenta gives you the contribution of that diagram to the physical amplitude.
+
+External lines represent the incoming and outgoing particles. An incoming electron is a line entering the diagram with an arrow pointing forward; an outgoing positron is a line leaving the diagram with the arrow pointing backward; a photon is a wavy or dashed line. These external lines contribute a factor encoding the wavefunction of the corresponding particle.
+
+Internal lines — lines connecting two vertices — are propagators. The propagator for a particle is the quantum amplitude for that particle to travel from one spacetime point to another, and it depends on the particle's momentum and mass. In momentum space, a scalar propagator is one over the quantity k-squared minus m-squared, where k is the four-momentum flowing through the line.
+
+Vertices are where lines meet. At each vertex, the coupling constant appears as a factor, and four-momentum is conserved — the total momentum flowing into the vertex equals the total flowing out.
+
+A single vertex connecting two electron lines and one photon line represents the fundamental QED interaction. Two such vertices, connected by an internal photon line, represent two electrons exchanging a photon — the quantum field theory description of the Coulomb force.
+
+Each of these diagrams is doing the work of an integral that would take pages to write out. Richard Feynman invented this notation. Generations of physicists are quietly grateful they did not have to sit through the alternative.

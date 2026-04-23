@@ -1,0 +1,17 @@
+## Scene 07 — Creation and Annihilation Operators
+
+The operators a of k and a-dagger of k are the backbone of the whole formalism. Let us examine them carefully.
+
+a of k is the annihilation operator for momentum k. Its action on a state: if the state contains n particles of momentum k, the result is a state with n minus one particles of momentum k, multiplied by the square root of n. If the state contains zero particles of momentum k, the annihilation operator kills it — returns zero.
+
+a-dagger of k is the creation operator for momentum k. Its action: starting from n particles, you get n plus one particles, with a factor of the square root of n plus one.
+
+The fundamental commutation relation between them is this: a of k times a-dagger of k-prime, minus a-dagger of k-prime times a of k, equals a delta function of k minus k-prime. The delta function is one when k equals k-prime and zero otherwise. This says that operators for different momenta commute — they act independently. Operators for the same momentum satisfy a non-trivial relation that encodes the quantum structure.
+
+This is directly analogous to the position-momentum commutation relation in quantum mechanics, which says x times p minus p times x equals i h-bar. That relation was the heart of non-relativistic quantum mechanics. The commutation relation for creation and annihilation operators is the heart of quantum field theory.
+
+The vacuum state, written as the ket-zero, is the unique state that is annihilated by every annihilation operator for every momentum. No matter which momentum you try to remove a particle at, the result is zero. The vacuum is the state of minimum energy — not zero energy, because of the zero-point contributions, but minimum.
+
+From the vacuum, you build all other states. A single particle of momentum k is a-dagger of k acting on the vacuum. Two particles of momenta k and k-prime is a-dagger of k times a-dagger of k-prime times the vacuum. For bosonic fields, these creation operators commute with each other, so the two-particle state is symmetric — it does not matter which order you list the momenta. This is the origin of Bose-Einstein statistics.
+
+The number operator for mode k is a-dagger of k times a of k. Its eigenvalues are zero, one, two, three — the number of quanta in that mode. The total number operator sums over all momenta. Its eigenvalues are the total particle number.

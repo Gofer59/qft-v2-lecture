@@ -1,0 +1,17 @@
+## Scene 16 — Spin, Statistics, and Fermion Fields
+
+We have been working mainly with scalar fields — fields whose value at each point is a single number, invariant under Lorentz transformations. But the universe contains particles with spin.
+
+The photon has spin one. The electron has spin one-half. The graviton, if it exists as a quantum, has spin two. Each spin value requires a different type of field.
+
+For spin one-half, the appropriate field is a Dirac spinor field — a four-component object that transforms in a specific two-dimensional representation of the Lorentz group. It is written as psi of x, and its four components mix under Lorentz boosts and rotations. The Lagrangian density for a free Dirac spinor is psi-bar times the quantity i gamma-mu times the partial derivative mu, minus m, times psi, where gamma-mu are the four four-by-four gamma matrices satisfying the Clifford algebra.
+
+For spin one, the appropriate field is a vector field A-mu with four components, transforming as a four-vector. The Lagrangian density for a free photon field is minus one-quarter times F-mu-nu times F to the mu-nu, where F-mu-nu is the antisymmetric field strength tensor, the curl of A-mu.
+
+Here is a crucial distinction between different types of fields: statistics.
+
+Scalar fields and vector fields are bosonic. Their creation operators commute with each other, just as we described for the scalar field. This means you can put as many bosonic particles as you want into the same momentum mode. Bosons are happy to share a quantum state. This is why lasers work — enormous numbers of photons can occupy exactly the same mode.
+
+Spinor fields are fermionic. Their creation operators anticommute: a-dagger of k times a-dagger of k-prime plus a-dagger of k-prime times a-dagger of k equals zero. This means you cannot create two fermions in identical states — trying to do so gives zero. This is the Pauli exclusion principle, built directly into the anticommutation relations of the fermionic field.
+
+The connection between spin and statistics — integer spin gives bosons, half-integer spin gives fermions — is a theorem in quantum field theory, not an assumption. It follows from requiring the theory to be Lorentz-invariant and causal.

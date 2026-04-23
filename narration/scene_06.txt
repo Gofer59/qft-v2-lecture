@@ -1,0 +1,17 @@
+## Scene 06 — Quantizing the Free Scalar Field
+
+The simplest quantum field theory is the free real scalar field. It describes a single type of spinless, neutral particle — nothing that exists in nature is quite this simple, but it is the perfect training ground.
+
+The Lagrangian density for this theory is written as one-half times the quantity of the partial derivative of phi with respect to x-mu, squared, minus one-half times m-squared times phi-squared. The first term is the kinetic energy of the field — it measures how rapidly the field varies across spacetime. The second term is the mass term — it is like a harmonic oscillator potential acting on the field value at each point. The factor of one-half is a normalization convention.
+
+To find the equation of motion, apply the Euler-Lagrange equation to this Lagrangian density. The result is the Klein-Gordon equation: the four-dimensional Laplacian of phi, written as the box operator acting on phi, plus m-squared times phi equals zero.
+
+Now quantize. Expand the field in Fourier modes — write phi of x as an integral over all momenta of a coefficient times a plane wave. The equation of motion tells you that each mode oscillates at a frequency omega of k, where omega-squared equals k-squared plus m-squared. This is exactly the relativistic dispersion relation.
+
+Here is the key observation. Each Fourier mode is a harmonic oscillator. The field value at momentum k oscillates sinusoidally in time, just like the position of a mass on a spring. Quantizing the field means quantizing each of these oscillators.
+
+For a single harmonic oscillator, quantization means replacing the position and momentum by operators obeying the canonical commutation relation. The oscillator then has discrete energy levels: zero-point energy, one quantum, two quanta, and so on. You introduce the raising operator a-dagger and the lowering operator a, and the energy is written as a-dagger a times h-bar omega plus one-half.
+
+For the field, the same thing happens simultaneously at every momentum value. Each momentum mode k gets its own pair of creation and annihilation operators, a-dagger of k and a of k. The Hamiltonian is an integral over all momenta of the number operator for each mode times its frequency, plus a zero-point contribution.
+
+Particles of momentum k are the quanta of the k-th oscillator. To have two particles with the same momentum, that oscillator must be in its second excited state. Different momenta correspond to independent oscillators.

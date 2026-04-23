@@ -1,0 +1,15 @@
+## Scene 18 — What QFT Does Not Explain
+
+A theory's limitations are as important as its successes. The Standard Model is not the final answer.
+
+Gravity is absent. General relativity describes gravity as the curvature of spacetime, and it works extraordinarily well at large scales. But treating the metric — the field describing spacetime curvature — as a quantum field in the same sense as the photon or the electron leads to a non-renormalizable theory. The loop integrals diverge in ways that cannot be absorbed into a finite number of redefined parameters. Attempts to quantize gravity — string theory, loop quantum gravity, and others — are active areas of research, but none is yet a complete, confirmed theory.
+
+Dark matter makes up about 27 percent of the universe's energy content. It gravitates, it does not emit light, and it cannot be any of the known particles of the Standard Model. Its quantum field description, if it has one, is unknown.
+
+Dark energy is the term for the accelerated expansion of the universe. If it is a cosmological constant — energy associated with the vacuum — then quantum field theory predicts a vacuum energy many orders of magnitude larger than what is observed. This discrepancy, between the predicted and observed vacuum energy, is one of the most significant unsolved problems in theoretical physics.
+
+The matter-antimatter asymmetry is another open question. The Standard Model has a small amount of charge-parity violation — enough to produce a slight preference for matter over antimatter in certain weak interactions — but not nearly enough to explain why the observable universe is made almost entirely of matter.
+
+None of these gaps mean QFT is wrong at the energies we can probe. Effective field theory — the idea that any quantum field theory is a good approximation at low energies regardless of what happens at high energies — explains why the Standard Model remains our best description of accessible physics. At low enough energies, the unknown high-energy physics decouples and leaves only small corrections that can be parameterized.
+
+The Standard Model, with all its gaps, is our best description of the fundamental constituents of matter and the forces among them. It will stand until experiment shows us something it cannot explain.

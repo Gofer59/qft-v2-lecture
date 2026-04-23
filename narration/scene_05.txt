@@ -1,0 +1,19 @@
+## Scene 05 — Fields as Operators
+
+We have said that a quantum field at a point is an operator. Let us be more precise about what that means and what the consequences are.
+
+In classical mechanics, a dynamical variable is a function of phase space — position and momentum. In quantum mechanics, position and momentum themselves become operators acting on a Hilbert space. A state of the system is a vector in that Hilbert space, and observable quantities are expectation values of operators.
+
+The same promotion happens in quantum field theory, but now the dynamical variable is the field. The classical field phi of x, where x stands for the full spacetime point, is a number at each spacetime location. The quantum field, also written phi of x, is an operator at each spacetime location. It is a function on spacetime whose values are operators.
+
+This is sometimes called an operator-valued distribution, because in full mathematical rigor the field is not quite an operator at a point but rather an operator smeared over a region — but for our purposes, you can think of it as an operator at each point.
+
+The quantum state of the field lives in a space called Fock space. Fock space is built from the single-particle Hilbert space by including states with any number of particles: no particles, one particle with definite momentum, two particles, three, and so on. A state in Fock space is a superposition across all particle numbers.
+
+The field operator phi of x connects these sectors. When it acts on a state, it can change the particle number — typically by one, either adding or removing a quantum. The creation part of the field operator adds a particle at spacetime point x. The annihilation part removes one.
+
+The complete field is a sum of both parts. In momentum space, the creation part is written as a sum over all momenta of a creation operator a-dagger of k, multiplied by a mode function — a plane wave. The annihilation part is a sum over all momenta of an annihilation operator a of k, multiplied by the complex conjugate mode function.
+
+This decomposition makes the physics transparent. The field at a point is a superposition of creation and annihilation events at all momenta. When the field acts on the vacuum, it creates a particle. When it acts on a one-particle state, it either creates a second particle or destroys the existing one, returning you to the vacuum.
+
+The operator structure of the field encodes everything: the dynamics, the particle content, the interactions, the statistics.

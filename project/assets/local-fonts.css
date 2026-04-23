@@ -1,0 +1,53 @@
+/* Re-declare @font-face with paths local to this project */
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: normal; font-weight: 400;
+  src: url("fonts/lmroman10-regular.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: italic; font-weight: 400;
+  src: url("fonts/lmroman10-italic.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: normal; font-weight: 700;
+  src: url("fonts/lmroman10-bold.otf") format("opentype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "DejaVu Sans";
+  font-style: normal; font-weight: 400;
+  src: url("fonts/DejaVuSans.ttf") format("truetype");
+  font-display: swap;
+}
+@font-face {
+  font-family: "DejaVu Sans";
+  font-style: normal; font-weight: 700;
+  src: url("fonts/DejaVuSans-Bold.ttf") format("truetype");
+  font-display: swap;
+}
+
+:root {
+  --canvas-bg: #0d1117;
+  --canvas-text: #e8e8e8;
+  --canvas-dim: #5e6c8c;
+  --navy-dark: #1a2a4a;
+
+  --def-inline: #64a0ff;
+  --form-inline: #ffbe32;
+  --ex-inline: #00d2c8;
+  --note-inline: #b98cff;
+
+  --accent-blue: #5ba3f5;
+  --accent-yellow: #ffd166;
+  --accent-green: #3df0c0;
+  --accent-red: #ff4d6d;
+  --accent-violet: #a46bff;
+
+  --font-display: "Latin Modern Roman", "CMU Serif", "STIX Two Text", Cambria, serif;
+  --font-ui: "DejaVu Sans", "TeX Gyre Heros", "Nimbus Sans", Helvetica, Arial, sans-serif;
+  --font-math: "Latin Modern Roman", "Latin Modern Math", "Computer Modern", "STIX Two Text", serif;
+}

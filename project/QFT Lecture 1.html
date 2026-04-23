@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>QFT Lecture 1 — The Universe Is Made of Fields</title>
+<link rel="stylesheet" href="assets/local-fonts.css" />
+<style>
+  :root {
+    --canvas-bg: #0d1117;
+    --canvas-text: #e6edf3;
+    --canvas-dim: #5e6c8c;
+    --accent: #5ba3f5;
+    --accent-blue: #5ba3f5;
+    --accent-yellow: #ffd166;
+    --accent-green: #3df0c0;
+    --accent-red: #ff6b6b;
+    --form-inline: #ffd166;
+    --def-inline: #5ba3f5;
+    --ex-inline: #3df0c0;
+    --note-inline: #b589e8;
+    --navy-dark: #0c1c3c;
+    --font-display: "Latin Modern Roman", Georgia, serif;
+    --font-math: "Latin Modern Roman", Georgia, serif;
+    --font-ui: "DejaVu Sans", system-ui, sans-serif;
+  }
+  html, body { margin:0; padding:0; background:#000; color:var(--canvas-text); font-family:var(--font-ui); overflow:hidden; }
+  .stage-root { background:var(--canvas-bg); }
+  * { box-sizing:border-box; }
+  sub, sup { font-style: italic; }
+</style>
+</head>
+<body>
+<div id="root" data-screen-label-root data-screen-label="t=0:00"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="animations.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="qft-primitives.jsx"></script>
+<script type="text/babel" src="qft-scenes-a.jsx"></script>
+<script type="text/babel" src="qft-scenes-b.jsx"></script>
+<script type="text/babel" src="qft-scenes-c.jsx"></script>
+<script type="text/babel" src="qft-scenes-d.jsx"></script>
+
+<script type="text/babel" data-presets="react">
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "accent": "qft",
+  "captions": false,
+  "speed": 1
+}/*EDITMODE-END*/;
+
+const ACCENTS = {
+  qft:  { accent: '#5ba3f5', label: 'QFT · blue' },
+  mc:   { accent: '#ffd166', label: 'MC · gold' },
+  lqcd: { accent: '#b589e8', label: 'LQCD · violet' },
+};
+
+// Simple caption list — one line per scene, shown during that scene
+const CAPTIONS = SCENE_BOUNDS.map(s => ({
+  start: s.start, end: s.end,
+  text: `Scene ${String(s.n).padStart(2,'0')} — ${s.title}`,
+}));
+
+function TimeExposer() {
+  const { setTime, setPlaying, duration } = useTimeline();
+  React.useEffect(() => {
+    window.__stageSetTime = (t) => setTime(Math.max(0, Math.min(duration, t)));
+    window.__stagePause = () => setPlaying(false);
+    window.__stagePlay = () => setPlaying(true);
+    window.__stageDuration = duration;
+    window.__stageReady = true;
+  }, [setTime, setPlaying, duration]);
+  return null;
+}
+
+function App() {
+  const [tweaks, setTweaks] = useTweaks(TWEAK_DEFAULTS);
+  const accent = ACCENTS[tweaks.accent]?.accent || ACCENTS.qft.accent;
+
+  React.useEffect(() => {
+    document.documentElement.style.setProperty('--accent', accent);
+  }, [accent]);
+
+  return (
+    <>
+      <Stage width={1920} height={1080} duration={TOTAL_DUR}
+             background="var(--canvas-bg)" speed={tweaks.speed}
+             persistKey="qft01">
+        <TimeExposer />
+        <SeriesSigil />
+        <SceneCounter scenes={SCENE_BOUNDS} />
+        <TimecodeTagger />
+
+        <TitleCard />
+        <Scene01 start={SCENE_BOUNDS[0].start}  end={SCENE_BOUNDS[0].end} />
+        <Scene02 start={SCENE_BOUNDS[1].start}  end={SCENE_BOUNDS[1].end} />
+        <Scene03 start={SCENE_BOUNDS[2].start}  end={SCENE_BOUNDS[2].end} />
+        <Scene04 start={SCENE_BOUNDS[3].start}  end={SCENE_BOUNDS[3].end} />
+        <Scene05 start={SCENE_BOUNDS[4].start}  end={SCENE_BOUNDS[4].end} />
+        <Scene06 start={SCENE_BOUNDS[5].start}  end={SCENE_BOUNDS[5].end} />
+        <Scene07 start={SCENE_BOUNDS[6].start}  end={SCENE_BOUNDS[6].end} />
+        <Scene08 start={SCENE_BOUNDS[7].start}  end={SCENE_BOUNDS[7].end} />
+        <Scene09 start={SCENE_BOUNDS[8].start}  end={SCENE_BOUNDS[8].end} />
+        <Scene10 start={SCENE_BOUNDS[9].start}  end={SCENE_BOUNDS[9].end} />
+        <Scene11 start={SCENE_BOUNDS[10].start} end={SCENE_BOUNDS[10].end} />
+        <Scene12 start={SCENE_BOUNDS[11].start} end={SCENE_BOUNDS[11].end} />
+        <Scene13 start={SCENE_BOUNDS[12].start} end={SCENE_BOUNDS[12].end} />
+        <Scene14 start={SCENE_BOUNDS[13].start} end={SCENE_BOUNDS[13].end} />
+        <Scene15 start={SCENE_BOUNDS[14].start} end={SCENE_BOUNDS[14].end} />
+        <Scene16 start={SCENE_BOUNDS[15].start} end={SCENE_BOUNDS[15].end} />
+        <Scene17 start={SCENE_BOUNDS[16].start} end={SCENE_BOUNDS[16].end} />
+        <Scene18 start={SCENE_BOUNDS[17].start} end={SCENE_BOUNDS[17].end} />
+        <Scene19 start={SCENE_BOUNDS[18].start} end={SCENE_BOUNDS[18].end} />
+        <Scene20 start={SCENE_BOUNDS[19].start} end={SCENE_BOUNDS[19].end} />
+        <Scene21 start={SCENE_BOUNDS[20].start} end={SCENE_BOUNDS[20].end} />
+
+        <CaptionOverlay captions={CAPTIONS} enabled={tweaks.captions} />
+      </Stage>
+
+      <TweaksPanel title="Tweaks">
+        <TweakSection title="Series accent">
+          <TweakRadio value={tweaks.accent}
+            onChange={v => setTweaks({ accent: v })}
+            options={[
+              { value: 'qft',  label: 'QFT · blue' },
+              { value: 'mc',   label: 'MC · gold' },
+              { value: 'lqcd', label: 'LQCD · violet' },
+            ]} />
+        </TweakSection>
+        <TweakSection title="Display">
+          <TweakToggle label="Caption overlay" value={tweaks.captions}
+            onChange={v => setTweaks({ captions: v })} />
+        </TweakSection>
+        <TweakSection title="Playback speed">
+          <TweakSlider min={0.25} max={3} step={0.05}
+            value={tweaks.speed}
+            onChange={v => setTweaks({ speed: v })}
+            format={v => v.toFixed(2) + '×'} />
+        </TweakSection>
+      </TweaksPanel>
+    </>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

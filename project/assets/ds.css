@@ -1,0 +1,409 @@
+/* =========================================================================
+ * Physics Study Reference — Design System
+ * colors_and_type.css
+ *
+ * Single dark canvas (#0d1117) for slides, animations, thumbnails.
+ * Semantic palette: one hue = one concept class. Never reassign.
+ *
+ * Type: Latin Modern Roman (display + math, LaTeX-native), DejaVu Sans
+ * (UI body, matplotlib-native), Latin Modern Mono (mono). These are the
+ * actual production fonts used in the Beamer PDFs and matplotlib renders
+ * — no webfont substitutes. No decorative fonts. No Fraunces/Google Fonts.
+ * ========================================================================= */
+
+
+/* -------------------------------------------------------------------------
+ * FONT FACES — production fonts, served locally from fonts/
+ *
+ * Beamer PDFs set \usepackage{lmodern} → Latin Modern Roman for display
+ * titles and math. matplotlib defaults to DejaVu Sans for UI labels and
+ * axis ticks. Both font families ship with any full TeX Live install.
+ *
+ * Filenames come from the GUST and DejaVu distributions:
+ *   lmroman10-{regular,bold,italic}.otf   — Latin Modern Roman, 10 pt design size
+ *   lmmono10-regular.otf                  — Latin Modern Mono
+ *   DejaVuSans{,-Bold}.ttf                — DejaVu Sans
+ * ------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: normal;
+  font-weight: 400;
+  src: url("fonts/lmroman10-regular.otf") format("opentype"),
+       local("Latin Modern Roman"),
+       local("CMU Serif");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: italic;
+  font-weight: 400;
+  src: url("fonts/lmroman10-italic.otf") format("opentype"),
+       local("Latin Modern Roman Italic"),
+       local("CMU Serif Italic");
+  font-display: swap;
+}
+@font-face {
+  font-family: "Latin Modern Roman";
+  font-style: normal;
+  font-weight: 700;
+  src: url("fonts/lmroman10-bold.otf") format("opentype"),
+       local("Latin Modern Roman Bold"),
+       local("CMU Serif Bold");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Latin Modern Mono";
+  font-style: normal;
+  font-weight: 400;
+  src: url("fonts/lmmono10-regular.otf") format("opentype"),
+       local("Latin Modern Mono"),
+       local("CMU Typewriter Text");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "DejaVu Sans";
+  font-style: normal;
+  font-weight: 400;
+  src: url("fonts/DejaVuSans.ttf") format("truetype"),
+       local("DejaVu Sans");
+  font-display: swap;
+}
+@font-face {
+  font-family: "DejaVu Sans";
+  font-style: normal;
+  font-weight: 700;
+  src: url("fonts/DejaVuSans-Bold.ttf") format("truetype"),
+       local("DejaVu Sans Bold");
+  font-display: swap;
+}
+
+/* =========================================================================
+ * TOKENS — the authoritative machine-readable values.
+ * Mirrored from design_spec/01-tokens.md §1.7 YAML block.
+ * If you change a value here, update 01-tokens.md in lockstep.
+ * ========================================================================= */
+
+:root {
+  /* --- Canvas + neutrals ----------------------------------------------- */
+  --canvas-bg:          #0d1117; /* single dark canvas, everywhere */
+  --canvas-text:        #e8e8e8; /* primary body text on slides */
+  --canvas-text-alt:    #e4ecff; /* matplotlib variant (historical, converging) */
+  --canvas-dim:         #5e6c8c; /* grid, spines, axes, muted structure */
+
+  /* --- Madrid footer strip (slide chrome) ------------------------------ */
+  --navy-dark:          #1a2a4a; /* frametitle bar, palette primary */
+  --navy-mid:           #243560; /* palette secondary */
+  --navy-light:         #2e4275; /* palette tertiary */
+
+  /* --- Block colors — slides (WCAG AA verified header+body pairs) ------ */
+  --def-hdr:            #1e50a0;  /* Blue — Definition      (7.75:1 white-on) */
+  --def-body:           #0c1c3c;
+  --def-inline:         #64a0ff;  /* \textcolor{defblue} on dark (7.22:1)    */
+
+  --form-hdr:           #825000;  /* Gold — Formula / alert (6.78:1 white-on) */
+  --form-body:          #2d1a00;
+  --form-inline:        #ffbe32;  /* \textcolor{formgold} on dark (11.41:1)  */
+
+  --ex-hdr:             #006464;  /* Teal — Example         (6.98:1 white-on) */
+  --ex-body:            #002022;
+  --ex-inline:          #00d2c8;  /* \textcolor{exteal} on dark (9.96:1)     */
+
+  --note-hdr:           #502a87;  /* Purple — Note          (10.39:1 white-on) */
+  --note-body:          #1a0c32;
+  --note-inline:        #b98cff;  /* \textcolor{notepurple} on dark (7.44:1) */
+
+  /* --- Accent colors — animations (matplotlib, no WCAG constraint) ----- */
+  --accent-blue:        #5ba3f5;  /* baseline / secondary / down-spin */
+  --accent-yellow:      #ffd166;  /* highlight / trace head / vertex / emphasis */
+  --accent-green:       #3df0c0;  /* convergence / acceptance / best path */
+  --accent-red:         #ff4d6d;  /* rejection / error / noise / up-spin */
+  --accent-violet:      #a46bff;  /* LQCD series only — chromatic violet (7.1:1) */
+
+  /* --- Series identity (picks from accents, not blocks) ---------------- */
+  --series-qft:         var(--accent-blue);   /* fields as waves */
+  --series-mc:          var(--accent-yellow); /* stochasticity / gold */
+  --series-lqcd:        var(--accent-violet); /* lattice / gauge violet */
+
+  /* --- Typography ------------------------------------------------------- */
+  --font-display:       "Latin Modern Roman", "CMU Serif", "STIX Two Text", Cambria, serif;
+  --font-ui:            "DejaVu Sans", "TeX Gyre Heros", "Nimbus Sans", Helvetica, Arial, sans-serif;
+  --font-math:          "Latin Modern Roman", "Latin Modern Math", "Computer Modern", "STIX Two Text", "CMU Serif", Cambria, serif;
+  --font-mono:          "Latin Modern Mono", "DejaVu Sans Mono", "SF Mono", "Consolas", monospace;
+
+  /* Size scale — pt values from 02-typography.md, converted to px @ 96dpi.
+   * 1pt = 1.333px. Scale is deliberately sparse — few sizes, big jumps. */
+  --size-slide-title:         26.66px;  /* 20 pt — Beamer frametitle */
+  --size-slide-body:          13.33px;  /* 10 pt — Beamer body */
+  --size-slide-math-inline:   16px;     /* 12 pt */
+  --size-slide-math-display:  18.66px;  /* 14 pt */
+  --size-slide-block-title:   14.66px;  /* 11 pt */
+  --size-clip-title:          16px;     /* 12 pt — moment-clip title */
+  --size-clip-label:          12px;     /* 9  pt */
+  --size-clip-tick:           10.66px;  /* 8  pt */
+  --size-broll-title:         18.66px;  /* 14 pt — dual-panel b-roll panel title */
+  --size-broll-label:         13.33px;  /* 10 pt */
+  --size-broll-tick:          10.66px;  /* 8  pt */
+  --size-thumbnail-title:     96px;     /* 72 pt */
+  --size-thumbnail-sub:       48px;     /* 36 pt */
+
+  /* --- Spacing / geometry ---------------------------------------------- */
+  --margin-slide-safe:        60px;   /* 1800×960 safe area inside 1920×1080 */
+  --margin-moment-safe:       10px;   /* 260×160 safe area inside 280×180 */
+  --margin-broll-safe:        40px;   /* 1200×640 safe area inside 1280×720 */
+  --pip-margin:               24px;   /* PiP overlay margin from edges */
+
+  /* --- Motion durations (seconds; mirror 04-motion.md §4.2) ------------ */
+  --dur-flash:        0.2s;
+  --dur-quick:        0.5s;
+  --dur-base:         1.0s;
+  --dur-deliberate:   2.5s;
+  --dur-dwell:        5.0s;
+
+  /* --- Easing ----------------------------------------------------------- */
+  --ease-reveal:      cubic-bezier(0.22, 1, 0.36, 1);      /* cubic ease-out */
+  --ease-morph:       cubic-bezier(0.65, 0, 0.35, 1);      /* cubic ease-in-out */
+  --ease-linear:      linear;
+
+  /* --- Line / shape ----------------------------------------------------- */
+  --rule-width:           0.6px;            /* matplotlib spine thickness */
+  --rule-color:           var(--canvas-dim);
+  --radius-block:         2px;              /* Beamer blocks have minimal rounding */
+  --radius-badge:         4px;
+
+  /* --- Audio reference values (informational; surfaced for docs UIs) --- */
+  --lufs-voice:           -16;
+  --lufs-music:           -22;
+  --lufs-truepeak:        -1.5;
+  --fps-master:           25;
+}
+
+/* =========================================================================
+ * BASE ELEMENT STYLES (semantic CSS — h1/h2/p/code etc.)
+ *
+ * These are the defaults a design artefact inherits simply by using the
+ * canvas-text background. They match the Beamer dark-theme behavior: body
+ * text is near-white on #0d1117, titles sit on navy strips.
+ * ========================================================================= */
+
+html, body {
+  background: var(--canvas-bg);
+  color: var(--canvas-text);
+  font-family: var(--font-ui);
+  font-size: var(--size-slide-body);
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Frametitle — navy strip behind title. Display face is Latin Modern Roman
+ * (LaTeX native). Beamer renders titles with \usepackage{lmodern} loaded. */
+h1, .ds-frametitle {
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: var(--size-slide-title);
+  color: #ffffff;
+  background: var(--navy-dark);
+  padding: 14px 32px;
+  margin: 0;
+  letter-spacing: 0.005em;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--size-slide-block-title);
+  color: var(--canvas-text);
+  margin: 1.2em 0 0.5em;
+}
+
+h3 {
+  font-family: var(--font-ui);
+  font-weight: 400;
+  font-size: var(--size-slide-body);
+  color: var(--def-inline);
+  margin: 0.8em 0 0.3em;
+}
+
+p {
+  font-size: var(--size-slide-body);
+  color: var(--canvas-text);
+  margin: 0.6em 0;
+  max-width: 80ch;              /* ≤ 80 chars per line */
+}
+
+/* Math — any element with .math or <var> uses the math stack.
+ * Latin Modern Roman Italic is the LaTeX variable glyph set. */
+.math, var, .ds-math {
+  font-family: var(--font-math);
+  font-style: italic;           /* LaTeX convention: variables are italic */
+  font-size: var(--size-slide-math-inline);
+  color: var(--canvas-text);
+}
+
+/* Display equations */
+.math-display, .ds-math-display {
+  font-family: var(--font-math);
+  font-size: var(--size-slide-math-display);
+  color: var(--canvas-text);
+  text-align: center;
+  margin: 1em 0;
+}
+
+/* Inline code / terminal pieces (not used on slides but used in docs) */
+code, .ds-code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  color: var(--form-inline);           /* gold = pay-attention */
+  background: rgba(255, 190, 50, 0.06);
+  padding: 0.1em 0.35em;
+  border-radius: 2px;
+}
+
+/* Source citation (slide footer bottom-right) */
+.ds-source {
+  font-size: 0.8em;
+  font-style: italic;
+  color: var(--canvas-text);
+  opacity: 0.85;
+  text-align: right;
+  display: block;
+  margin-top: 1em;
+}
+
+/* =========================================================================
+ * SEMANTIC CONCEPT COLORS (inline use in body text)
+ *
+ * Matches the Beamer \textcolor{defblue}{...} idiom. Use these classes
+ * for short highlighted phrases inside prose, never for whole sentences.
+ * ========================================================================= */
+.c-def   { color: var(--def-inline); }
+.c-form  { color: var(--form-inline); }
+.c-ex    { color: var(--ex-inline); }
+.c-note  { color: var(--note-inline); }
+.c-dim   { color: var(--canvas-dim); }
+.c-accent-blue   { color: var(--accent-blue); }
+.c-accent-yellow { color: var(--accent-yellow); }
+.c-accent-green  { color: var(--accent-green); }
+.c-accent-red    { color: var(--accent-red); }
+
+/* =========================================================================
+ * BLOCKS — the four semantic Beamer boxes.
+ * <div class="ds-block ds-def"><div class="ds-block-hdr">Definition: …</div>
+ *   <div class="ds-block-body">…body…</div></div>
+ * ========================================================================= */
+
+.ds-block {
+  margin: 1em 0;
+  border-radius: var(--radius-block);
+  overflow: hidden;
+}
+.ds-block-hdr {
+  font-family: var(--font-display);
+  font-weight: 700;
+  color: #ffffff;
+  padding: 8px 14px;
+  font-size: var(--size-slide-block-title);
+}
+.ds-block-body {
+  color: var(--canvas-text);
+  padding: 14px 16px;
+  font-size: var(--size-slide-body);
+  line-height: 1.55;
+}
+
+.ds-def  .ds-block-hdr  { background: var(--def-hdr); }
+.ds-def  .ds-block-body { background: var(--def-body); }
+.ds-form .ds-block-hdr  { background: var(--form-hdr); }
+.ds-form .ds-block-body { background: var(--form-body); }
+.ds-ex   .ds-block-hdr  { background: var(--ex-hdr); }
+.ds-ex   .ds-block-body { background: var(--ex-body); }
+.ds-note .ds-block-hdr  { background: var(--note-hdr); }
+.ds-note .ds-block-body { background: var(--note-body); }
+
+/* =========================================================================
+ * SLIDE FRAME — 1920×1080 canvas helper for HTML slide mocks.
+ * Wrap a slide in <section class="ds-slide">...</section>.
+ * ========================================================================= */
+.ds-slide {
+  width: 1920px;
+  height: 1080px;
+  background: var(--canvas-bg);
+  color: var(--canvas-text);
+  font-family: var(--font-ui);
+  font-size: var(--size-slide-body);
+  position: relative;
+  overflow: hidden;
+}
+.ds-slide .ds-frametitle {
+  width: 100%;
+  box-sizing: border-box;
+}
+.ds-slide .ds-body {
+  padding: 24px 60px;   /* respects safe area (60 px margin L/R) */
+}
+.ds-slide .ds-footer {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  display: flex;
+  background: var(--navy-dark);
+  color: var(--canvas-text);
+  font-size: 0.82em;
+}
+.ds-slide .ds-footer > div {
+  flex: 1;
+  padding: 8px 24px;
+  text-align: center;
+  border-right: 1px solid rgba(255,255,255,0.05);
+}
+.ds-slide .ds-footer > div:last-child {
+  text-align: right;
+  border-right: 0;
+}
+
+/* =========================================================================
+ * BULLET LIST — matches the Beamer Madrid round-dot bullets.
+ * ========================================================================= */
+.ds-bullets {
+  list-style: none;
+  padding: 0;
+  margin: 0.4em 0;
+}
+.ds-bullets > li {
+  position: relative;
+  padding-left: 1.4em;
+  margin: 0.3em 0;
+  max-width: 80ch;
+}
+.ds-bullets > li::before {
+  content: "";
+  position: absolute;
+  left: 0.25em;
+  top: 0.55em;
+  width: 0.5em;
+  height: 0.5em;
+  border-radius: 50%;
+  background: var(--def-inline);    /* blue round dots, per Madrid dark */
+}
+.ds-bullets .ds-bullets > li::before {
+  background: var(--canvas-dim);    /* nested bullets dim */
+}
+
+/* =========================================================================
+ * BADGE — series tag on thumbnails, small coloured rectangle.
+ * ========================================================================= */
+.ds-badge {
+  display: inline-block;
+  font-family: var(--font-ui);
+  font-weight: 700;
+  font-size: 0.8em;
+  padding: 4px 10px;
+  border: 2px solid currentColor;
+  border-radius: var(--radius-badge);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.ds-badge.qft  { color: var(--series-qft); }
+.ds-badge.mc   { color: var(--series-mc); }
+.ds-badge.lqcd { color: var(--series-lqcd); }

@@ -1,0 +1,13 @@
+## Scene 17 — The Standard Model in One Breath
+
+Everything we have built — quantum fields, Lagrangian densities, gauge symmetry, Feynman diagrams, renormalization — comes together in the Standard Model of particle physics.
+
+The Standard Model is a quantum field theory with a specific gauge symmetry group and a specific field content. The gauge symmetry is the group SU(3) cross SU(2) cross U(1). The field content is six quarks, six leptons, four types of gauge bosons, and the Higgs scalar. Every interaction among these particles is encoded in a single Lagrangian density.
+
+SU(3) is the symmetry of quantum chromodynamics, the theory of the strong force. The quarks carry color charge, coming in three varieties called red, green, and blue. The force between quarks is mediated by eight massless gauge bosons called gluons. Unlike the photon, gluons carry color charge themselves and interact with each other. This self-interaction makes QCD profoundly different from electrodynamics and leads to the phenomenon of confinement: quarks cannot exist in isolation.
+
+SU(2) cross U(1) is the gauge symmetry of the electroweak theory. At energies below about 100 GeV, it looks like two separate forces: electromagnetism mediated by the photon, and the weak force mediated by the W and Z bosons. But at higher energies, these are a single unified interaction. The W and Z bosons are massive, which is why the weak force is short-range. They acquire their masses through the Higgs mechanism: the Higgs field has a nonzero vacuum expectation value, spontaneously breaking the electroweak symmetry.
+
+Seventeen fundamental particles. One equation on one line. And yet it somehow does not include gravity — the most obvious force you interact with every day. Nobody said the universe had to be convenient.
+
+The precision of the Standard Model is stunning. The magnetic moment of the electron — a quantity measuring how strongly the electron behaves like a tiny magnet — has been calculated in QED to eleven significant figures and measured to eleven significant figures. Every digit agrees. No other theory in the history of science has been tested to this level of precision.

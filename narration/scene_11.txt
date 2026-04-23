@@ -1,0 +1,13 @@
+## Scene 11 — Interactions: The Field Is Not Free
+
+A free quantum field theory — one with only a kinetic term and a mass term in the Lagrangian density — is exactly solvable. The Fourier modes are independent oscillators. They do not interact. A particle of momentum k propagates through the theory and comes out the other side with exactly the same momentum, unchanged. Nothing interesting happens.
+
+Real physics requires interactions. An interaction is an additional term in the Lagrangian density that couples different field modes to each other — or couples different fields to each other.
+
+For a single scalar field, the next simplest term after the mass term is a phi-to-the-fourth term: the coupling constant lambda times phi-to-the-fourth, divided by four factorial. At each spacetime point, four copies of the field value appear together. This couples modes: a particle can scatter off another particle, or a single particle can decay into three, or two particles can fuse into one. The coupling constant lambda controls how often these events happen.
+
+For electrodynamics, the interaction is between the electron field and the photon field. The electron has a field psi, a four-component spinor. The photon has a field A-mu, a four-vector. The interaction term is g times psi-bar times gamma-mu times psi times A-mu — the electron field, the positron field, and the photon field all meeting at a single spacetime point. The constant g is the electric charge e.
+
+This single interaction term generates all of the electromagnetic phenomena you have ever observed. Electrons attracting or repelling each other, photons being emitted or absorbed by atoms, the photoelectric effect, the Compton scattering of photons off electrons — all of it comes from one term in one Lagrangian density.
+
+The interaction is local: everything happens at a single spacetime point. A photon is absorbed and an electron changes its momentum. An electron-positron pair annihilates into a photon. All at one point. This locality is what gives Feynman diagrams their vertex structure, which we will see in the next scene.

@@ -1,0 +1,27 @@
+## Scene 02 — What a Field Actually Is
+
+The word "field" appears in physics in many contexts, and it is worth being precise about what it means before we start quantizing anything.
+
+A field is an assignment of a physical quantity to every point in space — or more generally, to every point in spacetime. At each point, there is a value. That is all.
+
+The simplest example is a temperature field. Imagine you are standing in a large room, and at every point in that room, there is a temperature. Not a temperature attached to any particular object, but a temperature at that location. If you mapped out the temperature everywhere simultaneously, you would have a scalar field — one number per spatial point.
+
+Now imagine the wind. At every point in the atmosphere, there is a velocity — a direction and a magnitude. That is a vector field. Three numbers per point instead of one.
+
+These classical fields are defined by their values, and they change in time. The temperature field obeys a diffusion equation. The wind velocity obeys the Navier-Stokes equations. The dynamics of the field are governed by some equation of motion, derived from a physical principle.
+
+Classical electromagnetism is built on fields too. The electric field and the magnetic field together form a tensor field — at each point in spacetime, you have six numbers encoding the electromagnetic configuration. Maxwell's equations are the equations of motion for this field.
+
+Notice something about all of these classical field examples. None of them is attached to a particular object. The temperature at a point in the room does not belong to any particular air molecule. It is a property of the location. The field exists independently, at every point, whether or not any matter is present. The field is the fundamental thing.
+
+Now here is the conceptual leap. In quantum field theory, the field is still this assignment of a quantity to every spacetime point. But the quantity assigned is no longer a simple number. It is an operator — a mathematical object that acts on quantum states.
+
+A classical field at a point is a number. A quantum field at a point is an operator.
+
+This difference, simple to state, carries an enormous amount of physics. Operators in quantum mechanics do not have definite values — they have expectation values and fluctuations. The quantum field fluctuates at every point in spacetime, even in the state of lowest energy.
+
+There is also a question of what type of quantity the field assigns to each point. A scalar field assigns a single number — one degree of freedom per spacetime location. A vector field assigns a direction and magnitude — four numbers in spacetime. A tensor field assigns a more complex object, like a matrix, at each point. And a spinor field, which we will meet when we discuss the electron, assigns a four-component object with very specific transformation properties under rotations and boosts.
+
+The type of field determines the type of particle. Scalar fields give spin-zero particles. Vector fields give spin-one particles. Spinor fields give spin-one-half particles. The entire particle content of the Standard Model is encoded in the types of quantum fields the theory contains.
+
+Before we can appreciate why this is the right description, we need to understand more carefully what goes wrong with the single-particle picture. So let us look at that failure in detail.

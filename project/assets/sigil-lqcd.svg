@@ -1,0 +1,13 @@
+
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 400" width="400" height="400" role="img" aria-label="LQCD series sigil — plaquette">
+  <rect x="100" y="100" width="200" height="200" fill="#a46bff" fill-opacity="0.18"></rect>
+  <line x1="100" y1="100" x2="300" y2="100" stroke="#e8e8e8" stroke-width="6" stroke-linecap="round"></line>
+  <line x1="300" y1="100" x2="300" y2="300" stroke="#e8e8e8" stroke-width="6" stroke-linecap="round"></line>
+  <line x1="300" y1="300" x2="100" y2="300" stroke="#e8e8e8" stroke-width="6" stroke-linecap="round"></line>
+  <line x1="100" y1="300" x2="100" y2="100" stroke="#e8e8e8" stroke-width="6" stroke-linecap="round"></line>
+  <line x1="100" y1="300" x2="300" y2="100" stroke="#a46bff" stroke-width="8" stroke-linecap="round"></line>
+  <circle cx="100" cy="100" r="14" fill="#e8e8e8"></circle>
+  <circle cx="300" cy="100" r="14" fill="#e8e8e8"></circle>
+  <circle cx="300" cy="300" r="14" fill="#e8e8e8"></circle>
+  <circle cx="100" cy="300" r="14" fill="#e8e8e8"></circle>
+</svg>

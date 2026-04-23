@@ -1,0 +1,13 @@
+## Scene 13 — Vertices and Propagators in Detail
+
+Two objects do all the work in Feynman diagram computations: propagators and vertices.
+
+The propagator encodes how a particle moves through empty space between interactions. For a scalar particle of mass m, the momentum-space propagator is the fraction one over the quantity k-squared minus m-squared, where k is the four-momentum carried by the particle. The denominator vanishes when the particle is on its mass shell — when k-squared equals m-squared, meaning the particle has the correct relativistic energy for its momentum. Internal particles in Feynman diagrams can be off-shell: they carry momentum that does not satisfy the mass-shell condition. These are the virtual particles. They are not observable directly, but they contribute to the amplitude.
+
+A small imaginary part, usually written plus i-epsilon, is added to the denominator to handle the singularity at the mass shell. This prescription is not just a regularization trick — it encodes the causal structure of the propagator: particles propagate forward in time, antiparticles backward in time.
+
+For a spin-one-half fermion, the propagator is a four-by-four matrix in spinor space, proportional to the quantity k-slash plus m, divided by k-squared minus m-squared, where k-slash is the contraction of the four-momentum with the gamma matrices. For the photon, the propagator is a four-by-four tensor, minus i times the metric tensor g-mu-nu divided by k-squared.
+
+The vertex for quantum electrodynamics is minus i times e times gamma-mu. Here e is the electric charge — the coupling constant — and gamma-mu is one of the four gamma matrices connecting the spinor indices of the two fermion lines. Three lines meet at the QED vertex: the incoming fermion, the outgoing fermion, and the photon. Every electromagnetic process is built from multiple copies of this vertex, connected by propagators.
+
+To compute the amplitude for a physical process, draw all the relevant Feynman diagrams, translate each piece into its algebraic factor, integrate over all undetermined internal momenta, and sum the diagrams. The result is the scattering amplitude, whose squared magnitude gives probabilities for the process to occur.

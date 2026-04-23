@@ -1,0 +1,15 @@
+## Scene 19 — Summary: The Five Big Ideas
+
+Let us step back and consolidate what this lecture has covered.
+
+The first big idea: fields are primary. The electron is not a particle bouncing through space. It is a ripple in the electron field, which permeates all of spacetime. Every species of particle in nature corresponds to an underlying quantum field. The field is always there; the particles are what happens when it is disturbed.
+
+The second big idea: particles are quantized excitations. Quantizing a field means quantizing a collection of harmonic oscillators, one per mode. The creation operator a-dagger of k adds one particle of momentum k. The annihilation operator a of k removes one. The vacuum is the state annihilated by all a of k. Any many-particle state is built by applying creation operators to the vacuum.
+
+The third big idea: symmetries govern dynamics. The Lagrangian density encodes the theory. If it has a continuous symmetry, there is a conserved current — this is Noether's theorem. The gauge symmetries of the Standard Model are so restrictive that, once you choose the symmetry group and the matter fields, almost the entire theory is fixed. The known interactions are consequences of gauge invariance.
+
+The fourth big idea: interactions are computed with Feynman diagrams. Each diagram is a term in the perturbative expansion of the amplitude. Lines carry propagators. Vertices carry coupling constants. Loops require integration over undetermined momenta.
+
+The fifth big idea: infinities are physical and manageable. Loop integrals diverge. Renormalization absorbs these divergences into redefined parameters. The physical consequence is that coupling constants run with energy scale — the effective strength of an interaction depends on the energy at which you probe it. This running of couplings is measured in particle accelerators and agrees with theory.
+
+These five ideas together constitute the conceptual core of quantum field theory. Everything built on top of them — gauge theories, spontaneous symmetry breaking, the path integral, anomalies, asymptotic freedom — elaborates and extends this foundation.

@@ -1,0 +1,13 @@
+## Scene 15 — Forces from Field Exchange: Yukawa's Insight
+
+Here is one of the most beautiful results in quantum field theory. Forces between particles — the attraction between opposite charges, the repulsion between like charges, the nuclear force binding protons in a nucleus — all arise from the same underlying mechanism: the exchange of virtual particles.
+
+Consider two heavy fermions, each coupled to a scalar field via a Yukawa interaction. Each fermion emits a scalar particle, and that scalar particle propagates to the other fermion and is absorbed. This is the simplest Feynman diagram with two vertices and one internal line. Compute the amplitude for this process and take the non-relativistic limit, where the particles are moving slowly. The result is a potential between the two fermions — the Yukawa potential — which takes the form minus g-squared times the mass m times e to the minus m r, divided by four pi r. Here r is the distance between the fermions and m is the mass of the exchanged scalar particle.
+
+This potential falls off exponentially with distance. The range of the force is the inverse of the mass of the exchanged particle. A heavy exchanged particle gives a short-range force. A light one gives a longer range. A massless exchanged particle gives an infinite-range force.
+
+In 1935, Hideki Yukawa used this reasoning to predict the existence of the pion — a particle of mass around 140 MeV, needed to explain the nuclear force. The nuclear force is short-range, with a range of about a femtometer. Yukawa calculated the required mass and predicted the pion before it was observed experimentally. When it was found, the Yukawa mechanism was confirmed.
+
+Electromagnetism is the same story, with the photon as the exchanged particle. The photon is massless, so the Coulomb potential goes as one over r, with no exponential suppression. The force has infinite range.
+
+Gravity would be mediated by the graviton — a massless spin-2 particle. The one-over-r potential would follow, which matches Newton's law. The challenge is that quantum gravity is not renormalizable, so we do not have a complete quantum theory of gravitational exchange at short distances.

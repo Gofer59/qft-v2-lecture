@@ -1,0 +1,15 @@
+## Scene 08 — The Vacuum Is Not Nothing
+
+The vacuum is the most surprising object in quantum field theory. It is defined as the state of lowest energy — the ground state of the quantum field. Naively, you might expect it to be empty: no fields, no particles, no energy, nothing.
+
+It is none of those things.
+
+The vacuum is doing more work than your average grad student. It is fluctuating, exerting forces, and contributing an infinite energy — and it does not even get co-authorship.
+
+Because the field at each point is an operator rather than a number, the field value in the vacuum state is not zero. More precisely: the expectation value of the field in the vacuum is zero, but the expectation value of the field squared is not. The vacuum has quantum fluctuations. The field is not sitting still — it is restless at every point in space.
+
+Each mode of the field contributes a zero-point energy of one-half times h-bar times the frequency of that mode. Summed over all modes — over all possible momenta, from zero up to infinity — this gives an infinite total vacuum energy. This is the first genuine infinity you encounter in quantum field theory, and it is not removable by any sleight of hand. You can choose to measure energies relative to the vacuum, which sets the vacuum energy to zero by convention, but the fluctuations remain.
+
+These fluctuations are physically real and measurable. The Casimir effect provides direct evidence. Place two parallel conducting plates very close together in vacuum, with no electromagnetic fields applied. The conducting boundary conditions restrict which electromagnetic field modes can exist in the gap between the plates. Outside the plates, all modes are available. Inside the gap, only modes that fit between the plates are allowed. This mismatch in mode density creates a difference in vacuum energy between the inside and outside regions, which produces a net attractive force between the plates. The force has been measured and matches the quantum field theory calculation precisely.
+
+Virtual particles are the intuitive name for vacuum fluctuations. A pair — particle and antiparticle — momentarily appears and annihilates. This is not quite the right picture mathematically — there are no particles in the vacuum, only the operator fluctuations of the field — but the intuition captures the right physics: the vacuum is a dynamic, structured object, not a featureless emptiness.

@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "repo": "https://github.com/SVaiva/qft-v2-lecture",
+  "audio_src": "/home/gofer/Documents_organise/references/video_project/qft01_v2_voice_pipeline/audio",
+  "phase": "expand_scenes",
+  "scenes": {
+    "01": {"title": "The Question That Breaks Single-Particle Mechanics", "dur_target": 142, "status": "pending"},
+    "02": {"title": "What a Field Actually Is", "dur_target": 201, "status": "pending"},
+    "03": {"title": "Why Relativistic QM Fails", "dur_target": 168, "status": "pending"},
+    "04": {"title": "Fields Are Primary", "dur_target": 151, "status": "pending"},
+    "05": {"title": "Fields as Operators", "dur_target": 146, "status": "pending"},
+    "06": {"title": "Quantizing the Free Scalar Field", "dur_target": 150, "status": "pending"},
+    "07": {"title": "Creation and Annihilation Operators", "dur_target": 145, "status": "pending"},
+    "08": {"title": "The Vacuum Is Not Nothing", "dur_target": 144, "status": "pending"},
+    "09": {"title": "The Lagrangian Density and the Action", "dur_target": 208, "status": "pending"},
+    "10": {"title": "Symmetries and Conservation Laws", "dur_target": 131, "status": "pending"},
+    "11": {"title": "Interactions: The Field Is Not Free", "dur_target": 125, "status": "pending"},
+    "12": {"title": "Feynman Diagrams: Cartoons That Compute", "dur_target": 146, "status": "pending"},
+    "13": {"title": "Vertices and Propagators in Detail", "dur_target": 135, "status": "pending"},
+    "14": {"title": "Loops and the Need for Renormalization", "dur_target": 137, "status": "pending"},
+    "15": {"title": "Forces from Field Exchange", "dur_target": 132, "status": "pending"},
+    "16": {"title": "Spin, Statistics, and Fermion Fields", "dur_target": 133, "status": "pending"},
+    "17": {"title": "The Standard Model in One Breath", "dur_target": 134, "status": "pending"},
+    "18": {"title": "What QFT Does Not Explain", "dur_target": 132, "status": "pending"},
+    "19": {"title": "The Five Big Ideas", "dur_target": 130, "status": "pending"},
+    "20": {"title": "What Is Coming: The Path Integral", "dur_target": 120, "status": "pending"}
+  }
+}

@@ -1,0 +1,15 @@
+## Scene 20 — What Is Coming: Interacting Fields and the Path Integral
+
+You now have the conceptual vocabulary of quantum field theory: fields, operators, the vacuum, creation and annihilation, Lagrangians, Feynman diagrams, renormalization. What you do not yet have is the computational machinery to use these ideas efficiently.
+
+Lecture 2 introduces the path integral.
+
+The canonical quantization approach we used in this lecture — promoting fields to operators, imposing commutation relations — works, but it is cumbersome for interacting theories. The Feynman rules come out, but the derivation involves tracking normal ordering, time ordering, and Wick's theorem through many steps.
+
+The path integral is a different formulation of the same physics. Instead of operators acting on states, you sum over all possible field configurations. Each configuration contributes to the amplitude with a weight given by e to the power of i times the action divided by h-bar. Configurations far from the one that minimizes the action oscillate rapidly and tend to cancel. The dominant contribution comes from the field configuration closest to the classical path — which is how classical mechanics emerges from quantum mechanics in the appropriate limit.
+
+The path integral makes several things transparent that are obscure in the operator approach. The connection between quantum field theory and statistical mechanics becomes explicit — a simple rotation in the time variable converts one into the other. Gauge fixing — the procedure for handling the redundancy of gauge theories — has a natural home in the path integral. The Feynman rules emerge cleanly from the expansion of the path integral in powers of the coupling.
+
+In Lecture 2, we will derive the Feynman propagator from the path integral without any operator machinery. We will evaluate the first one-loop correction to the scalar field propagator and see the divergence appear and get renormalized. And we will set up the language needed for gauge theories, which arrive in Lecture 3.
+
+The mathematics gets harder from here. But so does the physics — and every step is driven by a question nature has already answered.

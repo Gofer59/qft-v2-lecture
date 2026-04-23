@@ -1,0 +1,16 @@
+{
+  "name": "qft01_v2_design_r2",
+  "version": "1.0.0",
+  "description": "This is a **handoff bundle** from Claude Design (claude.ai/design).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "playwright": "^1.59.1"
+  }
+}

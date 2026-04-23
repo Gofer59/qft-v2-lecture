@@ -1,0 +1,17 @@
+## Scene 10 — Symmetries and Conservation Laws
+
+If the Lagrangian density is unchanged when you transform the field in some way, that symmetry has a physical consequence. It guarantees a conserved quantity.
+
+This is Noether's theorem, and it is one of the most important results in all of theoretical physics.
+
+Consider time translation: shift all times by a constant, and nothing physical changes. Noether's theorem tells you the corresponding conserved quantity is energy. The total energy of a closed system does not change over time — this is not a separate assumption, it follows from time-translation symmetry.
+
+Shift all spatial positions by a constant, and again nothing physical changes. Noether's theorem gives conservation of momentum.
+
+Rotate in space: conservation of angular momentum.
+
+Now consider a more abstract symmetry, specific to complex scalar fields. Take a complex scalar field phi, and rotate it in the complex plane — replace phi by phi times e to the i-alpha, where alpha is a constant angle. The magnitude of phi is unchanged; only its phase shifts. If the Lagrangian density depends on phi only through combinations like phi times phi-star — the field times its complex conjugate — then it is invariant under this phase rotation. The corresponding conserved quantity is the field's total charge: the integral over space of a certain combination of the field and its time derivative.
+
+For the electron field coupled to electromagnetism, this U(1) symmetry is electric charge. The conservation of electric charge is a consequence of the invariance of the theory under phase rotations of the electron field. Not a mystery, not an independent law — a theorem, following from the symmetry of the Lagrangian density.
+
+The Standard Model is built from symmetries. The gauge symmetry group determines the spectrum of force-carrying bosons and the form of all interactions. Requiring the theory to be invariant under certain local symmetry transformations — meaning the phase rotation angle can vary from point to point in spacetime — forces the existence of gauge fields. In electrodynamics, requiring local U(1) symmetry forces the existence of the photon.
