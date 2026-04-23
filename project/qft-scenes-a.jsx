@@ -12,7 +12,7 @@ const SCENES = [
   { n: 6,  title: 'Quantizing the Free Scalar Field',                   dur: 150 }, // expanded for full narration 148.5s
   { n: 7,  title: 'Creation and Annihilation Operators',                dur: 145 }, // expanded for full narration 143.4s
   { n: 8,  title: 'The Vacuum Is Not Nothing',                          dur: 144 }, // expanded for full narration 142.7s
-  { n: 9,  title: 'The Lagrangian Density and the Action',              dur: 21 }, // was 20, audio 20.4
+  { n: 9,  title: 'The Lagrangian Density and the Action',              dur: 208 }, // expanded for full narration 206.7s
   { n: 10, title: 'Symmetries and Conservation Laws',                   dur: 23 }, // was 20, audio 21.9
   { n: 11, title: 'Interactions: The Field Is Not Free',                dur: 24 }, // was 20, audio 22.9
   { n: 12, title: 'Feynman Diagrams: Cartoons That Compute',            dur: 31 }, // was 28, audio 30.0

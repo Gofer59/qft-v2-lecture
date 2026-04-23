@@ -1478,81 +1478,389 @@ function Scene08({ start, end }) {
 }
 
 // Scene 09 — Lagrangian density & action
+// Scene 09 — Lagrangian Density and Action (expanded to 208s / 10 beats)
+// Beat 1  (0–14)     Title + principle of least action (classical)
+// Beat 2  (14–34)    Field theory version — action over 4D spacetime
+// Beat 3  (34–56)    ℒ(φ, ∂φ) → Action S = ∫ ℒ d⁴x
+// Beat 4  (56–80)    Principle of least action δS = 0 → Euler-Lagrange → KG
+// Beat 5  (80–100)   Symmetries of ℒ → conservation laws (Noether tease)
+// Beat 6  (100–124)  Renormalizability: mass dimension 4 constraint
+// Beat 7  (124–148)  Locality: ℒ(x) depends only on field at x → causality
+// Beat 8  (148–180)  Field dimensions, allowed terms for scalar (kinetic/mass/φ⁴)
+// Beat 9  (180–200)  "Lagrangian is not guessed" — symmetries + renorm pick it
+// Beat 10 (200–208)  Final hold — "powerful organizational principle"
 function Scene09({ start, end }) {
   return (
     <Scene start={start} end={end} label="09">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // 4D box → integrate → Euler-Lagrange
-        const cubeT = clamp((t - 1) / 3, 0, 1);
-        const eqT = clamp((t - 9) / 2, 0, 1);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 13) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 15) / 1.5, 0, 1) * (1 - clamp((t - 32) / 1.5, 0, 1));
+        const b2Box = clamp((t - 19) / 3, 0, 1);
+
+        const b3A = clamp((t - 34) / 1.5, 0, 1) * (1 - clamp((t - 54) / 1.5, 0, 1));
+        const b3L = clamp((t - 38) / 1.5, 0, 1);
+        const b3S = clamp((t - 44) / 1.5, 0, 1);
+
+        const b4A = clamp((t - 56) / 1.5, 0, 1) * (1 - clamp((t - 78) / 1.5, 0, 1));
+        const b4dS = clamp((t - 60) / 1.5, 0, 1);
+        const b4EL = clamp((t - 66) / 1.5, 0, 1);
+        const b4KG = clamp((t - 72) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 80) / 1.5, 0, 1) * (1 - clamp((t - 98) / 1.5, 0, 1));
+        const b5Sym = clamp((t - 84) / 1.5, 0, 1);
+        const b5Noe = clamp((t - 90) / 1.5, 0, 1);
+
+        const b6A = clamp((t - 100) / 1.5, 0, 1) * (1 - clamp((t - 122) / 1.5, 0, 1));
+        const b6Dim = clamp((t - 106) / 1.5, 0, 1);
+        const b6Rule = clamp((t - 114) / 1.5, 0, 1);
+
+        const b7A = clamp((t - 124) / 1.5, 0, 1) * (1 - clamp((t - 146) / 1.5, 0, 1));
+        const b7Loc = clamp((t - 130) / 2, 0, 1);
+        const b7Caus = clamp((t - 138) / 1.5, 0, 1);
+
+        const b8A = clamp((t - 148) / 1.5, 0, 1) * (1 - clamp((t - 178) / 1.5, 0, 1));
+        const b8Rows = [152, 156, 160, 164];
+
+        const b9A = clamp((t - 180) / 1.5, 0, 1) * (1 - clamp((t - 198) / 1.5, 0, 1));
+
+        const b10A = clamp((t - 199) / 1.5, 0, 1);
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={9} title={'Lagrangian Density'} />
             <SceneRefs refs={["ps","srednicki"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* 3D box */}
-              <g transform="translate(520, 560)" opacity={cubeT}>
-                {/* isometric box */}
-                {(() => {
-                  const s = 200;
-                  const d = 120;
-                  const front = `M 0,0 L ${s},0 L ${s},${s} L 0,${s} Z`;
-                  const top = `M 0,0 L ${d},-${d*0.6} L ${s+d},-${d*0.6} L ${s},0 Z`;
-                  const right = `M ${s},0 L ${s+d},-${d*0.6} L ${s+d},${s - d*0.6} L ${s},${s} Z`;
-                  return (
-                    <>
-                      <path d={front} fill="var(--navy-dark)" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.6" />
-                      <path d={top} fill="var(--navy-dark)" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.8" />
-                      <path d={right} fill="var(--navy-dark)" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.5" />
-                      {/* dots inside — Lagrangian density points */}
-                      {Array.from({length: 40}).map((_, i) => {
-                        const px = (i * 37) % s;
-                        const py = (i * 67) % s;
-                        return <circle key={i} cx={px} cy={py} r="2" fill="var(--form-inline)" opacity={0.4 + 0.3 * Math.sin(t * 2 + i)} />;
-                      })}
-                      <text x={s/2 - 20} y={s + 40} fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">spacetime volume</text>
-                      <text x="-12" y={-d*0.6 - 10} fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">t</text>
-                    </>
-                  );
-                })()}
-              </g>
-              {/* integral arrow */}
-              {t > 5 && (
-                <g transform="translate(940, 620)" opacity={fadeIO(t - 5, duration - 5, 0.5, 0.5)}>
-                  <line x1="0" y1="0" x2="120" y2="0" stroke="var(--accent-yellow)" strokeWidth="2" markerEnd="url(#arr-right)" />
-                  <text x="60" y="-20" textAnchor="middle" fill="var(--accent-yellow)" fontFamily="var(--font-math)" fontSize="28">∫ d⁴x</text>
-                </g>
-              )}
-            </svg>
+            <FieldBackground accent="#5ba3f5" amplitude={0.18} speed={0.08} />
+
             <defs>
-              <marker id="arr-right" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-yellow)" /></marker>
+              <marker id="arr-09" viewBox="0 0 10 10" refX="5" refY="5"
+                      markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-yellow)" />
+              </marker>
             </defs>
 
-            {/* action equation */}
-            {t > 7 && (
-              <div style={{ position: 'absolute', top: 450, left: 1170,
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40, color: 'white',
-                opacity: fadeIO(t - 7, duration - 7, 0.6, 0.5) }}>
-                S = ∫ ℒ d⁴x
+            {/* ── BEAT 1: Classical least action ──────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 56, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  The <span style={{ color: 'var(--accent-yellow)' }}>principle of least action</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--form-inline)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  S = ∫ dt &nbsp; L(q, q̇)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 5) / 1.2, 0, 1) }}>
+                  The path taken is the one for which S is stationary.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: 4D spacetime box ─────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                For fields — integrate over all <span style={{ color: 'var(--accent-blue)' }}>4D spacetime</span>.
               </div>
             )}
-            {/* Euler-Lagrange */}
-            {t > 11 && (
-              <div style={{ position: 'absolute', top: 560, left: 1160,
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 30,
-                color: 'var(--form-inline)', opacity: eqT }}>
-                δS = 0 ⟹ <span style={{ color: 'var(--accent-green)' }}>(□ + m²)φ = 0</span>
+            {b2Box > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b2Box * b2A }}>
+                <g transform="translate(720, 420)">
+                  {(() => {
+                    const s = 280, d = 160;
+                    const front = `M 0,0 L ${s},0 L ${s},${s} L 0,${s} Z`;
+                    const top = `M 0,0 L ${d},-${d * 0.6} L ${s + d},-${d * 0.6} L ${s},0 Z`;
+                    const right = `M ${s},0 L ${s + d},-${d * 0.6} L ${s + d},${s - d * 0.6} L ${s},${s} Z`;
+                    return (
+                      <>
+                        <path d={front} fill="var(--navy-dark)" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.6" />
+                        <path d={top} fill="var(--navy-dark)" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.8" />
+                        <path d={right} fill="var(--navy-dark)" stroke="var(--accent-blue)" strokeWidth="1.5" opacity="0.5" />
+                        {Array.from({ length: 60 }).map((_, i) => {
+                          const px = (i * 37) % s;
+                          const py = (i * 67) % s;
+                          return <circle key={i} cx={px} cy={py} r="2.5" fill="var(--form-inline)"
+                            opacity={0.4 + 0.3 * Math.sin(t * 2 + i)} />;
+                        })}
+                        <text x={s / 2 - 30} y={s + 44} fill="var(--canvas-dim)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">
+                          3D space
+                        </text>
+                        <text x="-20" y={-d * 0.6 - 14} fill="var(--canvas-dim)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">t</text>
+                      </>
+                    );
+                  })()}
+                </g>
+              </svg>
+            )}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--form-inline)', opacity: b2A }}>
+                d⁴x = dt &nbsp; dx &nbsp; dy &nbsp; dz
               </div>
             )}
 
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white' }}>
-              {t < 11 ? 'Integrate ℒ over spacetime.' : 'Extremize. Get the field equations.'}
-            </div>
+            {/* ── BEAT 3: L density → Action ─────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                The <span style={{ color: 'var(--form-inline)' }}>Lagrangian density</span> ℒ
+                — a function of φ and ∂φ at each point.
+              </div>
+            )}
+            {b3L > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--form-inline)', opacity: b3L * b3A }}>
+                ℒ = ℒ(φ, ∂<sub>μ</sub>φ)
+              </div>
+            )}
+            {b3S > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 44,
+                      color: 'var(--accent-yellow)', opacity: b3S * b3A }}>
+                  ↓
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 580, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                      color: 'var(--accent-green)', opacity: b3S * b3A,
+                      textShadow: '0 0 24px rgba(61,240,192,0.3)' }}>
+                  S = ∫ d⁴x &nbsp; ℒ
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 4: δS = 0 → Euler-Lagrange → KG ── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Vary the action — find the stationary configuration.
+              </div>
+            )}
+            {b4dS > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 48,
+                    color: 'var(--accent-yellow)', opacity: b4dS * b4A }}>
+                δS = 0
+              </div>
+            )}
+            {b4EL > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--form-inline)', opacity: b4EL * b4A }}>
+                ∂<sub>μ</sub> (∂ℒ/∂(∂<sub>μ</sub>φ)) − ∂ℒ/∂φ = 0
+              </div>
+            )}
+            {b4KG > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 580, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--accent-green)', opacity: b4KG * b4A }}>
+                (□ + m²) φ = 0
+                <div style={{ fontSize: 22, color: 'var(--canvas-dim)', marginTop: 12,
+                      fontStyle: 'normal', letterSpacing: '0.2em' }}>
+                  KLEIN–GORDON
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 5: Symmetry → conservation (Noether) ── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Symmetries of ℒ are <span style={{ color: 'var(--accent-yellow)' }}>manifest</span>.
+              </div>
+            )}
+            {b5Sym > 0 && (
+              <div style={{ position: 'absolute', left: 240, top: 380, width: 600, textAlign: 'center',
+                    opacity: b5Sym * b5A,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                    fontSize: 36, color: 'var(--accent-blue)' }}>
+                Symmetry of ℒ
+              </div>
+            )}
+            {b5Sym > 0 && (
+              <div style={{ position: 'absolute', left: 850, top: 380, width: 220, textAlign: 'center',
+                    fontSize: 56, color: 'var(--accent-yellow)',
+                    opacity: b5Sym * b5A }}>
+                ⟶
+              </div>
+            )}
+            {b5Noe > 0 && (
+              <div style={{ position: 'absolute', left: 1080, top: 380, width: 600, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic',
+                    fontSize: 36, color: 'var(--accent-green)',
+                    opacity: b5Noe * b5A }}>
+                Conserved current
+              </div>
+            )}
+            {b5Noe > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--canvas-dim)', opacity: b5Noe * b5A }}>
+                Noether's theorem — more in Scene 10.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Renormalizability constraint ── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                Structure constrained by <span style={{ color: 'var(--accent-red)' }}>renormalizability</span>.
+              </div>
+            )}
+            {b6Dim > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--form-inline)', opacity: b6Dim * b6A }}>
+                dim[S] = 0 &nbsp;(ℏ = c = 1) &nbsp;⟹&nbsp; dim[ℒ] = 4
+              </div>
+            )}
+            {b6Rule > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-green)', opacity: b6Rule * b6A }}>
+                Keep only terms of mass dimension ≤ 4.
+              </div>
+            )}
+            {b6Rule > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b6Rule * b6A }}>
+                Higher-dim operators blow up at high energies.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Locality + causality ─────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                <span style={{ color: 'var(--accent-blue)' }}>Locality</span> — ℒ(x)
+                depends only on the field at x.
+              </div>
+            )}
+            {b7Loc > 0 && (() => {
+              // Single point highlighted, rest dim
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b7Loc * b7A }}>
+                  {Array.from({ length: 40 }).map((_, i) => {
+                    const x = 260 + (i % 10) * 140;
+                    const y = 380 + Math.floor(i / 10) * 80;
+                    const highlight = i === 25;
+                    return (
+                      <circle key={i} cx={x} cy={y} r={highlight ? 14 : 5}
+                              fill={highlight ? 'var(--accent-yellow)' : 'var(--accent-blue)'}
+                              opacity={highlight ? 1 : 0.25}>
+                        {highlight && <animate attributeName="r" values="14;18;14"
+                          dur="1.5s" repeatCount="indefinite" />}
+                      </circle>
+                    );
+                  })}
+                </svg>
+              );
+            })()}
+            {b7Caus > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--accent-green)', opacity: b7Caus * b7A,
+                    textShadow: '0 0 16px rgba(61,240,192,0.3)' }}>
+                ⟹ Causality — no signal exceeds c.
+              </div>
+            )}
+
+            {/* ── BEAT 8: Field dimensions & allowed terms ── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                Field dimensions — what terms survive for a scalar?
+              </div>
+            )}
+            {b8A > 0 && (() => {
+              const rows = [
+                { dim: '[∂φ·∂φ] = 4',  label: 'kinetic',         allow: true,  col: 'var(--accent-blue)' },
+                { dim: '[m²φ²] = 4',   label: 'mass',             allow: true,  col: 'var(--accent-red)' },
+                { dim: '[λφ⁴] = 4',    label: 'self-interaction', allow: true,  col: 'var(--accent-green)' },
+                { dim: '[φ⁶] = 6',     label: 'non-renorm.',      allow: false, col: 'var(--canvas-dim)' },
+              ];
+              return rows.map((r, i) => {
+                const ap = clamp((t - b8Rows[i]) / 1.2, 0, 1) * b8A;
+                return (
+                  <div key={i} style={{
+                    position: 'absolute', left: 320, right: 320, top: 280 + i * 110,
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '20px 40px',
+                    border: `1.5px solid ${r.allow ? r.col : 'var(--accent-red)'}`,
+                    borderRadius: 4, opacity: ap,
+                    background: 'rgba(13,17,23,0.45)',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                  }}>
+                    <span style={{ color: r.col, fontSize: 30, flex: '0 0 300px' }}>{r.dim}</span>
+                    <span style={{ color: 'var(--canvas-text)', fontSize: 26,
+                          fontStyle: 'normal', flex: '0 0 320px' }}>{r.label}</span>
+                    <span style={{ color: r.allow ? 'var(--accent-green)' : 'var(--accent-red)',
+                          fontSize: 34, flex: '0 0 60px', textAlign: 'right' }}>
+                      {r.allow ? '✓' : '✕'}
+                    </span>
+                  </div>
+                );
+              });
+            })()}
+
+            {/* ── BEAT 9: "Not guessed" ─────────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--canvas-text)', opacity: b9A }}>
+                The Standard Model Lagrangian is <span style={{ color: 'var(--accent-yellow)' }}>not guessed</span>.
+              </div>
+            )}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-green)',
+                    opacity: b9A * clamp((t - 184) / 1.5, 0, 1) }}>
+                It is the most general ℒ consistent with
+              </div>
+            )}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-green)',
+                    opacity: b9A * clamp((t - 188) / 1.5, 0, 1) }}>
+                <span style={{ color: 'var(--accent-blue)' }}>symmetries</span>
+                &nbsp;+&nbsp;
+                <span style={{ color: 'var(--accent-red)' }}>renormalizability</span>
+                &nbsp;in 4D.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ──────────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 50,
+                    color: 'var(--form-inline)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.35)' }}>
+                S = ∫ d⁴x &nbsp; ℒ
+              </div>
+            )}
           </div>
         );
       }}
