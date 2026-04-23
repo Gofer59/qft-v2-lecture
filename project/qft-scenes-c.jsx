@@ -577,59 +577,261 @@ function Scene12({ start, end }) {
 }
 
 // Scene 13 — Propagators & vertex in detail
+// Scene 13 — Propagators & Vertices in Detail (expanded to 135s / 10 beats)
+// Beat 1  (0–12)    Title: propagators and vertices
+// Beat 2  (12–30)   Scalar propagator 1/(k²-m²), on-shell condition
+// Beat 3  (30–48)   Off-shell = virtual particles (internal)
+// Beat 4  (48–62)   +iε prescription → causal structure
+// Beat 5  (62–80)   Fermion propagator (k̸ + m)/(k²-m²)
+// Beat 6  (80–95)   Photon propagator -ig_μν/k²
+// Beat 7  (95–115)  QED vertex -ieγ^μ with three lines meeting
+// Beat 8  (115–125) Every EM process built from copies of this vertex
+// Beat 9  (125–132) Amplitude recipe: sum diagrams, integrate, square
+// Beat 10 (132–135) Final hold
 function Scene13({ start, end }) {
   return (
     <Scene start={start} end={end} label="13">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 28) / 1.5, 0, 1));
+        const b2Eq = clamp((t - 17) / 1.5, 0, 1);
+        const b2Shell = clamp((t - 23) / 1.5, 0, 1);
+
+        const b3A = clamp((t - 30) / 1.5, 0, 1) * (1 - clamp((t - 46) / 1.5, 0, 1));
+        const b3Virt = clamp((t - 36) / 1.5, 0, 1);
+
+        const b4A = clamp((t - 48) / 1.5, 0, 1) * (1 - clamp((t - 60) / 1.5, 0, 1));
+        const b4Eps = clamp((t - 52) / 1.5, 0, 1);
+
+        const b5A = clamp((t - 62) / 1.5, 0, 1) * (1 - clamp((t - 78) / 1.5, 0, 1));
+        const b6A = clamp((t - 80) / 1.5, 0, 1) * (1 - clamp((t - 93) / 1.5, 0, 1));
+
+        const b7A = clamp((t - 95) / 1.5, 0, 1) * (1 - clamp((t - 113) / 1.5, 0, 1));
+        const b7Vert = clamp((t - 100) / 2, 0, 1);
+
+        const b8A = clamp((t - 115) / 1.5, 0, 1) * (1 - clamp((t - 123) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 125) / 1.2, 0, 1) * (1 - clamp((t - 131) / 1.2, 0, 1));
+        const b10A = clamp((t - 131) / 1, 0, 1);
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={13} title={'Propagator & Vertex'} />
             <SceneRefs refs={["ps","schwartz"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Left panel: propagator */}
-              <g transform="translate(480, 580)">
-                <line x1="-200" y1="0" x2="200" y2="0" stroke="var(--accent-blue)" strokeWidth="3" />
-                <polygon points="-10,-6 10,0 -10,6" fill="var(--accent-blue)" transform="translate(-80, 0)" />
-                <text x="0" y="-30" textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">k →</text>
-                <text x="0" y="100" textAnchor="middle" fill="white" fontFamily="var(--font-math)" fontStyle="italic" fontSize="40">
-                  i / (k² − m² + iε)
-                </text>
-                <text x="0" y="-150" textAnchor="middle" fill="var(--accent-blue)" fontFamily="var(--font-ui)" fontSize="20">propagator</text>
-              </g>
+            <FieldBackground accent="#5ba3f5" amplitude={0.15} speed={0.08} />
 
-              {/* Right panel: QED vertex */}
-              {t > 6 && (() => {
-                const op = fadeIO(t - 6, duration - 6, 0.5, 0.5);
-                return (
-                  <g transform="translate(1400, 580)" opacity={op}>
-                    <line x1="-160" y1="-160" x2="0" y2="0" stroke="var(--accent-blue)" strokeWidth="3" />
-                    <line x1="0" y1="0" x2="-160" y2="160" stroke="var(--accent-blue)" strokeWidth="3" />
-                    {/* wavy photon */}
-                    {(() => {
-                      let d = '';
-                      for (let i = 0; i <= 30; i++) {
-                        const x = (i / 30) * 200;
-                        const y = Math.sin(i * 0.7) * 10;
-                        d += (i === 0 ? 'M' : 'L') + x + ',' + y + ' ';
-                      }
-                      return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
-                    })()}
-                    <circle cx="0" cy="0" r="9" fill="var(--accent-yellow)" />
-                    <text x="-190" y="-160" fill="var(--accent-blue)" fontFamily="var(--font-math)" fontSize="18">e⁻</text>
-                    <text x="-190" y="180" fill="var(--accent-red)" fontFamily="var(--font-math)" fontSize="18">e⁺</text>
-                    <text x="210" y="5" fill="var(--accent-yellow)" fontFamily="var(--font-math)" fontSize="18">γ</text>
-                    <text x="0" y="220" textAnchor="middle" fill="white" fontFamily="var(--font-math)" fontStyle="italic" fontSize="32">−ieγ<tspan baselineShift="super" fontSize="16">μ</tspan></text>
-                    <text x="0" y="-150" textAnchor="middle" fill="var(--accent-yellow)" fontFamily="var(--font-ui)" fontSize="20">QED vertex</text>
-                  </g>
-                );
-              })()}
-            </svg>
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white' }}>
-              Two building blocks. Everything else is assembly.
-            </div>
+            {/* ── BEAT 1: Title ─────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 58, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-blue)' }}>Propagators</span>
+                  &nbsp;&amp;&nbsp;
+                  <span style={{ color: 'var(--accent-yellow)' }}>vertices</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Two building blocks. Everything else is assembly.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Scalar propagator ─────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Scalar propagator — the amplitude to travel from x to y.
+              </div>
+            )}
+            {b2Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                    color: 'var(--form-inline)', opacity: b2Eq * b2A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                D(k) = i / (k² − m²)
+              </div>
+            )}
+            {b2Shell > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b2Shell * b2A }}>
+                Denominator vanishes when k² = m² — the mass shell.
+              </div>
+            )}
+
+            {/* ── BEAT 3: Off-shell = virtual ────────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                Internal lines can be <span style={{ color: 'var(--accent-yellow)' }}>off-shell</span> — virtual.
+              </div>
+            )}
+            {b3Virt > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    opacity: b3Virt * b3A }}>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-green)' }}>
+                  real: k² = m²
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-red)', marginTop: 24 }}>
+                  virtual: k² ≠ m²
+                </div>
+                <div style={{ fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                      color: 'var(--canvas-dim)', marginTop: 26 }}>
+                  Not observable — but they contribute.
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 4: +iε prescription ─────────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Add <span style={{ color: 'var(--accent-yellow)' }}>+ iε</span> for causality.
+              </div>
+            )}
+            {b4Eps > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 48,
+                      color: 'var(--form-inline)', opacity: b4Eps * b4A }}>
+                  D(k) = i / (k² − m² + iε)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 530, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b4Eps * b4A }}>
+                  Particles forward in time, antiparticles backward.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 5: Fermion propagator ─────────── */}
+            {b5A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b5A }}>
+                  <span style={{ color: 'var(--accent-red)' }}>Fermion</span> propagator —
+                  4×4 in spinor space.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--accent-red)',
+                      opacity: b5A * clamp((t - 66) / 1.5, 0, 1),
+                      textShadow: '0 0 24px rgba(255,107,107,0.3)' }}>
+                  S<sub>F</sub>(k) = i (k̸ + m) / (k² − m² + iε)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 24,
+                      color: 'var(--canvas-dim)',
+                      opacity: b5A * clamp((t - 71) / 1.5, 0, 1) }}>
+                  k̸ = γ<sup>μ</sup>k<sub>μ</sub>
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 6: Photon propagator ──────────── */}
+            {b6A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b6A }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>Photon</span> propagator — massless, Lorentz-tensor.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--accent-yellow)',
+                      opacity: b6A * clamp((t - 84) / 1.5, 0, 1),
+                      textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                  D<sub>μν</sub>(k) = −i g<sub>μν</sub> / k²
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 7: QED vertex ────────────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                <span style={{ color: 'var(--accent-yellow)' }}>QED vertex</span> —
+                three lines, one factor.
+              </div>
+            )}
+            {b7Vert > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b7Vert * b7A }}>
+                <g transform="translate(960, 620)">
+                  <line x1="-220" y1="-180" x2="0" y2="0"
+                        stroke="var(--accent-blue)" strokeWidth="3" markerEnd="url(#arr-13)" />
+                  <line x1="0" y1="0" x2="-220" y2="180"
+                        stroke="var(--accent-blue)" strokeWidth="3" />
+                  {(() => {
+                    let d = '';
+                    for (let i = 0; i <= 30; i++) {
+                      const x = (i / 30) * 240;
+                      const y = Math.sin(i * 0.7) * 10;
+                      d += (i === 0 ? 'M' : 'L') + x + ',' + y + ' ';
+                    }
+                    return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
+                  })()}
+                  <circle cx="0" cy="0" r="10" fill="var(--accent-yellow)" />
+                  <text x="-240" y="-180" fill="var(--accent-blue)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">e⁻</text>
+                  <text x="-240" y="198" fill="var(--accent-red)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">e⁺</text>
+                  <text x="250" y="4" fill="var(--accent-yellow)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">γ</text>
+                  <text x="0" y="-30" textAnchor="middle" fill="var(--accent-yellow)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="30">−i e γ<sup>μ</sup></text>
+                </g>
+                <defs>
+                  <marker id="arr-13" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-blue)" />
+                  </marker>
+                </defs>
+              </svg>
+            )}
+
+            {/* ── BEAT 8: Everything from this vertex ───── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-green)', opacity: b8A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.35)' }}>
+                Every electromagnetic process — multiple copies of this vertex.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Amplitude recipe ───────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-ui)', fontSize: 22, color: 'var(--canvas-dim)',
+                    letterSpacing: '0.15em', lineHeight: 2, opacity: b9A }}>
+                <div>DRAW ALL RELEVANT DIAGRAMS</div>
+                <div>TRANSLATE EACH PIECE</div>
+                <div>INTEGRATE OVER INTERNAL MOMENTA</div>
+                <div>SUM · SQUARE · PROBABILITY</div>
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ─────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-yellow)', opacity: b10A }}>
+                Two pieces. All of QED.
+              </div>
+            )}
           </div>
         );
       }}
