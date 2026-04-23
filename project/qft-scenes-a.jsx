@@ -19,7 +19,7 @@ const SCENES = [
   { n: 13, title: 'Vertices and Propagators in Detail',                 dur: 135 }, // expanded for full narration 134.0s
   { n: 14, title: 'Loops and the Need for Renormalization',             dur: 137 }, // expanded for full narration 135.4s
   { n: 15, title: 'Forces from Field Exchange',                         dur: 132 }, // expanded for full narration 130.9s
-  { n: 16, title: 'Spin, Statistics, and Fermion Fields',               dur: 25 }, // was 20, audio 23.7
+  { n: 16, title: 'Spin, Statistics, and Fermion Fields',               dur: 133 }, // expanded for full narration 132.0s
   { n: 17, title: 'The Standard Model in One Breath',                   dur: 33 }, // was 28, audio 31.6
   { n: 18, title: 'What QFT Does Not Explain',                          dur: 21 }, // was 20, audio 20.9
   { n: 19, title: 'The Five Big Ideas',                                 dur: 25 }, // was 22, audio 24.7

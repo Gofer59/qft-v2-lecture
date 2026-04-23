@@ -1379,53 +1379,296 @@ function Scene15({ start, end }) {
   );
 }
 
-// Scene 16 — Spin & statistics
+// Scene 16 — Spin, Statistics, Fermion Fields (expanded to 133s / 10 beats)
+// Beat 1  (0–12)    Title + "universe has particles with spin"
+// Beat 2  (12–28)   Spin-0 scalar, spin-1 photon, spin-½ electron, spin-2 graviton
+// Beat 3  (28–46)   Dirac spinor ψ — 4 components
+// Beat 4  (46–60)   Dirac Lagrangian ℒ = ψ̄(iγ^μ∂_μ − m)ψ
+// Beat 5  (60–76)   Vector field A_μ, ℒ = -¼F_μν F^μν
+// Beat 6  (76–92)   Bosonic statistics: [a,a†] commute, bosons share
+// Beat 7  (92–110)  Fermionic statistics: {a,a†} anticommute, Pauli
+// Beat 8  (110–122) Side-by-side ladders comparison
+// Beat 9  (122–130) Spin-statistics theorem
+// Beat 10 (130–133) Final hold
 function Scene16({ start, end }) {
   return (
     <Scene start={start} end={end} label="16">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const blockCount = Math.min(5, Math.floor(t / 2));
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 26) / 1.5, 0, 1));
+        const b2Rows = [14, 17, 20, 23];
+
+        const b3A = clamp((t - 28) / 1.5, 0, 1) * (1 - clamp((t - 44) / 1.5, 0, 1));
+        const b3Comp = clamp((t - 33) / 2, 0, 1);
+
+        const b4A = clamp((t - 46) / 1.5, 0, 1) * (1 - clamp((t - 58) / 1.5, 0, 1));
+        const b5A = clamp((t - 60) / 1.5, 0, 1) * (1 - clamp((t - 74) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 76) / 1.5, 0, 1) * (1 - clamp((t - 90) / 1.5, 0, 1));
+        const b6Count = Math.min(5, Math.floor((t - 78) / 2));
+
+        const b7A = clamp((t - 92) / 1.5, 0, 1) * (1 - clamp((t - 108) / 1.5, 0, 1));
+        const b7Pauli = clamp((t - 100) / 1.5, 0, 1);
+
+        const b8A = clamp((t - 110) / 1.5, 0, 1) * (1 - clamp((t - 120) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 122) / 1.5, 0, 1) * (1 - clamp((t - 129) / 1, 0, 1));
+
+        const b10A = clamp((t - 129) / 1, 0, 1);
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={16} title={'Spin & Statistics'} />
             <SceneRefs refs={["weinberg","srednicki"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Left: boson ladder */}
-              <g transform="translate(620, 560)">
-                <text x="0" y="-260" textAnchor="middle" fill="var(--accent-blue)" fontFamily="var(--font-ui)" fontSize="24" fontWeight="700">BOSONS</text>
-                <text x="0" y="-230" textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-ui)" fontSize="16">[a, a†] = 1</text>
-                {Array.from({length: 6}).map((_, i) => (
-                  <g key={i}>
-                    <line x1="-100" y1={180 - i * 60} x2="100" y2={180 - i * 60} stroke="var(--accent-blue)" strokeWidth="2" />
-                    {Array.from({length: Math.min(i, blockCount)}).map((_, j) => (
-                      <circle key={j} cx={-60 + j * 30} cy={180 - i * 60 - 8} r="8" fill="var(--accent-blue)" />
-                    ))}
-                  </g>
-                ))}
-              </g>
-              {/* Right: fermion ladder */}
-              <g transform="translate(1320, 560)">
-                <text x="0" y="-260" textAnchor="middle" fill="var(--accent-red)" fontFamily="var(--font-ui)" fontSize="24" fontWeight="700">FERMIONS</text>
-                <text x="0" y="-230" textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-ui)" fontSize="16">{"{a, a†} = 1"}</text>
-                {[0, 1].map(i => (
-                  <g key={i}>
-                    <line x1="-100" y1={180 - i * 60} x2="100" y2={180 - i * 60} stroke="var(--accent-red)" strokeWidth="2" />
-                    {i === 1 && t > 6 && <circle cx={0} cy={180 - i * 60 - 8} r="8" fill="var(--accent-red)" />}
-                  </g>
-                ))}
-                {t > 10 && (
-                  <g opacity={fadeIO(t - 10, duration - 10, 0.5, 0.5)}>
-                    <text x="0" y="-100" textAnchor="middle" fill="var(--accent-red)" fontFamily="var(--font-ui)" fontSize="18">Pauli: at most one.</text>
-                  </g>
-                )}
-              </g>
-            </svg>
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              Spin-statistics: integer spin ⇒ bosons, half-integer ⇒ fermions.
-            </div>
+            <FieldBackground accent="#5ba3f5" amplitude={0.15} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 62, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  Spin, statistics, and fermion fields.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  The field type determines the particle type.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Particle spins table ─────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Different spins → different field types.
+              </div>
+            )}
+            {b2A > 0 && (() => {
+              const rows = [
+                { label: 'Higgs',   spin: 'spin 0',   color: 'var(--accent-blue)' },
+                { label: 'photon',  spin: 'spin 1',   color: 'var(--accent-yellow)' },
+                { label: 'electron',spin: 'spin ½',   color: 'var(--accent-red)' },
+                { label: 'graviton',spin: 'spin 2',   color: 'var(--note-inline)' },
+              ];
+              return rows.map((r, i) => {
+                const ap = clamp((t - b2Rows[i]) / 1.0, 0, 1) * b2A;
+                return (
+                  <div key={i} style={{
+                    position: 'absolute', left: 400, right: 400, top: 280 + i * 80,
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '12px 32px', border: `1.5px solid ${r.color}`, borderRadius: 4,
+                    opacity: ap, background: 'rgba(13,17,23,0.4)',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                  }}>
+                    <span style={{ color: r.color, flex: '0 0 300px' }}>{r.label}</span>
+                    <span style={{ color: 'var(--canvas-dim)' }}>→</span>
+                    <span style={{ color: r.color, flex: '0 0 200px', textAlign: 'right' }}>{r.spin}</span>
+                  </div>
+                );
+              });
+            })()}
+
+            {/* ── BEAT 3: Dirac spinor 4 components ── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                For spin ½ — a <span style={{ color: 'var(--accent-red)' }}>Dirac spinor</span>.
+              </div>
+            )}
+            {b3Comp > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 48,
+                    color: 'var(--accent-red)', opacity: b3Comp * b3A }}>
+                ψ(x) =
+                <span style={{ display: 'inline-block', borderLeft: '2px solid var(--canvas-text)',
+                      borderRight: '2px solid var(--canvas-text)',
+                      padding: '12px 22px', marginLeft: 18 }}>
+                  <div>ψ₁</div>
+                  <div>ψ₂</div>
+                  <div>ψ₃</div>
+                  <div>ψ₄</div>
+                </span>
+              </div>
+            )}
+            {b3Comp > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--canvas-dim)', opacity: b3Comp * b3A }}>
+                Four components mix under Lorentz boosts and rotations.
+              </div>
+            )}
+
+            {/* ── BEAT 4: Dirac Lagrangian ─────────── */}
+            {b4A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b4A }}>
+                  Dirac Lagrangian —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 430, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--form-inline)', opacity: b4A,
+                      textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                  ℒ = ψ̄ ( i γ<sup>μ</sup> ∂<sub>μ</sub> − m ) ψ
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 5: Vector field A_μ / Maxwell ── */}
+            {b5A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 300, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b5A }}>
+                  For spin 1 — a vector field A<sub>μ</sub>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 430, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--accent-yellow)', opacity: b5A,
+                      textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                  ℒ = − ¼ F<sub>μν</sub> F<sup>μν</sup>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b5A }}>
+                  F<sub>μν</sub> = ∂<sub>μ</sub>A<sub>ν</sub> − ∂<sub>ν</sub>A<sub>μ</sub>
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 6: Bosons share modes ──────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                <span style={{ color: 'var(--accent-blue)' }}>Bosons</span> — creation operators commute.
+              </div>
+            )}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--form-inline)', opacity: b6A }}>
+                [ a<sub>k</sub>, a<sup>†</sup><sub>k'</sub> ] = δ(k − k′)
+              </div>
+            )}
+            {b6A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b6A }}>
+                <g transform="translate(960, 720)">
+                  <line x1="-240" y1="0" x2="240" y2="0"
+                        stroke="var(--accent-blue)" strokeWidth="2.5" />
+                  {Array.from({ length: Math.max(0, b6Count) }).map((_, j) => (
+                    <circle key={j} cx={-180 + j * 70} cy={-20} r="14" fill="var(--accent-blue)" />
+                  ))}
+                </g>
+              </svg>
+            )}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b6A }}>
+                Many bosons share a mode — the physics of lasers.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Fermions anticommute, Pauli ── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                <span style={{ color: 'var(--accent-red)' }}>Fermions</span> — creation operators anticommute.
+              </div>
+            )}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--form-inline)', opacity: b7A }}>
+                {'{ a'}<sub>k</sub>, a<sup>†</sup><sub>k'</sub> {'} = δ(k − k′)'}
+              </div>
+            )}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-red)', opacity: b7A }}>
+                a<sup>†</sup><sub>k</sub> a<sup>†</sup><sub>k</sub> |0⟩ = 0
+              </div>
+            )}
+            {b7Pauli > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--accent-green)', opacity: b7Pauli * b7A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.3)' }}>
+                Pauli exclusion principle — built in.
+              </div>
+            )}
+
+            {/* ── BEAT 8: Side-by-side ladders ───── */}
+            {b8A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b8A }}>
+                {/* Boson stack */}
+                <g transform="translate(620, 620)">
+                  <text x="0" y="-280" textAnchor="middle" fill="var(--accent-blue)"
+                        fontFamily="var(--font-ui)" fontSize="26" fontWeight="700"
+                        letterSpacing="0.15em">BOSONS</text>
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <g key={i}>
+                      <line x1="-120" y1={160 - i * 60} x2="120" y2={160 - i * 60}
+                            stroke="var(--accent-blue)" strokeWidth="2" />
+                      {Array.from({ length: i + 1 }).map((_, j) => (
+                        <circle key={j} cx={-90 + j * 35} cy={160 - i * 60 - 10} r="9" fill="var(--accent-blue)" />
+                      ))}
+                    </g>
+                  ))}
+                </g>
+                {/* Fermion stack */}
+                <g transform="translate(1300, 620)">
+                  <text x="0" y="-280" textAnchor="middle" fill="var(--accent-red)"
+                        fontFamily="var(--font-ui)" fontSize="26" fontWeight="700"
+                        letterSpacing="0.15em">FERMIONS</text>
+                  {Array.from({ length: 6 }).map((_, i) => (
+                    <g key={i}>
+                      <line x1="-120" y1={160 - i * 60} x2="120" y2={160 - i * 60}
+                            stroke="var(--accent-red)" strokeWidth="2" />
+                      {i > 0 && (
+                        <circle cx={0} cy={160 - i * 60 - 10} r="9" fill="var(--accent-red)" />
+                      )}
+                    </g>
+                  ))}
+                </g>
+              </svg>
+            )}
+
+            {/* ── BEAT 9: Spin-statistics theorem ─── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-yellow)', opacity: b9A,
+                    textShadow: '0 0 20px rgba(255,209,102,0.35)' }}>
+                Integer spin ⟹ boson &nbsp;·&nbsp; half-integer ⟹ fermion.
+                <div style={{ fontSize: 24, color: 'var(--canvas-dim)',
+                      marginTop: 22, fontStyle: 'normal' }}>
+                  A theorem — from Lorentz invariance &amp; causality.
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ───────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-yellow)', opacity: b10A }}>
+                Spin ⟺ statistics.
+              </div>
+            )}
           </div>
         );
       }}
