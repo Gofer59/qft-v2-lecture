@@ -1869,54 +1869,280 @@ function Scene09({ start, end }) {
 }
 
 // Scene 10 — Symmetries & Noether
+// Scene 10 — Symmetries and Conservation Laws (expanded to 131s / 10 beats)
+// Beat 1  (0–12)    Title + Noether's theorem intro
+// Beat 2  (12–28)   Time translation → energy conservation
+// Beat 3  (28–44)   Space translation → momentum
+// Beat 4  (44–58)   Rotation → angular momentum
+// Beat 5  (58–80)   Phase rotation φ → e^{iα}φ (U(1)) — rotating vector
+// Beat 6  (80–95)   Conserved current → total charge Q
+// Beat 7  (95–108)  For electron field: U(1) = electric charge
+// Beat 8  (108–120) Gauge symmetry → Standard Model scaffolding
+// Beat 9  (120–128) Local U(1) → photon existence
+// Beat 10 (128–131) Final hold
 function Scene10({ start, end }) {
   return (
     <Scene start={start} end={end} label="10">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const rotT = Math.min(t * 0.4, 100);
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 26) / 1.5, 0, 1));
+        const b3A = clamp((t - 28) / 1.5, 0, 1) * (1 - clamp((t - 42) / 1.5, 0, 1));
+        const b4A = clamp((t - 44) / 1.5, 0, 1) * (1 - clamp((t - 56) / 1.5, 0, 1));
+
+        const b5A = clamp((t - 58) / 1.5, 0, 1) * (1 - clamp((t - 78) / 1.5, 0, 1));
+        const b5Eq = clamp((t - 65) / 1.5, 0, 1);
+        const b5Inv = clamp((t - 71) / 1.5, 0, 1);
+
+        const b6A = clamp((t - 80) / 1.5, 0, 1) * (1 - clamp((t - 93) / 1.5, 0, 1));
+        const b6J = clamp((t - 83) / 1.5, 0, 1);
+        const b6Q = clamp((t - 88) / 1.2, 0, 1);
+
+        const b7A = clamp((t - 95) / 1.5, 0, 1) * (1 - clamp((t - 106) / 1.5, 0, 1));
+
+        const b8A = clamp((t - 108) / 1.5, 0, 1) * (1 - clamp((t - 118) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 120) / 1.5, 0, 1) * (1 - clamp((t - 127) / 1.2, 0, 1));
+        const b10A = clamp((t - 128) / 1, 0, 1);
+
+        const rotT = t * 0.4;
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={10} title={'Noether'} />
             <SceneRefs refs={["noether","ps"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* complex-plane circle */}
-              <g transform="translate(640, 560)">
-                <circle cx="0" cy="0" r="180" fill="none" stroke="var(--canvas-dim)" strokeWidth="1" strokeDasharray="4 4" />
-                <line x1="-220" y1="0" x2="220" y2="0" stroke="var(--canvas-dim)" strokeWidth="0.8" />
-                <line x1="0" y1="-220" x2="0" y2="220" stroke="var(--canvas-dim)" strokeWidth="0.8" />
-                <text x="230" y="6" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">Re φ</text>
-                <text x="8" y="-220" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">Im φ</text>
-                {/* rotating vector = phi */}
-                <g transform={`rotate(${rotT * 18})`}>
-                  <line x1="0" y1="0" x2="180" y2="0" stroke="var(--accent-blue)" strokeWidth="3" markerEnd="url(#arrR10)" />
-                  <circle cx="180" cy="0" r="8" fill="var(--accent-blue)" />
+            <FieldBackground accent="#5ba3f5" amplitude={0.18} speed={0.08} />
+
+            <defs>
+              <marker id="arr10" viewBox="0 0 10 10" refX="5" refY="5"
+                      markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-blue)" />
+              </marker>
+            </defs>
+
+            {/* ── BEAT 1: Title ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>Noether's theorem</span>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Symmetry &nbsp;⟹&nbsp; conservation law.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 5) / 1.2, 0, 1) }}>
+                  One of the deepest results in theoretical physics.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Time → energy ─────────────────── */}
+            {b2A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 200, top: 400, width: 640, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-blue)', opacity: b2A }}>
+                  Shift time t → t + Δt
+                </div>
+                <div style={{ position: 'absolute', left: 880, top: 420, width: 160, textAlign: 'center',
+                      fontSize: 56, color: 'var(--accent-yellow)', opacity: b2A }}>
+                  ⟶
+                </div>
+                <div style={{ position: 'absolute', left: 1080, top: 400, width: 640, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-green)', opacity: b2A }}>
+                  <span style={{ fontFamily: 'var(--font-math)' }}>E</span> is conserved.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 3: Space → momentum ─────────────── */}
+            {b3A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 200, top: 400, width: 640, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-blue)', opacity: b3A }}>
+                  Shift space x → x + Δx
+                </div>
+                <div style={{ position: 'absolute', left: 880, top: 420, width: 160, textAlign: 'center',
+                      fontSize: 56, color: 'var(--accent-yellow)', opacity: b3A }}>
+                  ⟶
+                </div>
+                <div style={{ position: 'absolute', left: 1080, top: 400, width: 640, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-green)', opacity: b3A }}>
+                  <span style={{ fontFamily: 'var(--font-math)' }}>p</span> is conserved.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 4: Rotation → angular momentum ──── */}
+            {b4A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 200, top: 400, width: 640, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-blue)', opacity: b4A }}>
+                  Rotate space
+                </div>
+                <div style={{ position: 'absolute', left: 880, top: 420, width: 160, textAlign: 'center',
+                      fontSize: 56, color: 'var(--accent-yellow)', opacity: b4A }}>
+                  ⟶
+                </div>
+                <div style={{ position: 'absolute', left: 1080, top: 400, width: 640, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--accent-green)', opacity: b4A }}>
+                  <span style={{ fontFamily: 'var(--font-math)' }}>L</span> is conserved.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 5: U(1) phase rotation ───────────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                For complex fields — <span style={{ color: 'var(--accent-blue)' }}>phase rotation</span> U(1).
+              </div>
+            )}
+            {b5A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b5A }}>
+                <g transform="translate(720, 620)">
+                  <circle cx="0" cy="0" r="180" fill="none"
+                          stroke="var(--canvas-dim)" strokeWidth="1" strokeDasharray="4 4" />
+                  <line x1="-220" y1="0" x2="220" y2="0" stroke="var(--canvas-dim)" strokeWidth="0.8" />
+                  <line x1="0" y1="-220" x2="0" y2="220" stroke="var(--canvas-dim)" strokeWidth="0.8" />
+                  <text x="230" y="6" fill="var(--canvas-dim)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">Re φ</text>
+                  <text x="8" y="-220" fill="var(--canvas-dim)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">Im φ</text>
+                  <g transform={`rotate(${rotT * 18})`}>
+                    <line x1="0" y1="0" x2="180" y2="0"
+                          stroke="var(--accent-blue)" strokeWidth="3" markerEnd="url(#arr10)" />
+                    <circle cx="180" cy="0" r="8" fill="var(--accent-blue)" />
+                  </g>
                 </g>
-                <text x="0" y="260" textAnchor="middle" fill="white" fontFamily="var(--font-math)" fontStyle="italic" fontSize="24">φ → e<tspan baselineShift="super" fontSize="16">iα</tspan>φ</text>
-              </g>
-              {/* conserved charge value */}
-              <g transform="translate(1280, 560)">
-                <rect x="-140" y="-80" width="280" height="160" fill="none" stroke="var(--accent-green)" strokeWidth="2" />
-                <text x="0" y="-40" textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-ui)" fontSize="18">conserved charge</text>
-                <text x="0" y="15" textAnchor="middle" fill="var(--accent-green)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="48">Q</text>
-                <text x="0" y="55" textAnchor="middle" fill="var(--accent-green)" fontFamily="var(--font-math)" fontSize="26">= const</text>
-              </g>
-              <defs>
-                <marker id="arrR10" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-blue)" /></marker>
-              </defs>
-            </svg>
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              {t < 10 ? 'A continuous symmetry…' : '…gives a conserved current.'}
-            </div>
-            {t > 12 && (
-              <div style={{ position: 'absolute', bottom: 120, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 30, color: 'var(--form-inline)',
-                opacity: fadeIO(t - 12, duration - 12, 0.5, 0.5) }}>
-                ∂<sub>μ</sub>J<sup>μ</sup> = 0
+              </svg>
+            )}
+            {b5Eq > 0 && (
+              <div style={{ position: 'absolute', left: 1150, top: 500, width: 620,
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--form-inline)', opacity: b5Eq * b5A }}>
+                φ ⟶ e<sup>iα</sup> φ
+              </div>
+            )}
+            {b5Inv > 0 && (
+              <div style={{ position: 'absolute', left: 1150, top: 600, width: 620,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b5Inv * b5A }}>
+                |φ|² = φ*φ is unchanged — so ℒ is invariant.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Conserved current & charge ──── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                Conserved <span style={{ color: 'var(--accent-green)' }}>current</span> and
+                total <span style={{ color: 'var(--accent-green)' }}>charge</span>.
+              </div>
+            )}
+            {b6J > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 54,
+                    color: 'var(--accent-green)', opacity: b6J * b6A,
+                    textShadow: '0 0 24px rgba(61,240,192,0.4)' }}>
+                ∂<sub>μ</sub> J<sup>μ</sup> = 0
+              </div>
+            )}
+            {b6Q > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--form-inline)', opacity: b6Q * b6A }}>
+                Q = ∫ d³x &nbsp; J<sup>0</sup>(x) = const
+              </div>
+            )}
+
+            {/* ── BEAT 7: Electron field → electric charge ── */}
+            {b7A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', opacity: b7A }}>
+                  For the electron field —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 48,
+                      color: 'var(--accent-yellow)', opacity: b7A }}>
+                  U(1) = <span style={{ color: 'var(--accent-green)' }}>electric charge</span>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b7A }}>
+                  Not a separate law — a theorem following from phase symmetry.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 8: SM built from symmetries ──── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                The Standard Model is built from symmetries.
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 50,
+                    color: 'var(--accent-yellow)', opacity: b8A }}>
+                SU(3)<sub>c</sub> × SU(2)<sub>L</sub> × U(1)<sub>Y</sub>
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b8A }}>
+                Gauge symmetries determine the force-carrying bosons.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Local U(1) → photon ────────── */}
+            {b9A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--canvas-text)', opacity: b9A }}>
+                  Make α depend on x — require <span style={{ color: 'var(--accent-yellow)' }}>local</span> U(1).
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 450, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 44,
+                      color: 'var(--accent-yellow)', opacity: b9A }}>⟶</div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                      color: 'var(--accent-green)', opacity: b9A,
+                      textShadow: '0 0 20px rgba(61,240,192,0.35)' }}>
+                  Forces the existence of the <span style={{ fontFamily: 'var(--font-math)' }}>photon</span>.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 10: Final hold ───────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--accent-yellow)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.4)' }}>
+                Symmetry &nbsp;⟹&nbsp; conservation &nbsp;⟹&nbsp; forces.
               </div>
             )}
           </div>
