@@ -23,7 +23,7 @@ const SCENES = [
   { n: 17, title: 'The Standard Model in One Breath',                   dur: 134 }, // expanded for full narration 132.6s
   { n: 18, title: 'What QFT Does Not Explain',                          dur: 132 }, // expanded for full narration 130.2s
   { n: 19, title: 'The Five Big Ideas',                                 dur: 130 }, // expanded for full narration 128.7s
-  { n: 20, title: 'What Is Coming: The Path Integral',                  dur: 19 }, // was 18, audio 18.3
+  { n: 20, title: 'What Is Coming: The Path Integral',                  dur: 120 }, // expanded for full narration 118.4s
   { n: 21, title: 'References',                                         dur: 14 }, // unchanged
 ];
 

@@ -778,54 +778,245 @@ function Scene19({ start, end }) {
   );
 }
 
-// Scene 20 — What's coming: path integral
+// Scene 20 — What Is Coming: Path Integral (expanded to 120s / 10 beats)
+// Beat 1  (0–10)    Title + "you have vocabulary, not machinery"
+// Beat 2  (10–28)   Canonical quantization is cumbersome for interactions
+// Beat 3  (28–46)   Path integral — sum over all field configurations
+// Beat 4  (46–62)   Weight e^{iS/ℏ}
+// Beat 5  (62–78)   Classical path dominates (visualization)
+// Beat 6  (78–92)   Connection to statistical mechanics via Wick rotation
+// Beat 7  (92–104)  Gauge fixing has natural home
+// Beat 8  (104–112) Lecture 2 content preview
+// Beat 9  (112–117) "Mathematics harder, physics deeper"
+// Beat 10 (117–120) Final hold — ∫ 𝒟φ e^{iS/ℏ}
 function Scene20({ start, end }) {
   return (
     <Scene start={start} end={end} label="20">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const cx = 960, cy = 560;
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 9) / 1.2, 0, 1));
+        const b2A = clamp((t - 11) / 1.5, 0, 1) * (1 - clamp((t - 26) / 1.5, 0, 1));
+        const b3A = clamp((t - 28) / 1.5, 0, 1) * (1 - clamp((t - 44) / 1.5, 0, 1));
+        const b3Paths = clamp((t - 32) / 3, 0, 1);
+
+        const b4A = clamp((t - 46) / 1.5, 0, 1) * (1 - clamp((t - 60) / 1.5, 0, 1));
+        const b5A = clamp((t - 62) / 1.5, 0, 1) * (1 - clamp((t - 76) / 1.5, 0, 1));
+
+        const b6A = clamp((t - 78) / 1.5, 0, 1) * (1 - clamp((t - 90) / 1.5, 0, 1));
+        const b7A = clamp((t - 92) / 1.5, 0, 1) * (1 - clamp((t - 102) / 1.5, 0, 1));
+
+        const b8A = clamp((t - 104) / 1.5, 0, 1) * (1 - clamp((t - 111) / 1.2, 0, 1));
+        const b9A = clamp((t - 112) / 1.2, 0, 1) * (1 - clamp((t - 116) / 1, 0, 1));
+        const b10A = clamp((t - 116) / 1, 0, 1);
+
+        const cx = 960, cy = 580;
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={20} title={'Coming Next'} />
             <SceneRefs refs={["zee","srednicki"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Multiple branching paths from A to B */}
-              {Array.from({length: 20}).map((_, i) => {
-                const A = { x: cx - 400, y: cy };
-                const B = { x: cx + 400, y: cy };
-                const mid = { x: cx, y: cy + (i - 10) * 40 + Math.sin(t * 0.6 + i) * 10 };
-                const d = `M ${A.x},${A.y} Q ${mid.x},${mid.y} ${B.x},${B.y}`;
-                const isClassical = i === 10;
-                const op = isClassical ? 0.95 : 0.22 * Math.min(1, t / 4);
-                return <path key={i} d={d} fill="none"
-                  stroke={isClassical ? 'var(--accent-yellow)' : 'var(--accent-blue)'}
-                  strokeWidth={isClassical ? 3 : 1} opacity={op} />;
-              })}
-              <circle cx={cx - 400} cy={cy} r="12" fill="var(--accent-green)" />
-              <circle cx={cx + 400} cy={cy} r="12" fill="var(--accent-green)" />
-              <text x={cx - 400} y={cy - 40} textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">A</text>
-              <text x={cx + 400} y={cy - 40} textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">B</text>
-            </svg>
-            <div style={{ position: 'absolute', top: 160, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-              Lecture 2 — The Path Integral.
-            </div>
-            {t > 5 && (
-              <div style={{ position: 'absolute', top: 260, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 48, color: 'var(--form-inline)',
-                opacity: fadeIO(t - 5, duration - 5, 0.5, 0.5) }}>
-                ∫ 𝒟φ e<sup style={{fontSize:'0.55em', fontStyle:'italic'}}>iS[φ]/ℏ</sup>
+            <FieldBackground accent="#5ba3f5" amplitude={0.16} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 60, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  Lecture 2 — <span style={{ color: 'var(--form-inline)' }}>the path integral</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  You have the vocabulary. Time for the machinery.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Canonical cumbersome ─── */}
+            {b2A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 200, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--canvas-text)', opacity: b2A }}>
+                  Canonical quantization — works, but cumbersome.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                      fontFamily: 'var(--font-ui)', fontSize: 24, color: 'var(--canvas-dim)',
+                      lineHeight: 2, opacity: b2A, letterSpacing: '0.15em' }}>
+                  NORMAL ORDERING · TIME ORDERING<br/>
+                  WICK'S THEOREM · BOOKKEEPING · BOOKKEEPING · BOOKKEEPING
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 3: Path integral introduction ── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                Sum over <span style={{ color: 'var(--accent-blue)' }}>every possible field configuration</span>.
               </div>
             )}
-            {t > 10 && (
-              <div style={{ position: 'absolute', bottom: 180, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28, color: 'var(--canvas-dim)',
-                opacity: fadeIO(t - 10, duration - 10, 0.6, 0.6) }}>
-                Sum over <span style={{color:'var(--accent-blue)'}}>all possible field configurations</span>.
-                The classical path dominates.
+            {b3Paths > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b3Paths * b3A }}>
+                {Array.from({ length: 20 }).map((_, i) => {
+                  const A = { x: cx - 400, y: cy };
+                  const B = { x: cx + 400, y: cy };
+                  const mid = { x: cx, y: cy + (i - 10) * 40 + Math.sin(t * 0.6 + i) * 10 };
+                  const d = `M ${A.x},${A.y} Q ${mid.x},${mid.y} ${B.x},${B.y}`;
+                  const isClassical = i === 10;
+                  return (
+                    <path key={i} d={d} fill="none"
+                          stroke={isClassical ? 'var(--accent-yellow)' : 'var(--accent-blue)'}
+                          strokeWidth={isClassical ? 3 : 1}
+                          opacity={isClassical ? 0.9 : 0.25} />
+                  );
+                })}
+                <circle cx={cx - 400} cy={cy} r="12" fill="var(--accent-green)" />
+                <circle cx={cx + 400} cy={cy} r="12" fill="var(--accent-green)" />
+                <text x={cx - 400} y={cy - 40} textAnchor="middle" fill="var(--canvas-dim)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">A</text>
+                <text x={cx + 400} y={cy - 40} textAnchor="middle" fill="var(--canvas-dim)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">B</text>
+              </svg>
+            )}
+
+            {/* ── BEAT 4: Weight e^{iS/ℏ} ──────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Each configuration contributes with weight
+              </div>
+            )}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 72,
+                    color: 'var(--form-inline)', opacity: b4A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.4)' }}>
+                e<sup>i S[φ] / ℏ</sup>
+              </div>
+            )}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-green)', opacity: b4A }}>
+                𝒜 = ∫ 𝒟φ &nbsp; e<sup style={{ fontSize: '0.65em' }}>i S[φ]/ℏ</sup>
+              </div>
+            )}
+
+            {/* ── BEAT 5: Classical path dominates ── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                The <span style={{ color: 'var(--accent-yellow)' }}>classical path</span> dominates.
+              </div>
+            )}
+            {b5A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b5A }}>
+                {Array.from({ length: 20 }).map((_, i) => {
+                  const A = { x: cx - 400, y: cy };
+                  const B = { x: cx + 400, y: cy };
+                  const mid = { x: cx, y: cy + (i - 10) * 40 };
+                  const d = `M ${A.x},${A.y} Q ${mid.x},${mid.y} ${B.x},${B.y}`;
+                  const isClassical = i === 10;
+                  return (
+                    <path key={i} d={d} fill="none"
+                          stroke={isClassical ? 'var(--accent-yellow)' : 'var(--accent-blue)'}
+                          strokeWidth={isClassical ? 4 : 1}
+                          opacity={isClassical ? 1 : 0.1} />
+                  );
+                })}
+                <circle cx={cx - 400} cy={cy} r="12" fill="var(--accent-green)" />
+                <circle cx={cx + 400} cy={cy} r="12" fill="var(--accent-green)" />
+              </svg>
+            )}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b5A }}>
+                δS = 0 — the others oscillate and cancel.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Wick rotation ────────── */}
+            {b6A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 200, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b6A }}>
+                  Rotate time: <span style={{ color: 'var(--accent-blue)' }}>t → − i τ</span>.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--form-inline)', opacity: b6A }}>
+                  e<sup>iS/ℏ</sup> &nbsp; ⟶ &nbsp; e<sup>−S<sub>E</sub>/ℏ</sup>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b6A }}>
+                  QFT ⟺ statistical mechanics.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 7: Gauge fixing home ────── */}
+            {b7A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b7A }}>
+                  Gauge fixing — and Feynman rules — emerge cleanly.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 450, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b7A }}>
+                  Faddeev–Popov, ghosts, BRST — all natural in this language.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 8: Lecture 2 preview ────── */}
+            {b8A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 200, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b8A }}>
+                  In Lecture 2 —
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 320,
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                      color: 'var(--canvas-dim)', opacity: b8A,
+                      textAlign: 'center', lineHeight: 1.8 }}>
+                  • Feynman propagator from ∫𝒟φ — no operator machinery<br/>
+                  • One-loop correction to scalar propagator<br/>
+                  • Language for Lecture 3 (gauge theories)
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 9: Math harder, physics deeper ── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-green)', opacity: b9A,
+                    textShadow: '0 0 16px rgba(61,240,192,0.3)' }}>
+                Every step is driven by a question nature has already answered.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ──────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                    color: 'var(--form-inline)', opacity: b10A,
+                    textShadow: '0 0 30px rgba(255,209,102,0.45)' }}>
+                ∫ 𝒟φ &nbsp; e<sup style={{ fontSize: '0.65em' }}>iS[φ]/ℏ</sup>
               </div>
             )}
           </div>
