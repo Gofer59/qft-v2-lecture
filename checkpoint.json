@@ -21,7 +21,7 @@
     "15": {"title": "Forces from Field Exchange", "dur_target": 132, "status": "done"},
     "16": {"title": "Spin, Statistics, and Fermion Fields", "dur_target": 133, "status": "done"},
     "17": {"title": "The Standard Model in One Breath", "dur_target": 134, "status": "done"},
-    "18": {"title": "What QFT Does Not Explain", "dur_target": 132, "status": "pending"},
+    "18": {"title": "What QFT Does Not Explain", "dur_target": 132, "status": "done"},
     "19": {"title": "The Five Big Ideas", "dur_target": 130, "status": "pending"},
     "20": {"title": "What Is Coming: The Path Integral", "dur_target": 120, "status": "pending"}
   }

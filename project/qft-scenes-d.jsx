@@ -334,52 +334,277 @@ function Scene17({ start, end }) {
 }
 
 // Scene 18 — What QFT does not explain
+// Scene 18 — What QFT Does Not Explain (expanded to 132s / 10 beats)
+// Beat 1  (0–12)    Title + SM is not the final answer
+// Beat 2  (12–32)   Gravity — GR classical, QG non-renormalizable
+// Beat 3  (32–50)   Dark matter — 27% of universe, no SM particle
+// Beat 4  (50–70)   Dark energy — vacuum energy discrepancy
+// Beat 5  (70–86)   Matter/antimatter asymmetry
+// Beat 6  (86–100)  Three generations — why 3?
+// Beat 7  (100–116) "Open questions island" visualization
+// Beat 8  (116–124) Effective field theory — SM still works at low E
+// Beat 9  (124–130) "Until experiment shows otherwise"
+// Beat 10 (130–132) Final hold
 function Scene18({ start, end }) {
   return (
     <Scene start={start} end={end} label="18">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const items = [
-          { s: 2,  label: 'Gravity',              color: 'var(--accent-red)' },
-          { s: 5,  label: 'Dark matter',          color: 'var(--note-inline)' },
-          { s: 8,  label: 'Dark energy',          color: 'var(--note-inline)' },
-          { s: 11, label: 'Matter–antimatter',    color: 'var(--accent-yellow)' },
-          { s: 14, label: 'Three generations?',   color: 'var(--accent-yellow)' },
-        ];
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 30) / 1.5, 0, 1));
+        const b2NonRenorm = clamp((t - 22) / 1.5, 0, 1);
+        const b3A = clamp((t - 32) / 1.5, 0, 1) * (1 - clamp((t - 48) / 1.5, 0, 1));
+        const b3Pct = clamp((t - 38) / 2, 0, 1);
+        const b4A = clamp((t - 50) / 1.5, 0, 1) * (1 - clamp((t - 68) / 1.5, 0, 1));
+        const b4Pct = clamp((t - 56) / 2, 0, 1);
+        const b4Disc = clamp((t - 62) / 1.5, 0, 1);
+        const b5A = clamp((t - 70) / 1.5, 0, 1) * (1 - clamp((t - 84) / 1.5, 0, 1));
+        const b6A = clamp((t - 86) / 1.5, 0, 1) * (1 - clamp((t - 98) / 1.5, 0, 1));
+
+        const b7A = clamp((t - 100) / 1.5, 0, 1) * (1 - clamp((t - 114) / 1.5, 0, 1));
+        const b7Items = [101, 103, 105, 107, 109];
+
+        const b8A = clamp((t - 116) / 1.5, 0, 1) * (1 - clamp((t - 122) / 1.5, 0, 1));
+
+        const b9A = clamp((t - 124) / 1.2, 0, 1) * (1 - clamp((t - 129) / 1, 0, 1));
+
+        const b10A = clamp((t - 129) / 1, 0, 1);
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={18} title={'Open Questions'} />
             <SceneRefs refs={["pdg","weinberg"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Standard Model "island" */}
-              <ellipse cx="960" cy="600" rx="260" ry="160" fill="rgba(91,163,245,0.1)" stroke="var(--accent-blue)" strokeWidth="2" />
-              <text x="960" y="595" textAnchor="middle" fill="var(--accent-blue)" fontFamily="var(--font-display)" fontSize="30" fontStyle="italic">Standard Model</text>
-              <text x="960" y="630" textAnchor="middle" fill="var(--canvas-dim)" fontFamily="var(--font-ui)" fontSize="16">tested to 11 decimal places</text>
-            </svg>
-            {items.map((it, i) => {
-              // fan items around the ellipse with more horizontal spread; push top items down so
-              // they clear the caption at top:140
-              const angle = -Math.PI / 2 + (i - 2) * 1.1;
-              const rx = 540, ry = 320;
-              const x = 960 + Math.cos(angle) * rx;
-              const y = 600 + Math.sin(angle) * ry;
-              const op = t >= it.s ? Math.min(1, (t - it.s) / 0.8) : 0;
-              return (
-                <div key={i} style={{
-                  position: 'absolute', left: x - 110, top: y - 30, width: 220,
-                  textAlign: 'center', fontFamily: 'var(--font-display)',
-                  fontStyle: 'italic', fontSize: 26, color: it.color, opacity: op,
-                }}>
-                  <div style={{ fontSize: 40, lineHeight: 1 }}>?</div>
-                  <div style={{ marginTop: 4 }}>{it.label}</div>
+            <FieldBackground accent="#5ba3f5" amplitude={0.15} speed={0.08} />
+
+            {/* ── BEAT 1: Title ─────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 56, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  What the Standard Model <span style={{ color: 'var(--accent-red)' }}>does not</span> explain.
                 </div>
-              );
-            })}
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white' }}>
-              A theory is also defined by what it does not explain.
-            </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 470, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  The limitations matter as much as the successes.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Gravity ─────────────── */}
+            {b2A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                      color: 'var(--canvas-text)', opacity: b2A }}>
+                  <span style={{ color: 'var(--accent-red)' }}>Gravity</span> is absent.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                      color: 'var(--canvas-text)', opacity: b2A }}>
+                  General relativity works extraordinarily well at large scales.
+                </div>
+              </>
+            )}
+            {b2NonRenorm > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-red)', opacity: b2NonRenorm * b2A,
+                    textShadow: '0 0 16px rgba(255,107,107,0.3)' }}>
+                Quantize it — non-renormalizable.
+              </div>
+            )}
+            {b2NonRenorm > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                    color: 'var(--canvas-dim)', opacity: b2NonRenorm * b2A }}>
+                String theory, loop quantum gravity, others — none complete.
+              </div>
+            )}
+
+            {/* ── BEAT 3: Dark matter ─────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                <span style={{ color: 'var(--note-inline)' }}>Dark matter</span>.
+              </div>
+            )}
+            {b3Pct > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 96,
+                      color: 'var(--note-inline)', opacity: b3Pct * b3A,
+                      textShadow: '0 0 24px rgba(181,137,232,0.4)' }}>
+                  ~27%
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b3Pct * b3A }}>
+                  of the universe's energy content.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-text)', opacity: b3Pct * b3A }}>
+                  Gravitates, no light, not any SM particle.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 4: Dark energy ─────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                <span style={{ color: 'var(--note-inline)' }}>Dark energy</span> — accelerated expansion.
+              </div>
+            )}
+            {b4Pct > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 96,
+                    color: 'var(--note-inline)', opacity: b4Pct * b4A,
+                    textShadow: '0 0 24px rgba(181,137,232,0.4)' }}>
+                ~68%
+              </div>
+            )}
+            {b4Disc > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                      color: 'var(--canvas-text)', opacity: b4Disc * b4A }}>
+                  QFT predicts vacuum energy ∼10<sup>120</sup>× observed value.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 26,
+                      color: 'var(--accent-red)', opacity: b4Disc * b4A }}>
+                  — the worst prediction in physics.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 5: Matter–antimatter ─── */}
+            {b5A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--canvas-text)', opacity: b5A }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>Matter–antimatter</span> asymmetry.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--canvas-text)', opacity: b5A }}>
+                  matter ≫ antimatter
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b5A }}>
+                  SM CP-violation — not enough.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 6: Three generations ─── */}
+            {b6A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--canvas-text)', opacity: b6A }}>
+                  Why <span style={{ color: 'var(--accent-yellow)' }}>three generations</span>?
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b6A }}>
+                  (e, ν<sub>e</sub>, u, d) &nbsp;·&nbsp;
+                  (μ, ν<sub>μ</sub>, c, s) &nbsp;·&nbsp;
+                  (τ, ν<sub>τ</sub>, t, b)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b6A }}>
+                  No deep reason known.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 7: SM island + orbiting questions ── */}
+            {b7A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b7A }}>
+                <ellipse cx="960" cy="600" rx="260" ry="160"
+                         fill="rgba(91,163,245,0.1)"
+                         stroke="var(--accent-blue)" strokeWidth="2" />
+                <text x="960" y="595" textAnchor="middle" fill="var(--accent-blue)"
+                      fontFamily="var(--font-display)" fontSize="30" fontStyle="italic">
+                  Standard Model
+                </text>
+                <text x="960" y="630" textAnchor="middle" fill="var(--canvas-dim)"
+                      fontFamily="var(--font-ui)" fontSize="16">
+                  tested to 11 digits
+                </text>
+              </svg>
+            )}
+            {b7A > 0 && (() => {
+              const items = [
+                { label: 'Gravity',           color: 'var(--accent-red)' },
+                { label: 'Dark matter',       color: 'var(--note-inline)' },
+                { label: 'Dark energy',       color: 'var(--note-inline)' },
+                { label: 'Matter–antimatter', color: 'var(--accent-yellow)' },
+                { label: '3 generations',     color: 'var(--accent-yellow)' },
+              ];
+              return items.map((it, i) => {
+                const angle = -Math.PI / 2 + (i - 2) * 1.1;
+                const x = 960 + Math.cos(angle) * 540;
+                const y = 600 + Math.sin(angle) * 320;
+                const ap = clamp((t - b7Items[i]) / 1.0, 0, 1) * b7A;
+                return (
+                  <div key={i} style={{
+                    position: 'absolute', left: x - 110, top: y - 30, width: 220,
+                    textAlign: 'center', fontFamily: 'var(--font-display)',
+                    fontStyle: 'italic', fontSize: 26, color: it.color, opacity: ap,
+                  }}>
+                    <div style={{ fontSize: 40, lineHeight: 1 }}>?</div>
+                    <div style={{ marginTop: 4 }}>{it.label}</div>
+                  </div>
+                );
+              });
+            })()}
+
+            {/* ── BEAT 8: EFT — low-E still works ─── */}
+            {b8A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                      color: 'var(--canvas-text)', opacity: b8A }}>
+                  <span style={{ color: 'var(--accent-green)' }}>Effective field theory</span> saves us.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 420, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b8A }}>
+                  Unknown high-energy physics decouples at low energies.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 9: Until experiment ──── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b9A }}>
+                The SM stands — until experiment shows otherwise.
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ──────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--accent-yellow)', opacity: b10A }}>
+                A theory is also its open questions.
+              </div>
+            )}
           </div>
         );
       }}
