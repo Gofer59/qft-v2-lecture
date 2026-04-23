@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "repo": "https://github.com/SVaiva/qft-v2-lecture",
+  "repo": "https://github.com/Gofer59/qft-v2-lecture",
   "audio_src": "/home/gofer/Documents_organise/references/video_project/qft01_v2_voice_pipeline/audio",
   "phase": "expand_scenes",
   "scenes": {
