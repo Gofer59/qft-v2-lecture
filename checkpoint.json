@@ -10,7 +10,7 @@
     "04": {"title": "Fields Are Primary", "dur_target": 151, "status": "done"},
     "05": {"title": "Fields as Operators", "dur_target": 146, "status": "done"},
     "06": {"title": "Quantizing the Free Scalar Field", "dur_target": 150, "status": "done"},
-    "07": {"title": "Creation and Annihilation Operators", "dur_target": 145, "status": "pending"},
+    "07": {"title": "Creation and Annihilation Operators", "dur_target": 145, "status": "done"},
     "08": {"title": "The Vacuum Is Not Nothing", "dur_target": 144, "status": "pending"},
     "09": {"title": "The Lagrangian Density and the Action", "dur_target": 208, "status": "pending"},
     "10": {"title": "Symmetries and Conservation Laws", "dur_target": 131, "status": "pending"},

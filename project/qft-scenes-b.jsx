@@ -751,71 +751,375 @@ function Scene06({ start, end }) {
 }
 
 // Scene 07 — Creation / annihilation
+// Scene 07 — Creation & Annihilation (expanded to 145s / 10 beats)
+// Beat 1  (0–12)    Title + "the backbone of the formalism"
+// Beat 2  (12–32)   Annihilation a(k): |n⟩ → √n |n-1⟩, kills |0⟩
+// Beat 3  (32–52)   Creation a†(k): |n⟩ → √(n+1) |n+1⟩
+// Beat 4  (52–72)   CCR: [a(k), a†(k')] = δ(k - k')
+// Beat 5  (72–85)   Analogy with [x̂,p̂] = iℏ — heart of QFT
+// Beat 6  (85–102)  Vacuum |0⟩ — annihilated by every a(k), minimum energy
+// Beat 7  (102–118) Build states from vacuum: a†|0⟩ = one particle
+// Beat 8  (118–132) Multi-particle states, Bose-Einstein symmetry
+// Beat 9  (132–142) Number operator N = ∫ a†(k) a(k)
+// Beat 10 (142–145) Final hold: "heart of quantum field theory"
 function Scene07({ start, end }) {
   return (
     <Scene start={start} end={end} label="07">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // ladder with arrows
-        const cx = 960, cy = 600;
-        const pulseUp = Math.sin(t * 2) > 0;
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 30) / 1.5, 0, 1));
+        const b2Eq = clamp((t - 17) / 1.5, 0, 1);
+        const b2Action = clamp((t - 22) / 3, 0, 1);
+        const b2Kill = clamp((t - 26) / 1.2, 0, 1);
+
+        const b3A = clamp((t - 32) / 1.5, 0, 1) * (1 - clamp((t - 50) / 1.5, 0, 1));
+        const b3Eq = clamp((t - 36) / 1.5, 0, 1);
+        const b3Action = clamp((t - 42) / 3, 0, 1);
+
+        const b4A = clamp((t - 52) / 1.5, 0, 1) * (1 - clamp((t - 70) / 1.5, 0, 1));
+        const b4CCR = clamp((t - 56) / 1.5, 0, 1);
+        const b4Delta = clamp((t - 62) / 1.2, 0, 1);
+
+        const b5A = clamp((t - 72) / 1.5, 0, 1) * (1 - clamp((t - 83) / 1.5, 0, 1));
+        const b5Heart = clamp((t - 77) / 1.5, 0, 1);
+
+        const b6A = clamp((t - 85) / 1.5, 0, 1) * (1 - clamp((t - 100) / 1.5, 0, 1));
+        const b6Vac = clamp((t - 88) / 1.5, 0, 1);
+        const b6All = clamp((t - 93) / 1.2, 0, 1);
+
+        const b7A = clamp((t - 102) / 1.5, 0, 1) * (1 - clamp((t - 116) / 1.5, 0, 1));
+        const b7Build = clamp((t - 106) / 1.5, 0, 1);
+
+        const b8A = clamp((t - 118) / 1.5, 0, 1) * (1 - clamp((t - 130) / 1.5, 0, 1));
+        const b8Bose = clamp((t - 124) / 1.2, 0, 1);
+
+        const b9A = clamp((t - 132) / 1.5, 0, 1) * (1 - clamp((t - 141) / 1, 0, 1));
+        const b10A = clamp((t - 141) / 1, 0, 1);
+
+        // Ladder rung index for beat visuals
         const rung = Math.max(0, Math.min(3, Math.floor(t / 3) % 4));
+        const cy = 600;
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={7} title={'Creation & Annihilation'} />
             <SceneRefs refs={["dirac27","ps"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* Three ladders for different momenta */}
-              {[0, 1, 2].map(mi => {
-                const x = 600 + mi * 360;
-                return (
-                  <g key={mi}>
-                    {[0, 1, 2, 3].map(n => (
-                      <g key={n}>
-                        <line x1={x - 100} y1={cy - n * 90} x2={x + 100} y2={cy - n * 90}
-                          stroke={mi === 0 && n === rung ? 'var(--accent-yellow)' : 'var(--accent-blue)'}
-                          strokeWidth="2" />
-                        <text x={x + 120} y={cy - n * 90 + 6} fill="var(--canvas-text)"
-                          fontFamily="var(--font-math)" fontSize="22" fontStyle="italic">|{n}⟩</text>
+            <FieldBackground accent="#5ba3f5" amplitude={0.18} speed={0.08} />
+
+            <defs>
+              <marker id="arr-up-07" viewBox="0 0 10 10" refX="5" refY="5"
+                      markerWidth="6" markerHeight="6" orient="auto">
+                <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
+              </marker>
+            </defs>
+
+            {/* ── BEAT 1: Title ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 64, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-green)' }}>a</span><sup>†</sup>(k)
+                  &nbsp;and&nbsp;
+                  <span style={{ color: 'var(--accent-red)' }}>a</span>(k)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 490, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                      color: 'var(--canvas-dim)', opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  The backbone of the whole formalism.
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 2: Annihilation operator ────────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                <span style={{ color: 'var(--accent-red)' }}>a(k)</span> — removes a particle at momentum k.
+              </div>
+            )}
+            {b2Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 54,
+                    color: 'var(--accent-red)', opacity: b2Eq * b2A }}>
+                a(k) | n ⟩ = √n &nbsp; | n − 1 ⟩
+              </div>
+            )}
+            {b2Action > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                <g transform="translate(960, 740)">
+                  {[0, 1, 2, 3, 4].map(n => {
+                    const highlight = (n === 3 && b2Action > 0.3) || (n === 2 && b2Action > 0.6);
+                    return (
+                      <g key={n} opacity={b2Action * b2A}>
+                        <line x1="-160" y1={-n * 40} x2="160" y2={-n * 40}
+                              stroke={highlight ? 'var(--accent-red)' : 'var(--accent-blue)'}
+                              strokeWidth={highlight ? 3 : 2} />
+                        <text x="200" y={-n * 40 + 6} fill="var(--accent-blue)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">|{n}⟩</text>
                       </g>
-                    ))}
-                    <text x={x} y={cy + 60} textAnchor="middle" fill="var(--canvas-dim)"
-                      fontFamily="var(--font-math)" fontSize="20" fontStyle="italic">
-                      k{['₁','₂','₃'][mi]}
-                    </text>
-                    {/* arrows on first ladder */}
-                    {mi === 0 && (
-                      <>
-                        <line x1={x - 140} y1={cy - rung * 90} x2={x - 140} y2={cy - (rung + 1) * 90}
-                          stroke="var(--accent-green)" strokeWidth="2" markerEnd="url(#arr-up)" />
-                        <text x={x - 180} y={cy - rung * 90 - 45} fill="var(--accent-green)"
-                          fontFamily="var(--font-math)" fontSize="22" fontStyle="italic">a<tspan fontSize="14" dy="-10">†</tspan></text>
-                        <line x1={x + 150} y1={cy - rung * 90} x2={x + 150} y2={cy - Math.max(0, rung - 1) * 90}
-                          stroke="var(--accent-red)" strokeWidth="2" markerEnd="url(#arr-up)" />
-                        <text x={x + 160} y={cy - rung * 90 + 45} fill="var(--accent-red)"
-                          fontFamily="var(--font-math)" fontSize="22" fontStyle="italic">â</text>
-                      </>
-                    )}
+                    );
+                  })}
+                  {b2Action > 0.5 && (
+                    <line x1="-200" y1={-3 * 40} x2="-200" y2={-2 * 40}
+                          stroke="var(--accent-red)" strokeWidth="2.5"
+                          markerEnd="url(#arr-up-07)" opacity={b2Action * b2A} color="var(--accent-red)" />
+                  )}
+                </g>
+              </svg>
+            )}
+            {b2Kill > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--accent-red)', opacity: b2Kill * b2A }}>
+                a(k) | 0 ⟩ = 0 &nbsp;— &nbsp;kills the vacuum.
+              </div>
+            )}
+
+            {/* ── BEAT 3: Creation operator ──────────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                <span style={{ color: 'var(--accent-green)' }}>a<sup>†</sup>(k)</span> — adds a particle.
+              </div>
+            )}
+            {b3Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 54,
+                    color: 'var(--accent-green)', opacity: b3Eq * b3A }}>
+                a<sup>†</sup>(k) | n ⟩ = √(n + 1) &nbsp; | n + 1 ⟩
+              </div>
+            )}
+            {b3Action > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                <g transform="translate(960, 740)">
+                  {[0, 1, 2, 3, 4].map(n => {
+                    const highlight = (n === 2 && b3Action > 0.3) || (n === 3 && b3Action > 0.6);
+                    return (
+                      <g key={n} opacity={b3Action * b3A}>
+                        <line x1="-160" y1={-n * 40} x2="160" y2={-n * 40}
+                              stroke={highlight ? 'var(--accent-green)' : 'var(--accent-blue)'}
+                              strokeWidth={highlight ? 3 : 2} />
+                        <text x="200" y={-n * 40 + 6} fill="var(--accent-blue)"
+                              fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">|{n}⟩</text>
+                      </g>
+                    );
+                  })}
+                  {b3Action > 0.5 && (
+                    <line x1="-200" y1={-2 * 40} x2="-200" y2={-3 * 40}
+                          stroke="var(--accent-green)" strokeWidth="2.5"
+                          markerEnd="url(#arr-up-07)" opacity={b3Action * b3A} color="var(--accent-green)" />
+                  )}
+                </g>
+              </svg>
+            )}
+
+            {/* ── BEAT 4: CCR [a,a†]=δ ──────────────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                The <span style={{ color: 'var(--form-inline)' }}>canonical commutation relation</span>.
+              </div>
+            )}
+            {b4CCR > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 60,
+                    color: 'var(--accent-yellow)', opacity: b4CCR * b4A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.35)' }}>
+                [ a(k), a<sup>†</sup>(k′) ] = δ(k − k′)
+              </div>
+            )}
+            {b4Delta > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--canvas-dim)', opacity: b4Delta * b4A }}>
+                Different momenta → commute. Same momentum → non-trivial.
+              </div>
+            )}
+            {b4Delta > 0 && (() => {
+              // δ-function spike visualization
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  <g transform="translate(960, 820)">
+                    <line x1="-300" y1="0" x2="300" y2="0"
+                          stroke="var(--canvas-dim)" strokeWidth="1" />
+                    <line x1="0" y1="0" x2="0" y2="-140"
+                          stroke="var(--accent-red)" strokeWidth="4"
+                          opacity={b4Delta * b4A} />
+                    <text x="10" y="-150" fill="var(--accent-red)"
+                          fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">δ</text>
+                    <text x="320" y="6" fill="var(--canvas-dim)"
+                          fontFamily="var(--font-math)" fontStyle="italic" fontSize="20">k − k′</text>
                   </g>
-                );
-              })}
-              <defs>
-                <marker id="arr-up" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto">
-                  <path d="M0,0 L10,5 L0,10 z" fill="currentColor" />
-                </marker>
-              </defs>
-            </svg>
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40, color: 'white' }}>
-              â<sup style={{fontSize: '0.65em', verticalAlign: 'super'}}>†</sup>(k) adds a quantum. â(k) removes one.
-            </div>
-            {t > 12 && (
-              <div style={{ position: 'absolute', bottom: 120, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 34, color: 'var(--form-inline)',
-                opacity: fadeIO(t - 12, duration - 12, 0.5, 0.5) }}>
-                [â(k), â<sup style={{fontSize: '0.65em', verticalAlign: 'super'}}>†</sup>(k′)] = δ(k − k′)
+                </svg>
+              );
+            })()}
+
+            {/* ── BEAT 5: Analogy with [x̂,p̂]=iℏ ────────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Analogous to the QM heart:
+              </div>
+            )}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 300, top: 360, width: 500, textAlign: 'center',
+                    opacity: b5A }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 22, letterSpacing: '0.2em',
+                      color: 'var(--canvas-dim)', marginBottom: 16 }}>QUANTUM MECHANICS</div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                      color: 'var(--accent-blue)' }}>
+                  [ x̂, p̂ ] = iℏ
+                </div>
+              </div>
+            )}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 1120, top: 360, width: 500, textAlign: 'center',
+                    opacity: b5A }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 22, letterSpacing: '0.2em',
+                      color: 'var(--canvas-dim)', marginBottom: 16 }}>QUANTUM FIELD THEORY</div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--accent-green)' }}>
+                  [ a(k), a<sup>†</sup>(k′) ] = δ(k−k′)
+                </div>
+              </div>
+            )}
+            {b5Heart > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--note-inline)', opacity: b5Heart * b5A }}>
+                Same architecture — infinitely many degrees of freedom.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Vacuum |0⟩ ────────────────────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                The <span style={{ color: 'var(--accent-green)' }}>vacuum</span> |0⟩ —
+                the unique state annihilated by every a(k).
+              </div>
+            )}
+            {b6Vac > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 50,
+                    color: 'var(--accent-green)', opacity: b6Vac * b6A }}>
+                a(k) | 0 ⟩ = 0 &nbsp;&nbsp;∀ k
+              </div>
+            )}
+            {b6All > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--canvas-dim)', opacity: b6All * b6A }}>
+                Minimum energy — not zero (zero-point ℏω/2 per mode).
+              </div>
+            )}
+
+            {/* ── BEAT 7: Build states from vacuum ────────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                From the vacuum, build <em>every</em> state.
+              </div>
+            )}
+            {b7Build > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360,
+                    opacity: b7Build * b7A, textAlign: 'center' }}>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                      color: 'var(--canvas-text)', marginBottom: 24 }}>
+                  |k⟩ &nbsp;=&nbsp;
+                  <span style={{ color: 'var(--accent-green)' }}>a<sup>†</sup>(k)</span>
+                  &nbsp;|0⟩
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', marginBottom: 24 }}>
+                  |k, k′⟩ &nbsp;=&nbsp;
+                  <span style={{ color: 'var(--accent-green)' }}>a<sup>†</sup>(k)</span>
+                  <span style={{ color: 'var(--accent-green)' }}>a<sup>†</sup>(k′)</span>
+                  &nbsp;|0⟩
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)' }}>
+                  |n⟩ &nbsp;=&nbsp; (a<sup>†</sup>)<sup>n</sup> / √n! &nbsp;|0⟩
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 8: Bose-Einstein symmetry ────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                Creation operators <span style={{ color: 'var(--form-inline)' }}>commute</span>:
+              </div>
+            )}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--accent-green)', opacity: b8A }}>
+                a<sup>†</sup>(k) a<sup>†</sup>(k′) = a<sup>†</sup>(k′) a<sup>†</sup>(k)
+              </div>
+            )}
+            {b8Bose > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 480, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--canvas-text)', opacity: b8Bose * b8A }}>
+                ⟹ |k, k′⟩ = |k′, k⟩
+              </div>
+            )}
+            {b8Bose > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--note-inline)', opacity: b8Bose * b8A }}>
+                — the origin of <span style={{ color: 'var(--accent-green)' }}>Bose–Einstein statistics</span>.
+              </div>
+            )}
+
+            {/* ── BEAT 9: Number operator ─────────────── */}
+            {b9A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b9A }}>
+                  The <span style={{ color: 'var(--accent-yellow)' }}>number operator</span>
+                  counts excitations.
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                      color: 'var(--accent-yellow)', opacity: b9A,
+                      textShadow: '0 0 20px rgba(255,209,102,0.35)' }}>
+                  N̂<sub>k</sub> = a<sup>†</sup>(k) a(k)
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 490, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-text)', opacity: b9A }}>
+                  N̂<sub>k</sub> | n ⟩ = n | n ⟩
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 580, textAlign: 'center',
+                      fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 28,
+                      color: 'var(--canvas-dim)', opacity: b9A }}>
+                  N̂<sub>total</sub> = ∫ d³k &nbsp; N̂<sub>k</sub>
+                </div>
+              </>
+            )}
+
+            {/* ── BEAT 10: Final hold ──────────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 40,
+                    color: 'var(--accent-green)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(61,240,192,0.4)' }}>
+                This is the heart of quantum field theory.
               </div>
             )}
           </div>

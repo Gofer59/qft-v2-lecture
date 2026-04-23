@@ -10,7 +10,7 @@ const SCENES = [
   { n: 4,  title: 'Fields Are Primary',                                 dur: 151 }, // expanded for full narration 149.5s
   { n: 5,  title: 'Fields as Operators',                                dur: 146 }, // expanded for full narration 144.6s
   { n: 6,  title: 'Quantizing the Free Scalar Field',                   dur: 150 }, // expanded for full narration 148.5s
-  { n: 7,  title: 'Creation and Annihilation Operators',                dur: 20 }, // unchanged, audio 17.9
+  { n: 7,  title: 'Creation and Annihilation Operators',                dur: 145 }, // expanded for full narration 143.4s
   { n: 8,  title: 'The Vacuum Is Not Nothing',                          dur: 23 }, // was 22, audio 22.2
   { n: 9,  title: 'The Lagrangian Density and the Action',              dur: 21 }, // was 20, audio 20.4
   { n: 10, title: 'Symmetries and Conservation Laws',                   dur: 23 }, // was 20, audio 21.9
