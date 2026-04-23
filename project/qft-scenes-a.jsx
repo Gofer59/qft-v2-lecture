@@ -6,7 +6,7 @@
 const SCENES = [
   { n: 1,  title: 'The Question That Breaks Single-Particle Mechanics', dur: 142 }, // expanded for full narration 140.7s
   { n: 2,  title: 'What a Field Actually Is',                           dur: 201 }, // expanded for full narration 199.6s
-  { n: 3,  title: 'Why Relativistic QM Fails',                          dur: 25 }, // was 22, audio 24.3
+  { n: 3,  title: 'Why Relativistic QM Fails',                          dur: 168 }, // expanded for full narration 166.5s
   { n: 4,  title: 'Fields Are Primary',                                 dur: 22 }, // unchanged, audio 21.1
   { n: 5,  title: 'Fields as Operators',                                dur: 20 }, // unchanged, audio 18.2
   { n: 6,  title: 'Quantizing the Free Scalar Field',                   dur: 29 }, // was 28, audio 28.1
@@ -1123,7 +1123,17 @@ function Scene02({ start, end }) {
 }
 
 // ════════════════════════════════════════════════════════════════════════
-// SCENE 03 — Relativistic QM fails (humor beat)
+// SCENE 03 — Relativistic QM fails (expanded to 168s / 10 beats)
+// Beat 1  (0–15)    Title + "the natural attempt"
+// Beat 2  (15–35)   Non-rel: E = p²/2m → operator promotion → Schrödinger
+// Beat 3  (35–55)   Relativistic energy: E² = p² + m²
+// Beat 4  (55–75)   Klein-Gordon derived, parabola → hyperbola morph
+// Beat 5  (75–95)   Lorentz-invariant BUT ± branches, E < 0 warning
+// Beat 6  (95–115)  Catastrophe — particles cascade, stability collapses
+// Beat 7  (115–135) Dirac's trick: linear equation, spin + magnetic moment
+// Beat 8  (135–155) Dirac sea — filled negative-energy states, hole = positron
+// Beat 9  (155–163) Humor aside on the infinite sea
+// Beat 10 (163–168) "Run out of road" + final hold
 // ════════════════════════════════════════════════════════════════════════
 function Scene03({ start, end }) {
   return (
@@ -1131,13 +1141,61 @@ function Scene03({ start, end }) {
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        // Phase A 0-8: parabola morphs into hyperbola
-        // Phase B 8-15: hyperbola branches
-        // Phase C 15-22: Dirac sea + aside
-        const morph = clamp((t - 1) / 5, 0, 1);
-        const showHyperbola = t > 6;
-        const showSea = t > 13;
-        const showAside = t > 17;
+        // ── Beat gates ─────────────────────────────────────────
+        const b1In   = clamp((t - 1) / 1.2, 0, 1);
+        const b1Out  = clamp((t - 13) / 2, 0, 1);
+        const b1A    = b1In * (1 - b1Out);
+
+        const b2In   = clamp((t - 16) / 1.5, 0, 1);
+        const b2Eq   = clamp((t - 20) / 1.0, 0, 1);
+        const b2Arr  = clamp((t - 24) / 1.0, 0, 1);
+        const b2Schr = clamp((t - 28) / 1.0, 0, 1);
+        const b2Out  = clamp((t - 34) / 1.5, 0, 1);
+        const b2A    = b2In * (1 - b2Out);
+
+        const b3In   = clamp((t - 36) / 1.5, 0, 1);
+        const b3Eq   = clamp((t - 40) / 1.0, 0, 1);
+        const b3Nat  = clamp((t - 46) / 1.0, 0, 1);
+        const b3Out  = clamp((t - 54) / 1.2, 0, 1);
+        const b3A    = b3In * (1 - b3Out);
+
+        const b4In   = clamp((t - 56) / 1.2, 0, 1);
+        const b4Out  = clamp((t - 74) / 1.2, 0, 1);
+        const b4A    = b4In * (1 - b4Out);
+
+        const b5In   = clamp((t - 76) / 1.5, 0, 1);
+        const b5Warn = clamp((t - 82) / 1.2, 0, 1);
+        const b5Out  = clamp((t - 94) / 1.5, 0, 1);
+        const b5A    = b5In * (1 - b5Out);
+
+        const b6In    = clamp((t - 96) / 1.5, 0, 1);
+        const b6Ladder = clamp((t - 100) / 1.5, 0, 1);
+        const b6Flash = t > 108 && t < 110 ? 1 - (t - 108) / 2 : 0;
+        const b6Cap   = clamp((t - 110) / 1.2, 0, 1);
+        const b6Out   = clamp((t - 114) / 1.2, 0, 1);
+        const b6A     = b6In * (1 - b6Out);
+
+        const b7In   = clamp((t - 116) / 1.5, 0, 1);
+        const b7Eq   = clamp((t - 120) / 1.0, 0, 1);
+        const b7Spin = clamp((t - 126) / 1.0, 0, 1);
+        const b7Mag  = clamp((t - 130) / 1.0, 0, 1);
+        const b7Out  = clamp((t - 134) / 1.2, 0, 1);
+        const b7A    = b7In * (1 - b7Out);
+
+        const b8In   = clamp((t - 136) / 1.5, 0, 1);
+        const b8Hole = clamp((t - 146) / 1.2, 0, 1);
+        const b8Out  = clamp((t - 154) / 1.2, 0, 1);
+        const b8A    = b8In * (1 - b8Out);
+
+        const b9A    = clamp((t - 156) / 1.2, 0, 1) * (1 - clamp((t - 162) / 1.2, 0, 1));
+
+        const b10A   = clamp((t - 163) / 1, 0, 1);
+
+        // Legacy reused motifs
+        const morph  = clamp((t - 57) / 10, 0, 1);
+        const showHyperbola = b5A > 0 || b4A > 0.5;
+        const showSea = b8A > 0;
+        const showAside = b9A > 0;
 
         const cx = 960, cy = 500;
         const W = 600, H = 360;
@@ -1165,84 +1223,325 @@ function Scene03({ start, end }) {
           return d;
         };
 
+        // Dispersion curve visibility controlled by b4/b5
+        const dispOp = (b4A + b5A * 0.8 + b6A * 0.25 + b7A * 0.15 + b8A * 0.1 + b10A * 0.2);
+
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={3} title={'Relativistic QM Fails'} />
             <SceneRefs refs={["kleinG","ps","zee"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* axes */}
-              <line x1={cx - W/2} y1={cy} x2={cx + W/2} y2={cy} stroke="var(--canvas-dim)" strokeWidth="1" />
-              <line x1={cx} y1={cy - H} x2={cx} y2={cy + H} stroke="var(--canvas-dim)" strokeWidth="1" />
-              <text x={cx + W/2 + 14} y={cy + 6} fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">p</text>
-              <text x={cx - 28} y={cy - H + 8} fill="var(--canvas-dim)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">E</text>
+            <FieldBackground accent="#5ba3f5" amplitude={0.2} speed={0.1} />
 
-              {/* positive branch */}
-              <path d={pts()} fill="none" stroke="var(--accent-blue)" strokeWidth="3" />
-              {/* negative branch */}
-              {showHyperbola && (
-                <path d={negPts()} fill="none" stroke="var(--accent-red)" strokeWidth="3"
-                  opacity={clamp((t - 6) / 2, 0, 1)} strokeDasharray={clamp((t - 6) / 2, 0, 1) < 1 ? '6 8' : '0'} />
-              )}
-              {/* labels on branches */}
-              {t > 8 && (
-                <>
-                  <text x={cx + W/2 - 40} y={cy - H + 80} fill="var(--accent-blue)" fontSize="18" fontFamily="var(--font-ui)">E &gt; 0</text>
-                  <text x={cx + W/2 - 60} y={cy + H - 60} fill="var(--accent-red)" fontSize="18" fontFamily="var(--font-ui)">E &lt; 0 ?!</text>
-                </>
-              )}
-            </svg>
+            {/* ── BEAT 1: Title card ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 68, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  The <span style={{ color: 'var(--accent-blue)' }}>natural attempt</span>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 490, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-dim)', opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Make quantum mechanics relativistic.
+                </div>
+              </>
+            )}
 
-            {/* Equations */}
-            <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-              fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 46, color: 'white' }}>
-              {morph < 0.5 ? (
-                <span style={{ opacity: 1 - morph * 2 }}>E = p²/2m</span>
-              ) : (
-                <span style={{ opacity: (morph - 0.5) * 2 }}>
-                  E² = p² + <span style={{ color: 'var(--form-inline)' }}>m²</span>
-                </span>
-              )}
-            </div>
+            {/* ── BEAT 2: Non-rel energy → Schrödinger ──────────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                Start from the non-relativistic energy relation.
+              </div>
+            )}
+            {b2Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 280, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--accent-blue)', opacity: b2Eq * b2A }}>
+                E = p²/2m
+              </div>
+            )}
+            {b2Arr > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    opacity: b2Arr * b2A }}>
+                <div style={{ fontFamily: 'var(--font-ui)', fontSize: 22,
+                      color: 'var(--canvas-dim)', letterSpacing: '0.15em' }}>
+                  PROMOTE TO OPERATORS
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--form-inline)', marginTop: 16 }}>
+                  E ⟶ iℏ ∂/∂t &nbsp;·&nbsp; p ⟶ −iℏ ∇
+                </div>
+              </div>
+            )}
+            {b2Schr > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 620, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--accent-green)', opacity: b2Schr * b2A,
+                    textShadow: '0 0 20px rgba(61,240,192,0.4)' }}>
+                iℏ ∂ψ/∂t = −(ℏ²/2m) ∇² ψ
+                <div style={{ fontSize: 20, color: 'var(--canvas-dim)', marginTop: 14,
+                      fontStyle: 'normal', letterSpacing: '0.15em' }}>
+                  SCHRÖDINGER
+                </div>
+              </div>
+            )}
 
-            {/* Dirac sea */}
-            {showSea && (
-              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: clamp((t - 13) / 1.5, 0, 1) }}>
-                <g transform={`translate(${cx - 300}, ${cy + 140})`}>
-                  <text x="0" y="-20" fill="var(--accent-red)" fontFamily="var(--font-ui)" fontSize="20">Dirac's sea</text>
-                  {Array.from({length: 8}).map((_, i) => {
+            {/* ── BEAT 3: Relativistic energy ─────────────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 160, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                In special relativity, energy obeys a different relation.
+              </div>
+            )}
+            {b3Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 360, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 58,
+                    color: 'var(--accent-yellow)', opacity: b3Eq * b3A,
+                    textShadow: '0 0 20px rgba(255,209,102,0.3)' }}>
+                E² = p²c² + m²c⁴
+              </div>
+            )}
+            {b3Nat > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                    fontFamily: 'var(--font-ui)', fontSize: 24, color: 'var(--canvas-dim)',
+                    opacity: b3Nat * b3A, letterSpacing: '0.15em' }}>
+                IN NATURAL UNITS (ℏ = c = 1)
+              </div>
+            )}
+            {b3Nat > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 560, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 56,
+                    color: 'var(--form-inline)', opacity: b3Nat * b3A }}>
+                E² = p² + m²
+              </div>
+            )}
+
+            {/* ── BEAT 4: Dispersion plot with morph + KG equation ── */}
+            {dispOp > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0,
+                    opacity: Math.min(1, dispOp) }}>
+                {/* axes */}
+                <line x1={cx - W/2} y1={cy} x2={cx + W/2} y2={cy}
+                      stroke="var(--canvas-dim)" strokeWidth="1" />
+                <line x1={cx} y1={cy - H} x2={cx} y2={cy + H}
+                      stroke="var(--canvas-dim)" strokeWidth="1" />
+                <text x={cx + W/2 + 14} y={cy + 6} fill="var(--canvas-dim)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">p</text>
+                <text x={cx - 28} y={cy - H + 8} fill="var(--canvas-dim)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">E</text>
+                {/* positive branch */}
+                <path d={pts()} fill="none" stroke="var(--accent-blue)" strokeWidth="3" />
+                {/* negative branch */}
+                {showHyperbola && (
+                  <path d={negPts()} fill="none" stroke="var(--accent-red)" strokeWidth="3"
+                    opacity={Math.min(1, b5A + 0.4 * b4A)}
+                    strokeDasharray={b5A < 1 ? '6 8' : '0'} />
+                )}
+                {b5A > 0 && (
+                  <>
+                    <text x={cx + W/2 - 40} y={cy - H + 80} fill="var(--accent-blue)"
+                          fontSize="18" fontFamily="var(--font-ui)" opacity={b5A}>E &gt; 0</text>
+                    <text x={cx + W/2 - 60} y={cy + H - 60} fill="var(--accent-red)"
+                          fontSize="18" fontFamily="var(--font-ui)" opacity={b5A}>E &lt; 0  ?!</text>
+                  </>
+                )}
+              </svg>
+            )}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                Same operator promotion ⟶ <span style={{ color: 'var(--accent-yellow)' }}>Klein–Gordon</span>.
+              </div>
+            )}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--form-inline)', opacity: b4A * clamp((t - 62) / 1.5, 0, 1) }}>
+                (∂<sub>t</sub>² − ∇² + m²) φ = 0
+              </div>
+            )}
+
+            {/* ── BEAT 5: Lorentz-invariant but ± branches ──────── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                Lorentz-invariant —
+                <span style={{ color: 'var(--accent-red)' }}> but energies come in ± pairs.</span>
+              </div>
+            )}
+            {b5Warn > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--accent-red)', opacity: b5Warn * b5A,
+                    textShadow: '0 0 16px rgba(255,107,107,0.5)' }}>
+                E = ± √(p² + m²)
+              </div>
+            )}
+
+            {/* ── BEAT 6: Cascade catastrophe ──────────────────── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                A particle could <span style={{ color: 'var(--accent-red)' }}>cascade downward</span> —
+                radiating forever.
+              </div>
+            )}
+            {b6Ladder > 0 && (() => {
+              // Energy ladder plunging down
+              const rungs = [];
+              for (let k = 0; k < 10; k++) {
+                const y = 300 + k * 50;
+                const ap = clamp(b6Ladder * 10 - k * 0.7, 0, 1);
+                const Eval = -0.2 - k * 0.5;
+                rungs.push(
+                  <g key={k} opacity={ap * b6A}>
+                    <line x1={700} y1={y} x2={1220} y2={y}
+                          stroke="var(--accent-red)" strokeWidth="2" strokeDasharray="4 4" opacity="0.7" />
+                    <text x={1240} y={y + 5} fill="var(--accent-red)" fontSize="18"
+                          fontFamily="var(--font-math)" fontStyle="italic">E = {Eval.toFixed(1)}</text>
+                    {k < 9 && (
+                      <path d={`M 960 ${y + 6} L 960 ${y + 44} M 950 ${y + 34} L 960 ${y + 44} L 970 ${y + 34}`}
+                            stroke="var(--accent-red)" strokeWidth="2" fill="none"
+                            opacity={clamp(b6Ladder * 10 - k * 0.8, 0, 1)} />
+                    )}
+                  </g>
+                );
+              }
+              return (
+                <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                  {rungs}
+                </svg>
+              );
+            })()}
+            {b6Flash > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
+                <circle cx="960" cy="540" r={200 + 200 * (1 - b6Flash)}
+                        fill="var(--accent-red)" opacity={b6Flash * 0.3} />
+              </svg>
+            )}
+            {b6Cap > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 34,
+                    color: 'var(--accent-red)', opacity: b6Cap * b6A }}>
+                Nothing would be stable. No hydrogen atom.
+              </div>
+            )}
+
+            {/* ── BEAT 7: Dirac's trick — linear equation ───────── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                <span style={{ color: 'var(--accent-yellow)' }}>Dirac's trick</span> — stay linear in time and space.
+              </div>
+            )}
+            {b7Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 330, textAlign: 'center',
+                    opacity: b7Eq * b7A }}>
+                <div style={{ background: '#1e50a0', color: 'white', display: 'inline-block',
+                      padding: '10px 28px', fontSize: 24, fontFamily: 'var(--font-display)',
+                      fontWeight: 700 }}>
+                  Dirac equation
+                </div>
+                <div style={{ background: '#0c1c3c', display: 'inline-block',
+                      padding: '24px 40px', fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                      fontSize: 42, color: 'var(--canvas-text)', marginLeft: -4 }}>
+                  (iγ<sup>μ</sup> ∂<sub>μ</sub> − m) ψ = 0
+                </div>
+              </div>
+            )}
+            {b7Spin > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 540, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--accent-green)', opacity: b7Spin * b7A }}>
+                ✓ predicts spin-½ automatically
+              </div>
+            )}
+            {b7Mag > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 600, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 32,
+                    color: 'var(--accent-green)', opacity: b7Mag * b7A }}>
+                ✓ correct magnetic moment (g ≈ 2)
+              </div>
+            )}
+            {b7Mag > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, bottom: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--accent-red)', opacity: clamp((t - 132) / 1.2, 0, 1) * b7A }}>
+                …but the negative energies are still there.
+              </div>
+            )}
+
+            {/* ── BEAT 8: Dirac sea ───────────────────────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                <span style={{ color: 'var(--accent-yellow)' }}>Dirac's audacious fix</span> —
+                fill the entire negative-energy sea.
+              </div>
+            )}
+            {b8A > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b8A }}>
+                <g transform={`translate(${cx - 300}, 340)`}>
+                  <text x="0" y="-18" fill="var(--accent-red)" fontFamily="var(--font-ui)"
+                        fontSize="20" letterSpacing="0.2em">DIRAC SEA (E &lt; 0)</text>
+                  {Array.from({ length: 8 }).map((_, i) => {
                     const y = i * 34;
-                    const hole = (i === 3 && t > 16);
+                    const hole = (i === 3 && b8Hole > 0);
                     return (
                       <g key={i}>
-                        <line x1="0" y1={y} x2="600" y2={y} stroke="var(--canvas-dim)" strokeWidth="1" strokeDasharray="3 3" />
-                        {Array.from({length: 12}).map((_, k) => (
-                          <circle key={k} cx={25 + k * 50} cy={y} r="6"
+                        <line x1="0" y1={y} x2="600" y2={y}
+                              stroke="var(--canvas-dim)" strokeWidth="1" strokeDasharray="3 3" />
+                        {Array.from({ length: 12 }).map((_, k) => (
+                          <circle key={k} cx={25 + k * 50} cy={y} r="7"
                             fill={(hole && k === 6) ? 'none' : 'var(--accent-blue)'}
                             stroke={(hole && k === 6) ? 'var(--accent-red)' : 'none'}
-                            strokeWidth="2" opacity="0.7" />
+                            strokeWidth="2.5" opacity="0.75" />
                         ))}
                       </g>
                     );
                   })}
-                  {t > 16 && (
-                    <text x="330" y="105" fill="var(--accent-red)" fontSize="15" fontFamily="var(--font-ui)">hole = positron</text>
-                  )}
                 </g>
               </svg>
             )}
+            {b8Hole > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 620, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--accent-red)', opacity: b8Hole * b8A }}>
+                A hole in the sea ≡ positron (+e, opposite charge)
+              </div>
+            )}
 
-            {/* Dry aside */}
-            {showAside && (
-              <div style={{
-                position: 'absolute', left: 120, right: 120, bottom: 120,
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28, color: 'var(--canvas-text)',
-                opacity: fadeIO(t - 17, duration - 17, 0.6, 0.6),
-                textAlign: 'center', lineHeight: 1.4,
-              }}>
-                <span style={{ color: 'var(--note-inline)' }}>"The entire infinite negative-energy vacuum is just… fine, actually."</span>
-                <div style={{ fontSize: 18, color: 'var(--canvas-dim)', marginTop: 14, fontStyle: 'normal' }}>
+            {/* ── BEAT 9: Humor aside ─────────────────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 120, right: 120, top: 400,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', textAlign: 'center', opacity: b9A, lineHeight: 1.45 }}>
+                <span style={{ color: 'var(--note-inline)' }}>
+                  "The entire infinite negative-energy vacuum is just… fine, actually."
+                </span>
+                <div style={{ fontSize: 22, color: 'var(--canvas-dim)',
+                      marginTop: 24, fontStyle: 'normal' }}>
                   — Every physicist since has been mildly annoyed.
                 </div>
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final — "run out of road" ──────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--accent-red)', opacity: b10A,
+                    textShadow: '0 0 30px rgba(255,107,107,0.4)' }}>
+                The single-particle approach has run out of road.
               </div>
             )}
           </div>
