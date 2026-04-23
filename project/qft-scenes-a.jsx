@@ -15,7 +15,7 @@ const SCENES = [
   { n: 9,  title: 'The Lagrangian Density and the Action',              dur: 208 }, // expanded for full narration 206.7s
   { n: 10, title: 'Symmetries and Conservation Laws',                   dur: 131 }, // expanded for full narration 130.0s
   { n: 11, title: 'Interactions: The Field Is Not Free',                dur: 125 }, // expanded for full narration 123.7s
-  { n: 12, title: 'Feynman Diagrams: Cartoons That Compute',            dur: 31 }, // was 28, audio 30.0
+  { n: 12, title: 'Feynman Diagrams: Cartoons That Compute',            dur: 146 }, // expanded for full narration 144.3s
   { n: 13, title: 'Vertices and Propagators in Detail',                 dur: 21 }, // was 20, audio 20.5
   { n: 14, title: 'Loops and the Need for Renormalization',             dur: 35 }, // was 28, audio 34.5
   { n: 15, title: 'Forces from Field Exchange',                         dur: 24 }, // was 22, audio 23.4

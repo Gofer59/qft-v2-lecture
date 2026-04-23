@@ -267,103 +267,306 @@ function Scene11({ start, end }) {
 }
 
 // Scene 12 — Feynman diagrams (SIGNATURE, humor beat)
+// Scene 12 — Feynman Diagrams (SIGNATURE, expanded to 146s / 10 beats)
+// Beat 1  (0–12)    Title + "computing is hard"
+// Beat 2  (12–30)   Perturbation theory — power series in coupling
+// Beat 3  (30–50)   Each term ≡ a Feynman diagram
+// Beat 4  (50–68)   External lines — wavefunctions of in/out particles
+// Beat 5  (68–86)   Internal lines — propagators, 1/(k²−m²)
+// Beat 6  (86–102)  Vertices — coupling constant + momentum conservation
+// Beat 7  (102–120) QED vertex (one diagram)
+// Beat 8  (120–132) Electron-photon exchange → Coulomb
+// Beat 9  (132–142) Humor aside on Feynman
+// Beat 10 (142–146) Final hold
 function Scene12({ start, end }) {
   return (
     <Scene start={start} end={end} label="12">
       {({ localTime, duration }) => {
         const t = localTime;
         const fade = fadeIO(t, duration);
-        const showIn = t > 1;
-        const showVertex = t > 4;
-        const showOut = t > 6;
-        const showExchange = t > 11;
-        const showHumor = t > 22;
-        const cx = 700, cy = 560;
+
+        const b1A = clamp((t - 1) / 1.2, 0, 1) * (1 - clamp((t - 11) / 1.2, 0, 1));
+
+        const b2A = clamp((t - 13) / 1.5, 0, 1) * (1 - clamp((t - 28) / 1.5, 0, 1));
+        const b2Series = clamp((t - 18) / 2, 0, 1);
+
+        const b3A = clamp((t - 30) / 1.5, 0, 1) * (1 - clamp((t - 48) / 1.5, 0, 1));
+
+        const b4A = clamp((t - 50) / 1.5, 0, 1) * (1 - clamp((t - 66) / 1.5, 0, 1));
+        const b4Lines = clamp((t - 54) / 2, 0, 1);
+
+        const b5A = clamp((t - 68) / 1.5, 0, 1) * (1 - clamp((t - 84) / 1.5, 0, 1));
+        const b5Prop = clamp((t - 74) / 1.5, 0, 1);
+
+        const b6A = clamp((t - 86) / 1.5, 0, 1) * (1 - clamp((t - 100) / 1.5, 0, 1));
+        const b6Eq = clamp((t - 90) / 1.2, 0, 1);
+
+        const b7A = clamp((t - 102) / 1.5, 0, 1) * (1 - clamp((t - 118) / 1.5, 0, 1));
+        const b7Vert = clamp((t - 105) / 2, 0, 1);
+
+        const b8A = clamp((t - 120) / 1.5, 0, 1) * (1 - clamp((t - 130) / 1.5, 0, 1));
+        const b8Ex = clamp((t - 122) / 2, 0, 1);
+
+        const b9A = clamp((t - 132) / 1.5, 0, 1) * (1 - clamp((t - 141) / 1, 0, 1));
+
+        const b10A = clamp((t - 141) / 1, 0, 1);
 
         return (
           <div style={{ opacity: fade }}>
             <SceneLabel n={12} title={'Feynman Diagrams'} />
             <SceneRefs refs={["feynman49","ps"]} />
-            <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
-              {/* First diagram: simple vertex */}
-              {showIn && (() => {
-                const inT = clamp((t - 1) / 1.5, 0, 1);
-                const outT = clamp((t - 6) / 1.5, 0, 1);
-                return (
-                  <g opacity={showExchange ? Math.max(0, 1 - (t - 11) / 2) : 1}>
-                    <line x1={cx - 260} y1={cy - 180} x2={cx - (1 - inT) * 260 - inT * 0} y2={cy - (1 - inT) * 180}
-                      stroke="var(--accent-blue)" strokeWidth="3" />
-                    <line x1={cx - 260} y1={cy + 180} x2={cx - (1 - inT) * 260} y2={cy + (1 - inT) * 180}
-                      stroke="var(--accent-blue)" strokeWidth="3" />
-                    {showVertex && <circle cx={cx} cy={cy} r={10} fill="var(--accent-yellow)" />}
-                    {showOut && (
-                      <>
-                        <line x1={cx} y1={cy} x2={cx + outT * 260} y2={cy - outT * 180}
-                          stroke="var(--accent-blue)" strokeWidth="3" />
-                        <line x1={cx} y1={cy} x2={cx + outT * 260} y2={cy + outT * 180}
-                          stroke="var(--accent-blue)" strokeWidth="3" />
-                      </>
-                    )}
-                    {showVertex && (
-                      <text x={cx} y={cy - 22} textAnchor="middle" fill="var(--accent-yellow)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">−iλ</text>
-                    )}
-                  </g>
-                );
-              })()}
+            <FieldBackground accent="#5ba3f5" amplitude={0.16} speed={0.08} />
 
-              {/* Exchange diagram: two vertices + internal photon */}
-              {showExchange && (() => {
-                const exT = clamp((t - 12) / 2, 0, 1);
-                const humorFade = showHumor ? Math.max(0.15, 1 - (t - 22) / 1.5) : 1;
-                const x1 = cx + 110, x2 = cx + 410, y1 = cy - 120, y2 = cy + 120;
-                return (
-                  <g opacity={exT * humorFade}>
-                    <line x1={x1 - 220} y1={y1 - 120} x2={x1} y2={y1} stroke="var(--accent-blue)" strokeWidth="3" />
-                    <line x1={x1} y1={y1} x2={x2} y2={y1 + 0} stroke="var(--accent-blue)" strokeWidth="3" />
-                    <line x1={x2} y1={y1} x2={x2 + 220} y2={y1 - 120} stroke="var(--accent-blue)" strokeWidth="3" />
+            {/* ── BEAT 1: Title ─────────────────────────────── */}
+            {b1A > 0 && (
+              <>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 340, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontSize: 60, color: 'var(--canvas-text)',
+                      opacity: b1A }}>
+                  <span style={{ color: 'var(--accent-yellow)' }}>Feynman diagrams</span>
+                </div>
+                <div style={{ position: 'absolute', left: 0, right: 0, top: 460, textAlign: 'center',
+                      fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                      color: 'var(--canvas-dim)',
+                      opacity: b1A * clamp((t - 3) / 1.2, 0, 1) }}>
+                  Cartoons that compute.
+                </div>
+              </>
+            )}
 
-                    <line x1={x1 - 220} y1={y2 + 120} x2={x1} y2={y2} stroke="var(--accent-blue)" strokeWidth="3" />
-                    <line x1={x1} y1={y2} x2={x2} y2={y2} stroke="var(--accent-blue)" strokeWidth="3" />
-                    <line x1={x2} y1={y2} x2={x2 + 220} y2={y2 + 120} stroke="var(--accent-blue)" strokeWidth="3" />
-
-                    {/* wavy photon */}
-                    {(() => {
-                      let d = '';
-                      const mx = (x1 + x2) / 2;
-                      for (let i = 0; i <= 40; i++) {
-                        const yy = y1 + (i / 40) * (y2 - y1);
-                        const xx = mx + Math.sin(i * 0.7) * 12;
-                        d += (i === 0 ? 'M' : 'L') + xx + ',' + yy + ' ';
-                      }
-                      return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" />;
-                    })()}
-                    <circle cx={(x1+x2)/2} cy={y1} r="8" fill="var(--accent-yellow)" />
-                    <circle cx={(x1+x2)/2} cy={y2} r="8" fill="var(--accent-yellow)" />
-                    <text x={(x1+x2)/2} y={y1 - 18} textAnchor="middle" fill="var(--accent-yellow)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="18">vertex</text>
-                    <text x={(x1+x2)/2} y={y2 + 30} textAnchor="middle" fill="var(--accent-yellow)" fontFamily="var(--font-math)" fontStyle="italic" fontSize="18">vertex</text>
-                    <text x={(x1+x2)/2 + 20} y={(y1+y2)/2} fill="var(--accent-yellow)" fontFamily="var(--font-ui)" fontSize="18">photon (propagator)</text>
-                  </g>
-                );
-              })()}
-            </svg>
-
-            {!showHumor && (
-              <div style={{ position: 'absolute', top: 140, left: 0, right: 0, textAlign: 'center',
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 42, color: 'white' }}>
-                {showExchange ? 'Two vertices, one propagator — the Coulomb force.' :
-                 showVertex ? 'A vertex carries a factor of the coupling.' :
-                 'External lines enter the diagram.'}
+            {/* ── BEAT 2: Perturbation theory series ──────── */}
+            {b2A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b2A }}>
+                When the coupling is small — expand as a <span style={{ color: 'var(--accent-yellow)' }}>power series</span>.
+              </div>
+            )}
+            {b2Series > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 42,
+                    color: 'var(--form-inline)', opacity: b2Series * b2A }}>
+                𝒜 = 𝒜₀ + λ·𝒜₁ + λ²·𝒜₂ + λ³·𝒜₃ + &nbsp;⋯
+              </div>
+            )}
+            {b2Series > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 520, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b2Series * b2A }}>
+                Each order = number of interaction vertices.
               </div>
             )}
 
-            {showHumor && (
-              <div style={{ position: 'absolute', top: 180, left: 160, right: 160,
-                fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36, color: 'white',
-                textAlign: 'center', opacity: fadeIO(t - 22, duration - 22, 0.5, 0.5) }}>
+            {/* ── BEAT 3: Each term ≡ a diagram ─────────── */}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', opacity: b3A }}>
+                Each term is a <span style={{ color: 'var(--accent-green)' }}>Feynman diagram</span> — a compressed integral.
+              </div>
+            )}
+            {b3A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 30,
+                    color: 'var(--canvas-dim)', opacity: b3A }}>
+                picture &nbsp;⟶&nbsp; factors &nbsp;⟶&nbsp; ∫ d⁴k &nbsp;⟶&nbsp; amplitude
+              </div>
+            )}
+
+            {/* ── BEAT 4: External lines ────────────────── */}
+            {b4A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b4A }}>
+                <span style={{ color: 'var(--accent-blue)' }}>External lines</span> — in/out particles.
+              </div>
+            )}
+            {b4Lines > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b4Lines * b4A }}>
+                {/* electron incoming */}
+                <line x1="400" y1="540" x2="720" y2="540"
+                      stroke="var(--accent-blue)" strokeWidth="3" markerEnd="url(#arr-12)" />
+                <text x="400" y="510" fill="var(--accent-blue)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">e⁻ in</text>
+                {/* positron outgoing (arrow backward) */}
+                <line x1="1200" y1="540" x2="880" y2="540"
+                      stroke="var(--accent-red)" strokeWidth="3" markerEnd="url(#arr-12-R)" />
+                <text x="1170" y="510" fill="var(--accent-red)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">e⁺ out</text>
+                {/* photon wavy */}
+                {(() => {
+                  let d = 'M 1400,540';
+                  for (let i = 1; i <= 20; i++) {
+                    const x = 1400 + i * 15;
+                    const y = 540 + Math.sin(i * 0.8) * 14;
+                    d += ` L ${x},${y}`;
+                  }
+                  return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
+                })()}
+                <text x="1420" y="510" fill="var(--accent-yellow)"
+                      fontFamily="var(--font-math)" fontStyle="italic" fontSize="26">γ</text>
+                <defs>
+                  <marker id="arr-12" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-blue)" />
+                  </marker>
+                  <marker id="arr-12-R" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-red)" />
+                  </marker>
+                </defs>
+              </svg>
+            )}
+
+            {/* ── BEAT 5: Internal lines = propagators ──── */}
+            {b5A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b5A }}>
+                <span style={{ color: 'var(--accent-green)' }}>Internal lines</span> — propagators.
+              </div>
+            )}
+            {b5Prop > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 380, textAlign: 'center',
+                    fontFamily: 'var(--font-math)', fontStyle: 'italic', fontSize: 52,
+                    color: 'var(--form-inline)', opacity: b5Prop * b5A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.3)' }}>
+                D(k) = i / (k² − m²)
+              </div>
+            )}
+            {b5Prop > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 500, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 28,
+                    color: 'var(--canvas-dim)', opacity: b5Prop * b5A }}>
+                Amplitude to travel from x to y with momentum k.
+              </div>
+            )}
+
+            {/* ── BEAT 6: Vertices + coupling + conservation ── */}
+            {b6A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b6A }}>
+                <span style={{ color: 'var(--accent-yellow)' }}>Vertices</span> — coupling + momentum conservation.
+              </div>
+            )}
+            {b6Eq > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 400,
+                    textAlign: 'center', opacity: b6Eq * b6A }}>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                      fontSize: 44, color: 'var(--form-inline)' }}>
+                  factor = −i λ (or e, g)
+                </div>
+                <div style={{ fontFamily: 'var(--font-math)', fontStyle: 'italic',
+                      fontSize: 36, color: 'var(--canvas-dim)', marginTop: 22 }}>
+                  k<sub>in</sub> = k<sub>out</sub>
+                </div>
+              </div>
+            )}
+
+            {/* ── BEAT 7: Single QED vertex diagram ───── */}
+            {b7A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b7A }}>
+                The single QED vertex.
+              </div>
+            )}
+            {b7Vert > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b7Vert * b7A }}>
+                <g transform="translate(960, 580)">
+                  <line x1="-260" y1="-180" x2="0" y2="0"
+                        stroke="var(--accent-blue)" strokeWidth="3" markerEnd="url(#arr-12v)" />
+                  <line x1="0" y1="0" x2="260" y2="-180"
+                        stroke="var(--accent-blue)" strokeWidth="3" markerEnd="url(#arr-12v)" />
+                  {(() => {
+                    let d = 'M 0,0';
+                    for (let i = 1; i <= 22; i++) {
+                      const x = i * 10;
+                      const y = 6 * i + Math.sin(i * 0.9) * 12;
+                      d += ` L ${x},${y}`;
+                    }
+                    return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" />;
+                  })()}
+                  <circle cx="0" cy="0" r="10" fill="var(--accent-yellow)" />
+                  <text x="0" y="-30" textAnchor="middle" fill="var(--accent-yellow)"
+                        fontFamily="var(--font-math)" fontStyle="italic" fontSize="22">−i e γ<sup>μ</sup></text>
+                </g>
+                <defs>
+                  <marker id="arr-12v" viewBox="0 0 10 10" refX="5" refY="5"
+                          markerWidth="6" markerHeight="6" orient="auto">
+                    <path d="M0,0 L10,5 L0,10 z" fill="var(--accent-blue)" />
+                  </marker>
+                </defs>
+              </svg>
+            )}
+
+            {/* ── BEAT 8: Exchange → Coulomb ──────────── */}
+            {b8A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 140, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 36,
+                    color: 'var(--canvas-text)', opacity: b8A }}>
+                Two vertices + internal photon = <span style={{ color: 'var(--accent-green)' }}>Coulomb force</span>.
+              </div>
+            )}
+            {b8Ex > 0 && (
+              <svg width="1920" height="1080" style={{ position: 'absolute', inset: 0, opacity: b8Ex * b8A }}>
+                {(() => {
+                  const cxP = 960, cyP = 580;
+                  const x1 = cxP - 150, x2 = cxP + 150;
+                  const y1 = cyP - 110, y2 = cyP + 110;
+                  return (
+                    <>
+                      <line x1={x1 - 260} y1={y1 - 120} x2={x1} y2={y1}
+                            stroke="var(--accent-blue)" strokeWidth="3" />
+                      <line x1={x1} y1={y1} x2={x2} y2={y1}
+                            stroke="var(--accent-blue)" strokeWidth="3" />
+                      <line x1={x2} y1={y1} x2={x2 + 260} y2={y1 - 120}
+                            stroke="var(--accent-blue)" strokeWidth="3" />
+                      <line x1={x1 - 260} y1={y2 + 120} x2={x1} y2={y2}
+                            stroke="var(--accent-blue)" strokeWidth="3" />
+                      <line x1={x1} y1={y2} x2={x2} y2={y2}
+                            stroke="var(--accent-blue)" strokeWidth="3" />
+                      <line x1={x2} y1={y2} x2={x2 + 260} y2={y2 + 120}
+                            stroke="var(--accent-blue)" strokeWidth="3" />
+                      {(() => {
+                        let d = '';
+                        const mx = (x1 + x2) / 2;
+                        for (let i = 0; i <= 40; i++) {
+                          const yy = y1 + (i / 40) * (y2 - y1);
+                          const xx = mx + Math.sin(i * 0.7) * 12;
+                          d += (i === 0 ? 'M' : 'L') + xx + ',' + yy + ' ';
+                        }
+                        return <path d={d} fill="none" stroke="var(--accent-yellow)" strokeWidth="2.5" strokeDasharray="6 5" />;
+                      })()}
+                      <circle cx={(x1 + x2) / 2} cy={y1} r="8" fill="var(--accent-yellow)" />
+                      <circle cx={(x1 + x2) / 2} cy={y2} r="8" fill="var(--accent-yellow)" />
+                    </>
+                  );
+                })()}
+              </svg>
+            )}
+
+            {/* ── BEAT 9: Humor ──────────────────── */}
+            {b9A > 0 && (
+              <div style={{ position: 'absolute', left: 160, right: 160, top: 340,
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 38,
+                    color: 'var(--canvas-text)', textAlign: 'center', opacity: b9A, lineHeight: 1.4 }}>
                 "Each diagram does the work of an integral that would take pages to write out.
-                <div style={{ color: 'var(--canvas-dim)', fontSize: 24, marginTop: 22, fontStyle: 'normal' }}>
+                <div style={{ color: 'var(--canvas-dim)', fontSize: 24, marginTop: 26,
+                      fontStyle: 'normal' }}>
                   Generations of physicists are quietly grateful they didn't have to grade Feynman's homework."
                 </div>
+              </div>
+            )}
+
+            {/* ── BEAT 10: Final hold ─────────────── */}
+            {b10A > 0 && (
+              <div style={{ position: 'absolute', left: 0, right: 0, top: 440, textAlign: 'center',
+                    fontFamily: 'var(--font-display)', fontStyle: 'italic', fontSize: 44,
+                    color: 'var(--accent-yellow)', opacity: b10A,
+                    textShadow: '0 0 24px rgba(255,209,102,0.4)' }}>
+                Picture &nbsp;=&nbsp; integral &nbsp;=&nbsp; amplitude.
               </div>
             )}
           </div>
